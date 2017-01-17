@@ -1,7 +1,8 @@
 image: hoppalm/monasca-agent:latest
-os_auth_url: http://192.168.10.6:35357/v3/
-os_username: mini-mon
-os_user_domain_name: Default
-os_password: password
-os_project_name: mini-mon
-monasca_url: http://192.168.10.6:8070/v2.0
+keystone:
+  os_auth_url: http://keystone:35357/v3/
+  os_username: mini-mon
+  os_user_domain_name: Default
+  os_password: password
+  os_project_name: mini-mon
+monasca_url: http://monasca:8070/v2.0
