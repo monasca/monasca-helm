@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: monasca-agent
+spec:
+  template:
+    metadata:
+      labels:
+        target: node
+        app: monasca-agent
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image}}"
+          env:
+            - name: AGENT_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: AGENT_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: KUBERNETES
+              value: "yes"
+            - name: PROMETHEUS_CLIENT
+              value: "yes"
+            - name: OS_AUTH_URL
+              value: {{ .Values.os_auth_url | quote }}
+            - name: OS_USERNAME
+              value: {{ .Values.os_username | quote }}
+            - name: MONASCA_URL
+              value: {{ .Values.monasca_url | quote }}
+            - name: OS_USER_DOMAIN_NAME
+              value: {{ .Values.os_user_domain_name | quote }}
+            - name: OS_PASSWORD
+              value: {{ .Values.os_password | quote }}
+            - name: OS_PROJECT_NAME
+              value: {{ .Values.os_project_name | quote }}
+          volumeMounts:
+            - name: procmount
+              mountPath: /host/proc
+              readOnly: true
+      volumes:
+        - hostPath:
+            path: /proc
+          name: procmount

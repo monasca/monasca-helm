@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: monasca-agent-kubernetes-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        target: kubernetes-api
+        app: monasca-agent
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image}}"
+          env:
+            - name: KUBERNETES_API
+              value: "yes"
+            - name: OS_AUTH_URL
+              value: {{ .Values.os_auth_url | quote }}
+            - name: OS_USERNAME
+              value: {{ .Values.os_username | quote }}
+            - name: MONASCA_URL
+              value: {{ .Values.monasca_url | quote }}
+            - name: OS_USER_DOMAIN_NAME
+              value: {{ .Values.os_user_domain_name | quote }}
+            - name: OS_PASSWORD
+              value: {{ .Values.os_password | quote }}
+            - name: OS_PROJECT_NAME
+              value: {{ .Values.os_project_name | quote }}
