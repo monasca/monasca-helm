@@ -1,0 +1,21 @@
+image: rbrndt/monasca-api-python:latest
+keystone:
+  identity_uri: http://keystone:35357/v3/
+  auth_uri: mini-mon
+  admin_password: Default
+  admin_user: password
+  admin_tenant_name: mini-mon
+mysql:
+  user: monapi
+  password: password
+  address: mysql
+  database: mon
+influxdb:
+  address: influxdb
+  port: 8086
+  user: mon_api
+  password: password
+  database: mon
+kafka:
+  address: kafka:9092
+service_name: monasca
