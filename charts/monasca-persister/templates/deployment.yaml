@@ -18,11 +18,11 @@ spec:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image}}"
         ports:
-        - containerPort: 8070
-          name: client
+        - containerPort: 8090
+          name: admin
         volumeMounts:
         - name: config-volume
-          mountPath: /etc/monasca-api/
+          mountPath: /etc/monasca-persister
       volumes:
       - name: config-volume
         configMap:

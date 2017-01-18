@@ -1,4 +1,5 @@
 image: rbrndt/monasca-api-python:latest
+replicas: 1
 keystone:
   identity_uri: http://keystone:35357/v3/
   auth_uri: mini-mon

@@ -1,0 +1,12 @@
+image: rbrndt/monasca-persister-python:latest
+replicas: 1
+influxdb:
+  address: influxdb
+  port: 8086
+  user: mon_persister
+  password: password
+  database: mon
+kafka:
+  address: kafka:9092
+zookeeper:
+  address: zookeeper:2181
