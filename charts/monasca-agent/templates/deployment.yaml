@@ -3,9 +3,11 @@ kind: Deployment
 metadata:
   name: {{ template "fullname" . }}-deployment
   labels:
-    charts: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
 spec:
-  replicas: 1
   template:
     metadata:
       labels:
@@ -14,19 +16,35 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image}}"
+          image: "{{ .Values.image }}:{{ .Values.image_version }}"
           env:
             - name: KUBERNETES_API
-              value: "yes"
+              value: "true"
+            - name: KUBERNETES_API_TIMEOUT
+              value: {{ .Values.kubernetes_api.timeout }}
+            - name: KUBERNETES_API_LABELS
+              value: {{ .Values.kubernetes_api.kubernetes_labels | quote }}
+            - name: PROMETHEUS
+              value: {{ .Values.prometheus.auto_detect_service_endpoints | quote }}
+            - name: PROMETHEUS_TIMEOUT
+              value: {{ .Values.prometheus.timeout }}
+            - name: PROMETHEUS_DETECT_METHOD
+              value: service
+            - name: PROMETHEUS_KUBERNETES_LABELS
+              value: {{ .Values.prometheus.kubernetes_labels | quote }}
             - name: OS_AUTH_URL
               value: {{ .Values.keystone.os_auth_url | quote }}
             - name: OS_USERNAME
               value: {{ .Values.keystone.os_username | quote }}
-            - name: MONASCA_URL
-              value: {{ .Values.monasca_url | quote }}
             - name: OS_USER_DOMAIN_NAME
               value: {{ .Values.keystone.os_user_domain_name | quote }}
             - name: OS_PASSWORD
               value: {{ .Values.keystone.os_password | quote }}
             - name: OS_PROJECT_NAME
               value: {{ .Values.keystone.os_project_name | quote }}
+            - name: OS_PROJECT_DOMAIN_NAME
+              value: {{ .Values.keystone.os_project_domain_name | quote }}
+            - name: MONASCA_URL
+              value: {{ .Values.monasca_url | quote }}
+            - name: LOG_LEVEL
+              value: {{ .Values.log_level | quote }}

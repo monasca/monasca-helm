@@ -16,14 +16,23 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.image}}"
-        ports:
-        - containerPort: 8090
-          name: admin
-        volumeMounts:
-        - name: config-volume
-          mountPath: /etc/monasca-persister
-      volumes:
-      - name: config-volume
-        configMap:
-          name: {{ template "fullname" . }}
+        image: "{{ .Values.image }}:{{ .Values.image_version }}"
+        env:
+            - name: DEBUG
+              value: {{ .Values.logging.debug | quote }}
+            - name: VERBOSE
+              value: {{ .Values.logging.verbose | quote }}
+            - name: ZOOKEEPER_URI
+              value: {{ .Values.zookeeper.uri | quote }}
+            - name: KAFKA_URI
+              value: {{ .Values.kafka.uri | quote }}
+            - name: INFLUX_PORT
+              value: {{ .Values.influxdb.port | quote }}
+            - name: INFLUX_USER
+              value: {{ .Values.influxdb.user | quote }}
+            - name: INFLUX_PASSWORD
+              value: {{ .Values.influxdb.password | quote }}
+            - name: INFLUX_DB
+              value: {{ .Values.influxdb.database | quote }}
+            - name: INFLUX_HOST
+              value: {{ .Values.influxdb.host | quote }}

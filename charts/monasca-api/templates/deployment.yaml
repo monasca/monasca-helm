@@ -16,14 +16,42 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.image}}"
+        image: "{{ .Values.image}}:{{ .Values.image_version}}"
         ports:
-        - containerPort: 8070
-          name: client
-        volumeMounts:
-        - name: config-volume
-          mountPath: /etc/monasca-api/
-      volumes:
-      - name: config-volume
-        configMap:
-          name: {{ template "fullname" . }}
+            - containerPort: 8070
+              name: client
+        env:
+            - name: LOG_LEVEL_ROOT
+              value: {{ .Values.logging.log_level_root | quote }}
+            - name: LOG_LEVEL_CONSOLE
+              value: {{ .Values.logging.log_level_console | quote }}
+            - name: KAFKA_URI
+              value: {{ .Values.kafka.uri | quote }}
+            - name: INFLUX_HOST
+              value: {{ .Values.influxdb.host | quote }}
+            - name: INFLUX_PORT
+              value: {{ .Values.influxdb.port | quote }}
+            - name: INFLUX_USER
+              value: {{ .Values.influxdb.user | quote }}
+            - name: INFLUX_PASSWORD
+              value: {{ .Values.influxdb.password | quote }}
+            - name: INFLUX_DB
+              value: {{ .Values.influxdb.database | quote }}
+            - name: MYSQL_HOST
+              value: {{ .Values.mysql.host | quote }}
+            - name: MYSQL_USER
+              value: {{ .Values.mysql.user | quote }}
+            - name: MYSQL_PASSWORD
+              value: {{ .Values.mysql.password | quote }}
+            - name: MYSQL_DB
+              value: {{ .Values.mysql.database | quote }}
+            - name: KEYSTONE_IDENTITY_URI
+              value: {{ .Values.keystone.identity_uri | quote }}
+            - name: KEYSTONE_AUTH_URI
+              value: {{ .Values.keystone.auth_uri | quote }}
+            - name: KEYSTONE_ADMIN_USER
+              value: {{ .Values.keystone.admin_user | quote }}
+            - name: KEYSTONE_ADMIN_PASSWORD
+              value: {{ .Values.keystone.admin_password | quote }}
+            - name: KEYSTONE_ADMIN_TENANT
+              value: {{ .Values.keystone.admin_tenant | quote }}

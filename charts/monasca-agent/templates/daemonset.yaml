@@ -1,9 +1,12 @@
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
-  name: {{ template "fullname" . }}-deployment
+  name: {{ template "fullname" . }}-daemonset
   labels:
-    charts: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
 spec:
   template:
     metadata:
@@ -13,7 +16,7 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image}}"
+          image: "{{ .Values.image }}:{{ .Values.image_version }}"
           env:
             - name: AGENT_POD_NAME
               valueFrom:
@@ -24,26 +27,38 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: KUBERNETES
-              value: "yes"
-            - name: PROMETHEUS_CLIENT
-              value: "yes"
+              value: "true"
+            - name: KUBERNETES_TIMEOUT
+              value: {{ .Values.kubernetes.timeout }}
+            - name: KUBERNETES_LABELS
+              value: {{ .Values.kubernetes.kubernetes_labels | quote }}
+            - name: PROMETHEUS
+              value: {{ .Values.prometheus.auto_detect_pod_endpoints | quote }}
+            - name: PROMETHEUS_TIMEOUT
+              value: {{ .Values.prometheus.timeout }}
+            - name: PROMETHEUS_DETECT_METHOD
+              value: pod
+            - name: PROMETHEUS_KUBERNETES_LABELS
+              value: {{ .Values.prometheus.kubernetes_labels | quote }}
+            - name: CADVISOR
+              value: {{ .Values.cadvisor.enabled | quote }}
+            - name: CADVISOR_TIMEOUT
+              value: {{ .Values.cadvisor.timeout }}
             - name: OS_AUTH_URL
               value: {{ .Values.keystone.os_auth_url | quote }}
             - name: OS_USERNAME
               value: {{ .Values.keystone.os_username | quote }}
-            - name: MONASCA_URL
-              value: {{ .Values.monasca_url | quote }}
             - name: OS_USER_DOMAIN_NAME
               value: {{ .Values.keystone.os_user_domain_name | quote }}
             - name: OS_PASSWORD
               value: {{ .Values.keystone.os_password | quote }}
             - name: OS_PROJECT_NAME
               value: {{ .Values.keystone.os_project_name | quote }}
-          volumeMounts:
-            - name: procmount
-              mountPath: /host/proc
-              readOnly: true
-      volumes:
-        - hostPath:
-            path: /proc
-          name: procmount
+            - name: OS_PROJECT_DOMAIN_NAME
+              value: {{ .Values.keystone.os_project_domain_name | quote }}
+            - name: MONASCA_URL
+              value: {{ .Values.monasca_url | quote }}
+            - name: LOG_LEVEL
+              value: {{ .Values.log_level | quote }}
+            - name: HOSTNAME_FROM_KUBERNETES
+              value: "true"

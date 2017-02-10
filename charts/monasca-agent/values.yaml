@@ -1,8 +1,25 @@
-image: hoppalm/monasca-agent:latest
+image: monasca/agent
+image_version: latest
+log_level: WARN
 keystone:
   os_auth_url: http://keystone:35357/v3/
   os_username: mini-mon
   os_user_domain_name: Default
   os_password: password
   os_project_name: mini-mon
+  os_project_domain_name: Default
 monasca_url: http://monasca:8070/v2.0
+prometheus:
+  auto_detect_pod_endpoints: true
+  auto_detect_service_endpoints: true
+  kubernetes_labels: 'app'
+  timeout: 3
+kubernetes_api:
+  kubernetes_labels: 'app'
+  timeout: 3
+kubernetes:
+  kubernetes_labels: 'app'
+  timeout: 3
+cadvisor:
+  enabled: true
+  timeout: 3
