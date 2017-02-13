@@ -1,5 +1,7 @@
-image: monasca/api
-image_version: latest
+image:
+  repository: monasca/api
+  tag: latest
+  pullPolicy: Always
 replicas: 1
 keystone:
   identity_uri: http://keystone:35357/v3/

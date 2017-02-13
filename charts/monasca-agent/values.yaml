@@ -1,5 +1,7 @@
-image: monasca/agent
-image_version: latest
+image:
+  repository: monasca/agent
+  tag: latest
+  pullPolicy: Always
 log_level: WARN
 keystone:
   os_auth_url: http://keystone:35357/v3/

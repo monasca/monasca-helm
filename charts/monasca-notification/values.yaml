@@ -1,5 +1,7 @@
-image: hoppalm/monasca-notification
-image_version: latest
+image:
+  repository: hoppalm/monasca-notification
+  tag: latest
+  pullPolicy: Always
 replicas: 1
 mysql:
   user: monapi

@@ -1,5 +1,7 @@
-image: monasca/api
-image_versions: latest
+image:
+  repository: monasca/persister
+  tag: latest
+  pullPolicy: Always
 replicas: 1
 influxdb:
   address: influxdb
