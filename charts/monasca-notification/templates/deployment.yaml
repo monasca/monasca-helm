@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.image}}"
+        image: "{{ .Values.image }}:{{ .Values.image_version }}"
         volumeMounts:
         - name: config-volume
           mountPath: /config

@@ -1,11 +1,12 @@
-image: hoppalm/monasca-notification:latest
+image: hoppalm/monasca-notification
+image_version: latest
 replicas: 1
 mysql:
   user: monapi
   password: password
-  address: mysql
+  host: mysql
   database: mon
 kafka:
-  address: kafka:9092
+  uri: kafka:9092
 zookeeper:
-  address: zookeeper:9092
+  uri: zookeeper:9092

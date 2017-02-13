@@ -10,7 +10,7 @@ metadata:
 data:
   notification.yaml: |
     kafka:
-        url: {{ .Values.kafka.address | quote }}
+        url: {{ .Values.kafka.uri | quote }}
         group: "monasca-notification"
         alarm_topic: "alarm-state-transitions"
         notification_topic: "alarm-notifications"
@@ -20,7 +20,7 @@ data:
         max_offset_lag: 600  # In seconds, undefined for none
 
     mysql:
-        host: {{ .Values.mysql.address | quote }}
+        host: {{ .Values.mysql.host | quote }}
         user: {{ .Values.mysql.user | quote }}
         passwd: {{ .Values.mysql.password | quote }}
         db: {{ .Values.mysql.database | quote }}
@@ -59,7 +59,7 @@ data:
         sent_notifications_size: 50  # limiting this size reduces potential # of re-sent notifications after a failure
 
     zookeeper:
-        url: {{ .Values.zookeeper.address | quote }}
+        url: {{ .Values.zookeeper.uri | quote }}
         notification_path: "/notification/alarms"
         notification_retry_path: "/notification/retry"
         periodic_path:
