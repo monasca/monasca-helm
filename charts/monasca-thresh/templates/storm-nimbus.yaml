@@ -1,0 +1,54 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-storm-nimbus
+  labels:
+    app: {{ template "fullname" . }}-storm-nimbus
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}-storm-nimbus
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.storm.repository }}:{{ .Values.image.storm.tag }}"
+          imagePullPolicy: {{ .Values.image.storm.pullPolicy }}
+          args: ["storm", "nimbus"]
+          ports:
+            - containerPort: 6627
+              name: nimbus
+          env:
+            - name: STORM_TEMPLATE_DIR
+              value: /tmpl
+            - name: STORM_CONF_DIR
+              value: /conf
+            - name: STORM_LOCAL_HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          volumeMounts:
+            - name: thresh-config-volume
+              mountPath: /config
+            - name: storm-config-volume
+              mountPath: /tmpl
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: thresh-config-volume
+          configMap:
+            name: {{ template "fullname" . }}-thresh
+        - name: storm-config-volume
+          configMap:
+            name: {{ template "fullname" . }}-storm
+        - name: data
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "fullname" . }}-storm-nimbus
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}

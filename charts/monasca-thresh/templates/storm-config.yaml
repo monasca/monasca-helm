@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}-storm
+  labels:
+    app: {{ template "fullname" . }}-storm
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+  storm.yaml.template: |
+    ### base
+    java.library.path: "/usr/local/lib:/opt/local/lib:/usr/lib"
+    storm.local.dir: "/data"
+    storm.local.hostname: "{{STORM_LOCAL_HOSTNAME}}"
+
+    ### zookeeper.*
+    storm.zookeeper.servers:
+        - - {{ .Values.zookeeper.server | quote }}
+    storm.zookeeper.port: {{ .Values.zookeeper.port }}
+    storm.zookeeper.retry.interval: 5000
+    storm.zookeeper.retry.times: 60
+    storm.zookeeper.root: /storm
+    storm.zookeeper.session.timeout: 3000
+
+    ### supervisor.* configs are for node supervisors
+    supervisor.slots.ports:
+        - 6701
+        - 6702
+    supervisor.childopts: -Xmx256m
+
+    ### worker.* configs are for task workers
+    worker.childopts: -Xmx1280m -XX:+UseConcMarkSweepGC -Dcom.sun.management.jmxremote
+
+    ### nimbus.* configs are for the master
+    nimbus.seeds: ["nimbus"]
+    nimbus.thrift.port: 6627
+    nimbus.childopts: -Xmx256m
+
+    ### ui.* configs are for the master
+    ui.host: "127.0.0.1"
+    ui.port: 8088
+    ui.childopts: -Xmx768m
+
+    ### drpc.* configs
+
+    ### transactional.* configs
+    transactional.zookeeper.servers:
+        - {{ .Values.zookeeper.server | quote }}
+    transactional.zookeeper.port: {{ .Values.zookeeper.port }}
+    transactional.zookeeper.root: /storm-transactional
+
+    ### topology.* configs are for specific executing storms
+    topology.acker.executors: 1
+    topology.debug: False

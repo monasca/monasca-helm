@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.name }}
+  labels:
+    app: {{ template "fullname" . }}-storm-nimbus
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  type: {{ .Values.service.nimbus.type }}
+  ports:
+  - name: nimbus
+    port: 6627
+  selector:
+    app: {{ template "fullname" . }}-storm-nimbus
