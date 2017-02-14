@@ -12,7 +12,7 @@ data:
     ### base
     java.library.path: "/usr/local/lib:/opt/local/lib:/usr/lib"
     storm.local.dir: "/data"
-    storm.local.hostname: "{{STORM_LOCAL_HOSTNAME}}"
+    storm.local.hostname: "{{"{{"}}STORM_LOCAL_HOSTNAME{{"}}"}}"
 
     ### zookeeper.*
     storm.zookeeper.servers:
