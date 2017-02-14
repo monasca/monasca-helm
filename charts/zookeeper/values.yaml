@@ -1,0 +1,12 @@
+image:
+  repository: zookeeper
+  tag: 3.3
+  pullPolicy: Always
+service:
+  name: zookeeper
+  type: ClusterIP
+persistence:
+  storageClass: gluster-heketi
+  enabled: false
+  accessMode: ReadWriteOnce
+  size: 10Gi

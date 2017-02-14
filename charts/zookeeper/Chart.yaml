@@ -1,0 +1,9 @@
+apiVersion: v1
+description: A Helm chart for zookeeper
+name: zookeeper
+version: 0.1.0
+sources:
+- https://zookeeper.apache.org/
+maintainers:
+- name: Michael Hoppal
+  email: michael.jam.hoppal@hpe.com

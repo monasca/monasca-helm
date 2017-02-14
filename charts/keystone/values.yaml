@@ -19,7 +19,7 @@ mysql:
   user: keystone
   password: keystone
   database: keystone
-replicas: 1
+replicaCount: 1
 service:
   type: ClusterIP
   name: keystone

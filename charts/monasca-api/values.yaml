@@ -2,7 +2,7 @@ image:
   repository: monasca/api
   tag: latest
   pullPolicy: Always
-replicas: 1
+replicaCount: 1
 keystone:
   identity_uri: http://keystone:35357/v3/
   auth_uri: mini-mon

@@ -2,7 +2,7 @@ image:
   repository: monasca/persister
   tag: latest
   pullPolicy: Always
-replicas: 1
+replicaCount: 1
 influxdb:
   address: influxdb
   port: 8086

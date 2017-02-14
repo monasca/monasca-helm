@@ -2,7 +2,7 @@ image:
   repository: hoppalm/monasca-notification
   tag: latest
   pullPolicy: Always
-replicas: 1
+replicaCount: 1
 mysql:
   user: monapi
   password: password

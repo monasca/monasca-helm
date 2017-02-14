@@ -19,12 +19,20 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 3000
+            - name: client
+              containerPort: 2181
+            - name: peer
+              containerPort: 2888
+            - name: leader-election
+              containerPort: 3888
           volumeMounts:
-          - name: grafana-config
-            mountPath: /etc/grafana
+            - name: data
+              mountPath: /data
       volumes:
-        - name: grafana-volume
-          configMap:
-            name: {{ template "fullname" . }}
+        - name: data
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "fullname" . }}-storm-nimbus
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}
