@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: influx-init-job
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: influx-init-job
+          image: "{{ .Values.influx_init.image.repository }}:{{ .Values.influx_init.image.tag }}"
+          imagePullPolicy: {{ .Values.influx_init.image.pullPolicy }}

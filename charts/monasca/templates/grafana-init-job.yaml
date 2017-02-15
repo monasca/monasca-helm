@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: grafana-init-job
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: grafana-init-job
+          image: "{{ .Values.grafana_init.image.repository }}:{{ .Values.grafana_init.image.tag }}"
+          imagePullPolicy: {{ .Values.grafana_init.image.pullPolicy }}
+          env:
+            - name: LOG_LEVEL
+              value: {{ .Values.grafana_init.log_level }}
+            - name: GRAFANA_URL
+              value: {{ .Values.grafana_init.url }}
+            - name: GRAFANA_USERNAME
+              value: {{ .Values.grafana_init.username }}
+            - name: GRAFANA_PASSWORD
+              value: {{ .Values.grafana_init.password }}
+            - name: DATASOURCE_TYPE
+              value: {{ .Values.grafana_init.datasource.type }}
+            - name: DATASOURCE_URL
+              value: {{ .Values.grafana_init.datasource.url }}
+            - name: DATASOURCE_ACCESS_MODE
+              value: {{ .Values.grafana_init.datasource.access_mode }}

@@ -1,3 +1,35 @@
+mysql_init:
+  image:
+    repo: monasca/mysql-init
+    tag: 1.0.0
+    pullPolicy: IfNotPresent
+  disable_remote_root: true
+  randon_password: true
+  host: mysql
+  port: 3306
+  username: root
+  password: secretmysql
+
+influx_init:
+  image:
+    repo: monasca/influxdb-init
+    tag: latest
+    pullPolicy: IfNotPresent
+
+grafana_init:
+  image:
+    repo: monasca/grafana-init
+    tag: latest
+    pullPolicy: IfNotPresent
+  log_level: Info
+  url: http://grafana:3000
+  username: mini-mon
+  password: password
+  datasource:
+    type: monasca
+    url: http://monasca:8070/
+    access_mode: proxy
+
 influxdb:
   ## influxdb image version
   ## ref: https://hub.docker.com/r/library/influxdb/tags/
