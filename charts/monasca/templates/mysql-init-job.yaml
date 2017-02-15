@@ -26,7 +26,7 @@ spec:
             - name: MYSQL_INIT_HOST
               value: {{ .Values.mysql_init.host }}
             - name: MYSQL_INIT_PORT
-              value: {{ .Values.mysql_init.port }}
+              value: {{ .Values.mysql_init.port | quote }}
             - name: MYSQL_INIT_USERNAME
               value: {{ .Values.mysql_init.username }}
             - name: MYSQL_INIT_PASSWORD

@@ -22,13 +22,13 @@ spec:
             - name: KUBERNETES_API
               value: "true"
             - name: KUBERNETES_API_TIMEOUT
-              value: {{ .Values.kubernetes_api.timeout }}
+              value: {{ .Values.kubernetes_api.timeout | quote }}
             - name: KUBERNETES_API_LABELS
               value: {{ .Values.kubernetes_api.kubernetes_labels | quote }}
             - name: PROMETHEUS
               value: {{ .Values.prometheus.auto_detect_service_endpoints | quote }}
             - name: PROMETHEUS_TIMEOUT
-              value: {{ .Values.prometheus.timeout }}
+              value: {{ .Values.prometheus.timeout | quote }}
             - name: PROMETHEUS_DETECT_METHOD
               value: service
             - name: PROMETHEUS_KUBERNETES_LABELS

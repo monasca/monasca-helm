@@ -1,12 +1,15 @@
 dependencies:
-- name: influxdb
+- condition: ""
+  enabled: false
+  name: influxdb
   repository: https://kubernetes-charts.storage.googleapis.com/
+  tags: null
   version: 0.1.0
-- name: grafana
+- condition: ""
+  enabled: false
+  name: mysql
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 0.2.0
-- name: mysql
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  tags: null
   version: 0.2.3
-digest: sha256:1379336c1ccaa7f4f3ea0b797cdda16eb85c9679eb7052a188fceb4dc4203dd7
-generated: 2017-01-13T13:33:25.915915774-07:00
+digest: sha256:4898090841124df5441ce1caa1e698b283d939bb599bdf66eb202ad3fa9a7abd
+generated: 2017-02-15T13:44:50.888136961-07:00

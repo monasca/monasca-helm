@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"
-          imagePullPolicy: {{ .Values.exporter.image.pullPolicy }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: kafka
               containerPort: 9092

@@ -2,9 +2,6 @@ dependencies:
 - name: influxdb
   version: 0.1.0
   repository: https://kubernetes-charts.storage.googleapis.com/
-- name: grafana
-  version: 0.2.0
-  repository: https://kubernetes-charts.storage.googleapis.com/
 - name: mysql
   version: 0.2.3
   repository: https://kubernetes-charts.storage.googleapis.com/
