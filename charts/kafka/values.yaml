@@ -1,0 +1,22 @@
+exporter:
+  enabled: false
+  image:
+    repositry: rbrndt/kafka-prometheus
+    tag: latest
+    pullPolicy: IfNotPresent
+  port: 7204
+image:
+  repository: monasca/kafka
+  tag: 0.8.1.1-2.9.2
+  pullPolicy: IfNotPresent
+service:
+  name: kafka
+  type: ClusterIP
+  port: 9092
+zookeeper:
+  url: zookeeper:2181
+persistence:
+  storageClass: gluster-heketi
+  enabled: false
+  accessMode: ReadWriteOnce
+  size: 10Gi

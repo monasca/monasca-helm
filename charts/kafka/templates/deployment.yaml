@@ -1,0 +1,59 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"
+          imagePullPolicy: {{ .Values.exporter.image.pullPolicy }}
+          ports:
+            - name: kafka
+              containerPort: 9092
+          volumeMounts:
+            - name: kafka
+              mountPath: /data
+          env:
+            - name: ZOOKEEPER_CONNECTION_STRING
+              value: {{ .Values.zookeeper.url }}
+            - name: KAFKA_ADVERTISED_HOST_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: KAFKA_DELETE_TOPIC_ENABLE
+              value: "true"
+        {{- if .Values.exporter.enabled }}
+        - name: {{ .Chart.Name }}-exporter
+          image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"
+          imagePullPolicy: {{ .Values.exporter.image.pullPolicy }}
+          ports:
+            - name: exporter
+              containerPort: {{ .Values.exporter.port }}
+          volumeMounts:
+            - name: kafka-exporter
+              mountPath: /prometheus-config
+         {{- end }}
+      volumes:
+        - name: kafka
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "fullname" . }}-storm-nimbus
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}
+        {{- if .Values.exporter.enabled }}
+        - name: kafka-exporter
+          configMap:
+            name: {{ template "fullname" . }}-exporter
+        {{- end }}
