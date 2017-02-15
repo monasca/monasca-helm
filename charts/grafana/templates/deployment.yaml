@@ -25,6 +25,6 @@ spec:
           - name: grafana-config
             mountPath: /etc/grafana
       volumes:
-        - name: grafana-volume
+        - name: grafana-config
           configMap:
             name: {{ template "fullname" . }}

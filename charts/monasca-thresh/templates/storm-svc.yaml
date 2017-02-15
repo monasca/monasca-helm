@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.service.name }}
+  name: {{ .Values.service.nimbus.name }}
   labels:
     app: {{ template "fullname" . }}-storm-nimbus
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
