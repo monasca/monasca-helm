@@ -12,7 +12,7 @@ spec:
     metadata:
       labels:
         target: node
-        app: {{ .Chart.Name }}
+        app: {{ template "fullname" . }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -30,13 +30,13 @@ spec:
             - name: KUBERNETES
               value: "true"
             - name: KUBERNETES_TIMEOUT
-              value: {{ .Values.kubernetes.timeout }}
+              value: {{ .Values.kubernetes.timeout | quote }}
             - name: KUBERNETES_LABELS
               value: {{ .Values.kubernetes.kubernetes_labels | quote }}
             - name: PROMETHEUS
               value: {{ .Values.prometheus.auto_detect_pod_endpoints | quote }}
             - name: PROMETHEUS_TIMEOUT
-              value: {{ .Values.prometheus.timeout }}
+              value: {{ .Values.prometheus.timeout | quote }}
             - name: PROMETHEUS_DETECT_METHOD
               value: pod
             - name: PROMETHEUS_KUBERNETES_LABELS
@@ -44,7 +44,7 @@ spec:
             - name: CADVISOR
               value: {{ .Values.cadvisor.enabled | quote }}
             - name: CADVISOR_TIMEOUT
-              value: {{ .Values.cadvisor.timeout }}
+              value: {{ .Values.cadvisor.timeout | quote }}
             - name: OS_AUTH_URL
               value: {{ .Values.keystone.os_auth_url | quote }}
             - name: OS_USERNAME
