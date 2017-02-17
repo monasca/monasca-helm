@@ -62,6 +62,8 @@ spec:
               value: {{ .Values.keystone.admin_password | quote }}
             - name: KEYSTONE_ADMIN_TENANT
               value: {{ .Values.keystone.admin_tenant | quote }}
+            - name: API_AUTH_DISABLED
+              value: {{ .Values.auth_disabled | quote }}
       {{- if .Values.side_container.enabled }}
       - name: {{ .Chart.Name }}-side-container
         image: "{{ .Values.side_container.image.repository }}:{{ .Values.side_container.image.tag }}"
