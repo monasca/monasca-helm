@@ -31,31 +31,31 @@ dependencies:
   version: 0.1.0
 - condition: ""
   enabled: false
-  name: monasca-api
+  name: api
   repository: http://monasca.io/monasca-helm-repo/
   tags: null
   version: 0.1.0
 - condition: ""
   enabled: false
-  name: monasca-agent
+  name: agent
   repository: http://monasca.io/monasca-helm-repo/
   tags: null
   version: 0.1.0
 - condition: ""
   enabled: false
-  name: monasca-persister
+  name: persister
   repository: http://monasca.io/monasca-helm-repo/
   tags: null
   version: 0.1.0
 - condition: ""
   enabled: false
-  name: monasca-notification
+  name: notification
   repository: http://monasca.io/monasca-helm-repo/
   tags: null
   version: 0.1.0
 - condition: ""
   enabled: false
-  name: monasca-thresh
+  name: thresh
   repository: http://monasca.io/monasca-helm-repo/
   tags: null
   version: 0.1.0
@@ -65,5 +65,5 @@ dependencies:
   repository: http://monasca.io/monasca-helm-repo/
   tags: null
   version: 0.1.0
-digest: sha256:5059a8300b9f1d40532d8aaf6629236672d1fd3870e742420a98159cfa5001c9
-generated: 2017-02-16T16:31:26.347753249-07:00
+digest: sha256:07bd0d8bbbaa925739cfe55b0063256c957d492acd90a0d43270fad7e3829918
+generated: 2017-02-16T21:29:19.195247188-07:00

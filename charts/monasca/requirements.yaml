@@ -14,19 +14,19 @@ dependencies:
 - name: kafka
   version: 0.1.0
   repository: http://monasca.io/monasca-helm-repo/
-- name: monasca-api
+- name: api
   version: 0.1.0
   repository: http://monasca.io/monasca-helm-repo/
-- name: monasca-agent
+- name: agent
   version: 0.1.0
   repository: http://monasca.io/monasca-helm-repo/
-- name: monasca-persister
+- name: persister
   version: 0.1.0
   repository: http://monasca.io/monasca-helm-repo/
-- name: monasca-notification
+- name: notification
   version: 0.1.0
   repository: http://monasca.io/monasca-helm-repo/
-- name: monasca-thresh
+- name: thresh
   version: 0.1.0
   repository: http://monasca.io/monasca-helm-repo/
 - name: grafana
