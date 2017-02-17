@@ -20,7 +20,7 @@ data:
         max_offset_lag: 600  # In seconds, undefined for none
 
     mysql:
-        host: {{ .Values.mysql.host | quote }}
+        host: "{{ .Release.Name }}-mysql"
         user: {{ .Values.mysql.user | quote }}
         passwd: {{ .Values.mysql.password | quote }}
         db: {{ .Values.mysql.database | quote }}

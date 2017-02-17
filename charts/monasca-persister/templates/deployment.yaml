@@ -36,4 +36,4 @@ spec:
             - name: INFLUX_DB
               value: {{ .Values.influxdb.database | quote }}
             - name: INFLUX_HOST
-              value: {{ .Values.influxdb.host | quote }}
+              value: "{{ .Release.Name }}-influxdb"

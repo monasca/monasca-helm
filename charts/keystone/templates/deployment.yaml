@@ -45,7 +45,7 @@ spec:
             - name: KEYSTONE_DATABASE_BACKEND
               value: {{ .Values.database_backend }}
             - name: KEYSTONE_MYSQL_HOST
-              value: {{ .Values.mysql.host }}
+              value: "{{ .Release.Name }}-mysql"
             - name: KEYSTONE_MYSQL_USER
               value: {{ .Values.mysql.user }}
             - name: KEYSTONE_MYSQL_PASSWORD

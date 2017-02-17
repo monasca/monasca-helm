@@ -5,3 +5,30 @@ dependencies:
 - name: mysql
   version: 0.2.3
   repository: https://kubernetes-charts.storage.googleapis.com/
+- name: keystone
+  version: 0.1.0
+  repository: http://monasca.io/monasca-helm-repo/
+- name: zookeeper
+  version: 0.1.0
+  repository: http://monasca.io/monasca-helm-repo/
+- name: kafka
+  version: 0.1.0
+  repository: http://monasca.io/monasca-helm-repo/
+- name: monasca-api
+  version: 0.1.0
+  repository: http://monasca.io/monasca-helm-repo/
+- name: monasca-agent
+  version: 0.1.0
+  repository: http://monasca.io/monasca-helm-repo/
+- name: monasca-persister
+  version: 0.1.0
+  repository: http://monasca.io/monasca-helm-repo/
+- name: monasca-notification
+  version: 0.1.0
+  repository: http://monasca.io/monasca-helm-repo/
+- name: monasca-thresh
+  version: 0.1.0
+  repository: http://monasca.io/monasca-helm-repo/
+- name: grafana
+  version: 0.1.0
+  repository: http://monasca.io/monasca-helm-repo/

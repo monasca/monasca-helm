@@ -1,18 +1,18 @@
 image:
   repository: monasca/api
-  tag: latest
+  tag: master-prometheus
   pullPolicy: Always
 replicaCount: 1
 keystone:
-  identity_uri: http://keystone:35357/v3/
-  auth_uri: mini-mon
-  admin_password: Default
-  admin_user: password
-  admin_tenant: mini-mon
+  identity_uri: http://keystone:35357
+  auth_uri: http://keystone:5000
+  admin_password: secretadmin
+  admin_user: admin
+  admin_tenant: admin
 mysql:
-  host: monapi
+  host: mysql
   user: password
-  password: mysql
+  password: monapi
   database: mon
 influxdb:
   host: influxdb
@@ -26,5 +26,11 @@ service:
   name: monasca
   port: 8070
 logging:
-  log_level_root: warn
-  log_level_console: warn
+  log_level_root: WARN
+  log_level_console: WARN
+side_container:
+  enabled: true
+  image:
+    repository: timothyb89/monasca-sidecar
+    tag: 1.0.0
+    pullPolicy: Always

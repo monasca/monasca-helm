@@ -104,7 +104,7 @@ data:
 
     database:
       driverClass: com.mysql.jdbc.Driver
-      url: "jdbc:mysql://{{ .Values.mysql.host }}:{{ .Values.mysql.port }}/{{ .Values.mysql.database }}?useSSL=true"
+      url: "jdbc:mysql://{{ .Release.Name }}-mysql:{{ .Values.mysql.port }}/{{ .Values.mysql.database }}?useSSL=true"
       user: {{ .Values.mysql.user | quote }}
       password: {{ .Values.mysql.password | quote }}
       properties:

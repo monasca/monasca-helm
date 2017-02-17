@@ -25,14 +25,17 @@ spec:
             - name: kafka
               mountPath: /data
           env:
-            - name: ZOOKEEPER_CONNECTION_STRING
-              value: {{ .Values.zookeeper.url }}
-            - name: KAFKA_ADVERTISED_HOST_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
             - name: KAFKA_DELETE_TOPIC_ENABLE
               value: "true"
+            - name: KAFKA_AUTO_CREATE_TOPICS
+              value: "false"
+            - name: KAFKA_JMX
+              value: "true"
+            - name: KAFKA_CREATE_TOPICS
+              value: "\
+                metrics:64:1,alarm-state-transitions:16:1,\
+                alarm-notifications:16:1,retry-notifications:16:1,\
+                events:16:1,60-seconds-notifications:16:1"
         {{- if .Values.exporter.enabled }}
         - name: {{ .Chart.Name }}-exporter
           image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"

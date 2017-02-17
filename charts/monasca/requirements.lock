@@ -11,5 +11,59 @@ dependencies:
   repository: https://kubernetes-charts.storage.googleapis.com/
   tags: null
   version: 0.2.3
-digest: sha256:4898090841124df5441ce1caa1e698b283d939bb599bdf66eb202ad3fa9a7abd
-generated: 2017-02-15T13:44:50.888136961-07:00
+- condition: ""
+  enabled: false
+  name: keystone
+  repository: http://monasca.io/monasca-helm-repo/
+  tags: null
+  version: 0.1.0
+- condition: ""
+  enabled: false
+  name: zookeeper
+  repository: http://monasca.io/monasca-helm-repo/
+  tags: null
+  version: 0.1.0
+- condition: ""
+  enabled: false
+  name: kafka
+  repository: http://monasca.io/monasca-helm-repo/
+  tags: null
+  version: 0.1.0
+- condition: ""
+  enabled: false
+  name: monasca-api
+  repository: http://monasca.io/monasca-helm-repo/
+  tags: null
+  version: 0.1.0
+- condition: ""
+  enabled: false
+  name: monasca-agent
+  repository: http://monasca.io/monasca-helm-repo/
+  tags: null
+  version: 0.1.0
+- condition: ""
+  enabled: false
+  name: monasca-persister
+  repository: http://monasca.io/monasca-helm-repo/
+  tags: null
+  version: 0.1.0
+- condition: ""
+  enabled: false
+  name: monasca-notification
+  repository: http://monasca.io/monasca-helm-repo/
+  tags: null
+  version: 0.1.0
+- condition: ""
+  enabled: false
+  name: monasca-thresh
+  repository: http://monasca.io/monasca-helm-repo/
+  tags: null
+  version: 0.1.0
+- condition: ""
+  enabled: false
+  name: grafana
+  repository: http://monasca.io/monasca-helm-repo/
+  tags: null
+  version: 0.1.0
+digest: sha256:5059a8300b9f1d40532d8aaf6629236672d1fd3870e742420a98159cfa5001c9
+generated: 2017-02-16T16:31:26.347753249-07:00

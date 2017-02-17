@@ -8,8 +8,8 @@ bootstrap:
 database_backend: mysql
 image:
   pullPolicy: Always
-  tag: monasca/keystone
-  repository: 1.0.6
+  tag: 1.0.6
+  repository: monasca/keystone
 monasca:
   api_version: v2.0
   url: http://monasca:8070

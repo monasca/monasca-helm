@@ -13,6 +13,12 @@ spec:
     metadata:
       labels:
         app: {{ template "fullname" . }}
+      {{- if .Values.side_container.enabled }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "4888"
+      {{- end }}
     spec:
       containers:
       - name: {{ .Chart.Name }}
@@ -29,7 +35,7 @@ spec:
             - name: KAFKA_URI
               value: {{ .Values.kafka.uri | quote }}
             - name: INFLUX_HOST
-              value: {{ .Values.influxdb.host | quote }}
+              value: "{{ .Release.Name }}-influxdb"
             - name: INFLUX_PORT
               value: {{ .Values.influxdb.port | quote }}
             - name: INFLUX_USER
@@ -39,7 +45,7 @@ spec:
             - name: INFLUX_DB
               value: {{ .Values.influxdb.database | quote }}
             - name: MYSQL_HOST
-              value: {{ .Values.mysql.host | quote }}
+              value: "{{ .Release.Name }}-mysql"
             - name: MYSQL_USER
               value: {{ .Values.mysql.user | quote }}
             - name: MYSQL_PASSWORD
@@ -56,3 +62,11 @@ spec:
               value: {{ .Values.keystone.admin_password | quote }}
             - name: KEYSTONE_ADMIN_TENANT
               value: {{ .Values.keystone.admin_tenant | quote }}
+      {{- if .Values.side_container.enabled }}
+      - name: {{ .Chart.Name }}-side-container
+        image: "{{ .Values.side_container.image.repository }}:{{ .Values.side_container.image.tag }}"
+        imagePullPolicy: {{ .Values.side_container.image.pullPolicy }}
+        ports:
+          - containerPort: 4888
+            name: scrape
+      {{- end }}

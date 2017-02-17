@@ -16,7 +16,7 @@ data:
 
     ### zookeeper.*
     storm.zookeeper.servers:
-        - - {{ .Values.zookeeper.server | quote }}
+        - {{ .Values.zookeeper.server | quote }}
     storm.zookeeper.port: {{ .Values.zookeeper.port }}
     storm.zookeeper.retry.interval: 5000
     storm.zookeeper.retry.times: 60

@@ -24,7 +24,7 @@ spec:
             - name: MYSQL_INIT_RANDOM_PASSWORD
               value: {{ .Values.mysql_init.randon_password | quote }}
             - name: MYSQL_INIT_HOST
-              value: {{ .Values.mysql_init.host }}
+              value: "{{ .Release.Name }}-mysql"
             - name: MYSQL_INIT_PORT
               value: {{ .Values.mysql_init.port | quote }}
             - name: MYSQL_INIT_USERNAME
