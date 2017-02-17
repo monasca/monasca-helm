@@ -11,4 +11,4 @@ mysql:
 kafka:
   uri: kafka:9092
 zookeeper:
-  uri: zookeeper:9092
+  uri: zookeeper:2181

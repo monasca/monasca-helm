@@ -13,6 +13,8 @@ mysql:
   host: mysql
   port: 3306
   database: mon
+  user: thresh
+  password: password
 persistence:
   storageClass: gluster-heketi
   enabled: false

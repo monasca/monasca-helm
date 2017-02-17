@@ -11,8 +11,8 @@ keystone:
   admin_tenant: admin
 mysql:
   host: mysql
-  user: password
-  password: monapi
+  user: monapi
+  password: password
   database: mon
 influxdb:
   host: influxdb
