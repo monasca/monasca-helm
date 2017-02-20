@@ -1,0 +1,137 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: monasca-transform-config
+data:
+  monasca-transform.conf: |
+    [DEFAULTS]
+
+    [repositories]
+    offsets = monasca_transform.mysql_offset_specs:MySQLOffsetSpecs
+    data_driven_specs = monasca_transform.data_driven_specs.mysql_data_driven_specs_repo:MySQLDataDrivenSpecsRepo
+    offsets_max_revisions = 10
+
+    [database]
+    server_type = mysql:thin
+    host = {{ .Values.config.db.host }}
+    database_name = monasca_transform
+    username = {{ .Values.config.db.user }}
+    password = {{ .Values.config.db.password }}
+
+    [messaging]
+    adapter = monasca_transform.messaging.adapter:KafkaMessageAdapter
+    topic = {{ .Values.config.messaging.metrics_topic }}
+    brokers={{ .Values.config.messaging.broker }}
+    publish_kafka_project_id=d2cb21079930415a9f2a33588b9f2bb6
+    adapter_pre_hourly = monasca_transform.messaging.adapter:KafkaMessageAdapterPreHourly
+    topic_pre_hourly = {{ .Values.config.messaging.metrics_pre_hourly_topic }}
+
+    [stage_processors]
+    pre_hourly_processor_enabled = True
+
+    [pre_hourly_processor]
+    late_metric_slack_time = {{ .Values.config.late_metric_slack_time }}
+    enable_instance_usage_df_cache = True
+    instance_usage_df_cache_storage_level = MEMORY_ONLY_SER_2
+    enable_batch_time_filtering = True
+    data_provider=monasca_transform.processor.pre_hourly_processor:PreHourlyProcessorDataProvider
+
+    #
+    # Configurable values for the monasca-transform service
+    #
+    [service]
+
+    # The address of the mechanism being used for election coordination
+    coordinator_address = kazoo://{{ .Values.config.election.host }}:{{ .Values.config.election.port }}
+
+    # The name of the coordination/election group
+    coordinator_group = monasca-transform
+
+    # How long the candidate should sleep between election result
+    # queries (in seconds)
+    election_polling_frequency = 15
+
+    # Whether debug-level log entries should be included in the application
+    # log.  If this setting is false, info-level will be used for logging.
+    enable_debug_log_entries = true
+
+    # The path for the monasca-transform Spark driver
+    spark_driver = /opt/monasca/transform/lib/driver.py
+
+    # the location for the transform-service log
+    service_log_path=/var/log/monasca/transform/
+
+    # the filename for the transform-service log
+    service_log_filename=monasca-transform.log
+
+    # Whether Spark event logging should be enabled (true/false)
+    spark_event_logging_enabled = true
+
+    # A list of jars which Spark should use
+    spark_jars_list = /opt/spark/current/lib/spark-streaming-kafka_2.10-1.6.1.jar,/opt/spark/current/lib/scala-library-2.10.1.jar,/opt/spark/current/lib/kafka_2.10-0.8.1.1.jar,/opt/spark/current/lib/metrics-core-2.2.0.jar,/opt/spark/current/lib/drizzle-jdbc-1.3.jar
+
+    # A list of where the Spark master(s) should run
+    spark_master_list = spark://{{ .Values.spark_config.spark_master_ip }}:{{ .Values.spark_config.ports.master }}
+
+    # spark_home for the environment
+    spark_home = /opt/spark/current
+
+    # Python files for Spark to use
+    spark_python_files = /opt/monasca/transform/lib/monasca-transform.zip
+
+    # How often the stream should be read (in seconds)
+    stream_interval = {{ .Values.config.stream_interval }}
+
+    # The working directory for monasca-transform
+    work_dir = /var/run/monasca/transform
+
+    # enable caching of record store df
+    enable_record_store_df_cache = True
+
+    # set spark storage level for record store df cache
+    record_store_df_cache_storage_level = MEMORY_ONLY_SER_2
+  service_runner.py: |
+    # Copyright 2016 Hewlett Packard Enterprise Development Company LP
+    #
+    # Licensed under the Apache License, Version 2.0 (the "License"); you may
+    # not use this file except in compliance with the License. You may obtain
+    # a copy of the License at
+    #
+    # http://www.apache.org/licenses/LICENSE-2.0
+    #
+    # Unless required by applicable law or agreed to in writing, software
+    # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+    # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+    # License for the specific language governing permissions and limitations
+    # under the License.
+
+    import sys
+
+    from monasca_transform.service.transform_service import main_service
+
+
+    def main():
+        main_service()
+
+
+    if __name__ == "__main__":
+        main()
+        sys.exit(0)
+
+  driver.py: |
+    # Copyright 2016 Hewlett Packard Enterprise Development Company LP
+    #
+    # Licensed under the Apache License, Version 2.0 (the "License"); you may
+    # not use this file except in compliance with the License. You may obtain
+    # a copy of the License at
+    #
+    # http://www.apache.org/licenses/LICENSE-2.0
+    #
+    # Unless required by applicable law or agreed to in writing, software
+    # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+    # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+    # License for the specific language governing permissions and limitations
+    # under the License.
+    from monasca_transform.driver.mon_metrics_kafka import invoke
+
+    invoke()

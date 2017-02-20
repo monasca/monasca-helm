@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  #namespace: monitoring
+  name: spark-master-config
+data:
+  spark-defaults.conf: |
+    spark.driver.extraClassPath {{ .Values.spark_master.config.driver.extraClassPath }}
+    spark.executor.extraClassPath {{ .Values.spark_master.config.executor.extraClassPath }}
+    spark.blockManager.port {{ .Values.spark_master.config.ports.blockManager }}
+    spark.broadcast.port {{ .Values.spark_master.config.ports.broadcast }}
+    spark.driver.port {{ .Values.spark_master.config.ports.driver }}
+    spark.executor.port {{ .Values.spark_master.config.ports.executor }}
+    spark.fileserver.port {{ .Values.spark_master.config.ports.fileserver }}
+    spark.history.ui.port {{ .Values.spark_master.config.ports.history_ui }}
+    spark.speculation {{ .Values.spark_master.config.speculation }}
+    spark.speculation.interval {{ .Values.spark_master.config.speculation_interval }}
+    spark.eventLog.dir {{ .Values.spark_master.config.eventLog_dir }}
+    spark.history.fs.logDirectory {{ .Values.spark_master.config.history_fs_logDirectory }}
+  spark-env.sh: |
+    #!/usr/bin/env bash
+    export SPARK_MASTER_PORT={{ .Values.spark_master.config.ports.master }}
+    export SPARK_MASTER_WEBUI_PORT={{ .Values.spark_master.config.ports.master_web_ui }}
+
+    export SPARK_WORKER_PORT={{ .Values.spark_master.config.ports.worker }}
+    export SPARK_WORKER_WEBUI_PORT={{ .Values.spark_master.config.ports.worker_web_ui }}
+    export SPARK_LOG_DIR={{ .Values.spark_master.config.log_dir }}
+    export SPARK_DAEMON_JAVA_OPTS={{ .Values.spark_master.config.daemon_java_opts }}
+  start_spark_master.sh: |
+    #!/usr/bin/env bash
+    . /etc/config/spark-env.sh
+    export EXEC_CLASS=org.apache.spark.deploy.master.Master
+    export INSTANCE_ID=1
+    export SPARK_CLASSPATH=/opt/spark/current/conf/:/opt/spark/current/lib/spark-assembly-1.6.1-hadoop2.6.0.jar:/opt/spark/current/lib/datanucleus-core-3.2.10.jar:/opt/spark/current/lib/datanucleus-rdbms-3.2.9.jar:/opt/spark/current/lib/datanucleus-api-jdo-3.2.6.jar
+    export log="$SPARK_LOG_DIR/spark-spark-"$EXEC_CLASS"-"$INSTANCE_ID"-${SPARK_LOCAL_IP}.out"
+    export SPARK_HOME=/opt/spark/current
+
+    /usr/bin/java -cp $SPARK_CLASSPATH $SPARK_DAEMON_JAVA_OPTS -Xms1g -Xmx1g "$EXEC_CLASS" --ip "$SPARK_MASTER_IP" --port "$SPARK_MASTER_PORT" --webui-port "$SPARK_MASTER_WEBUI_PORT"  2>&1 | tee $log
+

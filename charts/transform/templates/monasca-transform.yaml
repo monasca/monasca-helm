@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: monasca-transform
+  labels:
+    app: monasca-transform
+spec:
+  replicas: {{ .Values.replication_count }}
+  selector:
+    app: monasca-transform
+  template:
+    metadata:
+      labels:
+        app: monasca-transform
+    spec:
+      containers:
+        - name: {{ .Values.container_name }}
+          image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+            - name: spark-config
+              mountPath: /opt/spark/current/conf
+      volumes:
+        - name: config-volume
+          configMap:
+            name: monasca-transform-config
+        - name: spark-config
+          configMap:
+            name: monasca-transform-spark-config
+

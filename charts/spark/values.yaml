@@ -1,0 +1,75 @@
+# Default values for spark-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+spark_master:
+  replicaCount: 1
+  containerName: spark-master
+  pod_ip: status.podIP
+  image:
+    repository: ncsmm
+    tag: spark:v1
+    pullPolicy: IfNotPresent
+  service:
+    name: spark-master-svc
+    type: ClusterIP
+  config:
+    driver:
+      extraClassPath: /opt/spark/current/lib/drizzle-jdbc-1.3.jar
+    executor:
+      extraClassPath: /opt/spark/current/lib/drizzle-jdbc-1.3.jar
+    ports:
+      master: 7077
+      master_web_ui: 18085
+      worker: 7078
+      worker_web_ui: 18086
+      blockManager: 7100
+      broadcast: 7105
+      driver: 7110
+      executor: 7115
+      fileserver: 7120
+      history_ui: 18082
+    speculation: true
+    speculation_interval: 200
+    eventLog_dir: /var/log/spark/events
+    history_fs_logDirectory: file://var/log/spark/events
+    log_dir: /var/log/spark
+    daemon_java_opts: "\"$SPARK_DAEMON_JAVA_OPTS -Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=zookeeper:2181 -Dspark.deploy.zookeeper.dir=/var/run/spark -Dorg.xerial.snappy.tempdir=/var/run/spark/\""
+
+
+
+spark_worker:
+  replicaCount: 5
+  containerName: spark-worker
+  pod_ip: status.podIP
+  image:
+    repository: ncsmm
+    tag: spark:v1
+    pullPolicy: IfNotPresent
+  service:
+    name: spark-worker-svc
+    type: ClusterIP
+  config:
+    driver:
+      extraClassPath: /opt/spark/current/lib/drizzle-jdbc-1.3.jar
+    executor:
+      extraClassPath: /opt/spark/current/lib/drizzle-jdbc-1.3.jar
+    ports:
+      master: 7077
+      master_web_ui: 18085
+      worker: 7078
+      worker_web_ui: 18086
+      blockManager: 7100
+      broadcast: 7105
+      driver: 7110
+      executor: 7115
+      fileserver: 7120
+      history_ui: 18082
+    speculation: true
+    speculation_interval: 200
+    eventLog_dir: /var/log/spark/events
+    worker_dir: /var/run/spark/work
+    worker_memory: 2g
+    worker_cores: 2
+    history_fs_logDirectory: file://var/log/spark/events
+    log_dir: /var/log/spark
+    daemon_java_opts: "\"$SPARK_DAEMON_JAVA_OPTS -Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=zookeeper:2181 -Dspark.deploy.zookeeper.dir=/var/run/spark -Dorg.xerial.snappy.tempdir=/var/run/spark/\""

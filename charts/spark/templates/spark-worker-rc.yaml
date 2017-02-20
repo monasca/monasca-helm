@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: spark-worker
+  #namespace: monitoring
+  labels:
+    app: spark-worker
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  replicas: {{ .Values.spark_worker.replicaCount }}
+  selector:
+    app: spark-worker
+  template:
+    metadata:
+      labels:
+        app: spark-worker
+    spec:
+      containers:
+      - name: {{ .Values.spark_worker.containerName }}
+        image: "{{ .Values.spark_worker.image.repository }}/{{ .Values.spark_worker.image.tag }}"
+        command:
+          - "/bin/bash"
+          - "/etc/config/start_spark_worker.sh"
+        env:
+          - name: SPARK_LOCAL_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        ports:
+          - name: master
+            containerPort: 7077
+          - name: master-webui
+            containerPort: 18080
+          - name: block-manager
+            containerPort: 7100
+          - name: broadcast
+            containerPort: 7105
+          - name: driver
+            containerPort: 7110
+          - name: executor
+            containerPort: 7115
+          - name: fileserver
+            containerPort: 7120
+        volumeMounts:
+          - name: config-volume
+            mountPath: /etc/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: spark-worker-config
+

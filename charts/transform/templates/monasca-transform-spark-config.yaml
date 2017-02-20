@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: monasca-transform-spark-config
+data:
+  spark-defaults.conf: |
+    spark.driver.extraClassPath {{ .Values.spark_config.driver.extraClassPath }}
+    spark.executor.extraClassPath {{ .Values.spark_config.executor.extraClassPath }}
+    spark.blockManager.port {{ .Values.spark_config.ports.blockManager }}
+    spark.broadcast.port {{ .Values.spark_config.ports.broadcast }}
+    spark.driver.port {{ .Values.spark_config.ports.driver }}
+    spark.executor.port {{ .Values.spark_config.ports.executor }}
+    spark.fileserver.port {{ .Values.spark_config.ports.fileserver }}
+    spark.speculation {{ .Values.spark_config.speculation }}
+    spark.speculation.interval {{ .Values.spark_config.speculation_interval }}
+    spark.eventLog.dir {{ .Values.spark_config.eventLog_dir }}
+  spark-env.sh: |
+    #!/usr/bin/env bash
+    export SPARK_MASTER_IP={{ .Values.spark_config.spark_master_ip }}
+    export SPARK_MASTER_PORT={{ .Values.spark_config.ports.master }}
+    export SPARK_MASTERS=${SPARK_MASTER_IP}:${SPARK_MASTER_PORT}
+    export SPARK_LOG_DIR={{ .Values.spark_config.log_dir }}
+
+

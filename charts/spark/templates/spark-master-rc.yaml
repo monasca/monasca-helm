@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: spark-master
+  #namespace: monitoring
+  labels:
+    app: spark-master
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  replicas: {{ .Values.spark_master.replicaCount }}
+  selector:
+    app: spark-master
+  template:
+    metadata:
+      labels:
+        app: spark-master
+    spec:
+      containers:
+      - name: {{ .Values.spark_master.containerName }}
+        image: "{{ .Values.spark_master.image.repository }}/{{ .Values.spark_master.image.tag }}"
+        command:
+          - "/bin/bash"
+          - "/etc/config/start_spark_master.sh"
+        env:
+          - name: SPARK_LOCAL_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: SPARK_MASTER_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+        ports:
+          - name: master
+            containerPort: 7077
+          - name: master-webui
+            containerPort: 18080
+          - name: block-manager
+            containerPort: 7100
+          - name: broadcast
+            containerPort: 7105
+          - name: driver
+            containerPort: 7110
+          - name: executor
+            containerPort: 7115
+          - name: fileserver
+            containerPort: 7120
+        volumeMounts:
+          - name: config-volume
+            mountPath: /etc/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: spark-master-config
+

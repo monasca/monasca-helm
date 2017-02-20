@@ -1,0 +1,9 @@
+apiVersion: v1
+description: Transform provides aggregation for monasca metrics
+name: transform
+version: 0.1.0
+sources:
+  - https://github.com/openstack/monasca-transform
+maintainers: 
+  - name: David C Kennedy 
+    email: david.c.kennedy@hpe.com

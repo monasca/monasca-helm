@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: monasca-transform-sql-controller
+spec:
+  replicas: 1
+  selector:
+    app: m-t-mysql
+  template:
+    metadata:
+      labels:
+        app: m-t-mysql
+    spec:
+      containers:
+      - name: m-t-mysql
+        image: mysql:5.5
+        ports:
+        - containerPort: 3306
+          name: m-t-mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "secretmysql"
+        - name: MYSQL_DATABASE
+          value: "m-transform"
+        volumeMounts:
+        - name: sql-volume
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: sql-volume
+        configMap:
+          name: monasca-transform-mysql-config
