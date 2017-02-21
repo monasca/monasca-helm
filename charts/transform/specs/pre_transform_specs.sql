@@ -37,4 +37,12 @@ VALUES
 ('swiftlm.diskusage.host.val.avail',
 '{"metric_id_list": ["swift_avail_all", "swift_avail_host", "swift_usage_rate"], "required_raw_fields_list": ["creation_time", "hostname", "mount"], "event_processing_params": {"set_default_region_to": "W", "set_default_geolocation_to": "1", "set_default_zone_to": "1"}, "event_type": "swiftlm.diskusage.host.val.avail", "service_id": "host_metrics"}'),
 ('storage.objects.size',
-'{"metric_id_list": ["storage_objects_size_all"], "required_raw_fields_list": ["creation_time", "project_id"], "event_processing_params": {"set_default_region_to": "W", "set_default_geolocation_to": "1", "set_default_zone_to": "1"}, "event_type": "storage.objects.size", "service_id": "host_metrics"}');
+'{"metric_id_list": ["storage_objects_size_all"], "required_raw_fields_list": ["creation_time", "project_id"], "event_processing_params": {"set_default_region_to": "W", "set_default_geolocation_to": "1", "set_default_zone_to": "1"}, "event_type": "storage.objects.size", "service_id": "host_metrics"}'),
+('pod.cpu.total_time',
+'{"metric_id_list": ["pod_cpu_total_all", "pod_cpu_per_namespace", "pod_cpu_per_app"], "required_raw_fields_list": ["creation_time", "tenantId", "namespace", "pod_name", "app"], "event_processing_params": {"set_default_region_to": "W", "set_default_geolocation_to": "1", "set_default_zone_to": "1"}, "event_type": "pod.cpu.total_time", "service_id": "host_metrics"}'),
+('pod.net.in_bytes_sec',
+'{"metric_id_list": ["pod_net_in_b_per_sec_total_all", "pod_net_in_b_per_sec_per_namespace", "pod_net_in_b_per_sec_per_app"], "required_raw_fields_list": ["creation_time", "tenantId", "namespace", "pod_name", "app"], "event_processing_params": {"set_default_region_to": "W", "set_default_geolocation_to": "1", "set_default_zone_to": "1"}, "event_type": "pod.net.in_bytes_sec", "service_id": "host_metrics"}'),
+('pod.net.out_bytes_sec',
+'{"metric_id_list": ["pod_net_out_b_per_sec_total_all", "pod_net_out_b_per_sec_per_namespace"], "required_raw_fields_list": ["creation_time", "tenantId", "namespace", "pod_name"], "event_processing_params": {"set_default_region_to": "W", "set_default_geolocation_to": "1", "set_default_zone_to": "1"}, "event_type": "pod.net.out_bytes_sec", "service_id": "host_metrics"}'),
+('pod.mem.used_bytes',
+'{"metric_id_list": ["pod.mem_used_b_total_all", "pod.mem_used_b_per_pod_name", "pod.mem_used_b_per_namespace"], "required_raw_fields_list": ["creation_time", "tenantId", "namespace", "pod_name"], "event_processing_params": {"set_default_region_to": "W", "set_default_geolocation_to": "1", "set_default_zone_to": "1"}, "event_type": "pod.mem.used_bytes", "service_id": "host_metrics"}');
