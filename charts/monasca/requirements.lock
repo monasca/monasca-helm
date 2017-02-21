@@ -1,10 +1,10 @@
 dependencies:
 - name: influxdb
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 0.1.0
+  version: 0.2.1
 - name: mysql
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 0.2.3
+  version: 0.2.4
 - name: keystone
   repository: http://monasca.io/monasca-helm-repo/
   version: 0.1.0
@@ -32,5 +32,5 @@ dependencies:
 - name: grafana
   repository: http://monasca.io/monasca-helm-repo/
   version: 0.1.0
-digest: sha256:db39646e95bf7e7796057938c48ea841e66d383330ac5f5216fe4f4858f424d8
-generated: 2017-02-17T09:17:18.811345028-07:00
+digest: sha256:0b41fba2dea5c9aa384233181c52ad3e69d7a46c9f97e1ca4a3830a832e6fb02
+generated: 2017-02-17T14:10:48.469869683-07:00

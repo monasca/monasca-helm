@@ -28,7 +28,7 @@ service:
 logging:
   log_level_root: WARN
   log_level_console: WARN
-auth_disabled: False
+auth_disabled: false
 side_container:
   enabled: true
   image:
