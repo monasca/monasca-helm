@@ -1,69 +1,36 @@
 dependencies:
-- condition: ""
-  enabled: false
-  name: influxdb
+- name: influxdb
   repository: https://kubernetes-charts.storage.googleapis.com/
-  tags: null
   version: 0.2.1
-- condition: ""
-  enabled: false
-  name: mysql
+- name: mysql
   repository: https://kubernetes-charts.storage.googleapis.com/
-  tags: null
   version: 0.2.4
-- condition: ""
-  enabled: false
-  name: keystone
+- name: keystone
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-- condition: ""
-  enabled: false
-  name: zookeeper
+- name: zookeeper
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-- condition: ""
-  enabled: false
-  name: kafka
+- name: kafka
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-- condition: ""
-  enabled: false
-  name: api
+- name: api
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-- condition: ""
-  enabled: false
-  name: agent
+- name: agent
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-- condition: ""
-  enabled: false
-  name: persister
+- name: persister
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-- condition: ""
-  enabled: false
-  name: notification
+- name: notification
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-- condition: ""
-  enabled: false
-  name: thresh
+- name: thresh
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-- condition: ""
-  enabled: false
-  name: grafana
+- name: grafana
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-digest: sha256:e75b0b7f357ea5fc936b2726a1a60e4d7f7ac7092fbc2d58b0399df9ceaf6072
-generated: 2017-02-21T11:18:41.254138152-07:00
+digest: sha256:0b41fba2dea5c9aa384233181c52ad3e69d7a46c9f97e1ca4a3830a832e6fb02
+generated: 2017-02-22T11:56:17.143061298-07:00

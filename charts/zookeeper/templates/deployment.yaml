@@ -32,7 +32,7 @@ spec:
         - name: data
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ template "fullname" . }}-storm-nimbus
+            claimName: {{ template "fullname" . }}
         {{- else }}
           emptyDir: {}
         {{- end -}}
