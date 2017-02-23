@@ -1,1 +1,4 @@
 dependencies:
+  - name: spark
+    version: 0.1.0
+    repository: http://monasca.io/monasca-helm-repo/
