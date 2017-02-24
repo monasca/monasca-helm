@@ -1,69 +1,36 @@
 dependencies:
-- condition: ""
-  enabled: false
-  name: influxdb
+- name: influxdb
   repository: https://kubernetes-charts.storage.googleapis.com/
-  tags: null
   version: 0.2.1
-- condition: ""
-  enabled: false
-  name: mysql
+- name: mysql
   repository: https://kubernetes-charts.storage.googleapis.com/
-  tags: null
   version: 0.2.4
-- condition: ""
-  enabled: false
-  name: keystone
+- name: keystone
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.1
-- condition: ""
-  enabled: false
-  name: zookeeper
+- name: zookeeper
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
-  version: 0.1.0
-- condition: ""
-  enabled: false
-  name: kafka
-  repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.1
-- condition: ""
-  enabled: false
-  name: api
+- name: kafka
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
-  version: 0.1.0
-- condition: ""
-  enabled: false
-  name: agent
+  version: 0.1.1
+- name: api
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
-  version: 0.1.0
-- condition: ""
-  enabled: false
-  name: persister
+  version: 0.1.1
+- name: agent
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-- condition: ""
-  enabled: false
-  name: notification
+- name: persister
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-- condition: ""
-  enabled: false
-  name: thresh
+- name: notification
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-- condition: ""
-  enabled: false
-  name: grafana
+- name: thresh
   repository: http://monasca.io/monasca-helm-repo/
-  tags: null
   version: 0.1.0
-digest: sha256:e68f81aacdbeba0e5c4fe6b0d923f5c7d9c78497955871e25ed5362ac2b4bd5e
-generated: 2017-02-23T19:24:25.94070533-07:00
+- name: grafana
+  repository: http://monasca.io/monasca-helm-repo/
+  version: 0.1.0
+digest: sha256:4bc3cb6e5a15fabc4c6793df991e656f77f2dd925f3d29601685719997d38bef
+generated: 2017-02-24T16:12:43.08880038-07:00

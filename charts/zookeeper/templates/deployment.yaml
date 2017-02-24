@@ -28,7 +28,12 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+            - name: config-volume
+              mountPath: /conf
       volumes:
+        - name: config-volume
+          configMap:
+            name: {{ template "fullname" . }}
         - name: data
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:

@@ -25,6 +25,7 @@ kafka:
 service:
   name: monasca
   port: 8070
+  type: ClusterIP
 logging:
   log_level_root: WARN
   log_level_console: WARN

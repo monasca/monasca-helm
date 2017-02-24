@@ -8,8 +8,12 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+  type: {{ .Values.service.type }}
   ports:
   - name: http
     port: {{ .Values.service.port}}
+    {{- if .Values.service.node_port }}
+    nodePort: {{ .Values.service.node_port }}
+    {{- end }}
   selector:
     app: {{ template "fullname" . }}
