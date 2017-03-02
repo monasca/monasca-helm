@@ -16,7 +16,7 @@ dependencies:
   version: 0.1.1
 - name: api
   repository: http://monasca.io/monasca-helm-repo/
-  version: 0.1.1
+  version: 0.1.2
 - name: agent
   repository: http://monasca.io/monasca-helm-repo/
   version: 0.1.0
@@ -32,5 +32,5 @@ dependencies:
 - name: grafana
   repository: http://monasca.io/monasca-helm-repo/
   version: 0.1.0
-digest: sha256:4bc3cb6e5a15fabc4c6793df991e656f77f2dd925f3d29601685719997d38bef
-generated: 2017-02-24T16:12:43.08880038-07:00
+digest: sha256:50e8e5b7d94eff9b0d7251e274b7410832e6917cb7dd0b746d926f0df43a7ee9
+generated: 2017-03-02T09:59:28.576871491-07:00

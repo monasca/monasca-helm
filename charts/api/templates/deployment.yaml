@@ -66,6 +66,10 @@ spec:
             - name: API_AUTH_DISABLED
               value: "true"
             {{- end}}
+            {{- if .Values.authorized_roles }}
+            - name: AUTHORIZED_ROLES
+              value: {{ .Values.authorized_roles | quote }}
+            {{- end}}
       {{- if .Values.side_container.enabled }}
       - name: {{ .Chart.Name }}-side-container
         image: "{{ .Values.side_container.image.repository }}:{{ .Values.side_container.image.tag }}"
