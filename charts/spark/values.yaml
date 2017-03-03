@@ -49,7 +49,10 @@ spark_worker:
   config:
     driver:
       extraClassPath: /opt/spark/current/lib/drizzle-jdbc-1.3.jar
+      extraJavaOptions: -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:/tmp/gc_driver.log -Xmx512m
+      memory: 512m
     executor:
+      cores: 1
       extraClassPath: /opt/spark/current/lib/drizzle-jdbc-1.3.jar
     ports:
       master: 7077
@@ -62,8 +65,12 @@ spark_worker:
       executor: 7115
       fileserver: 7120
       history_ui: 18082
+    python:
+      worker_memory: 16m
     speculation: true
     speculation_interval: 200
+    sql:
+      shuffle_partitions: 32
     eventLog_dir: /var/log/spark/events
     worker_dir: /var/run/spark/work
     worker_memory: 2g

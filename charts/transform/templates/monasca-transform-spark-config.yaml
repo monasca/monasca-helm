@@ -4,21 +4,40 @@ metadata:
   name: monasca-transform-spark-config
 data:
   spark-defaults.conf: |
-    spark.driver.extraClassPath {{ .Values.spark_config.driver.extraClassPath }}
-    spark.executor.extraClassPath {{ .Values.spark_config.executor.extraClassPath }}
     spark.blockManager.port {{ .Values.spark_config.ports.blockManager }}
     spark.broadcast.port {{ .Values.spark_config.ports.broadcast }}
+    spark.cleaner.ttl 900
+    spark.cores.max 1
+    spark.driver.extraClassPath {{ .Values.spark_config.driver.extraClassPath }}
+    spark.driver.extraJavaOptions {{ .Values.spark_config.driver.extraJavaOptions }}
+    spark.driver.memory {{ .Values.spark_config.driver.memory }}
     spark.driver.port {{ .Values.spark_config.ports.driver }}
+    spark.eventLog.dir {{ .Values.spark_config.eventLog_dir }}
+    spark.executor.cores {{ .Values.spark_config.executor.cores }}
+    spark.executor.extraClassPath {{ .Values.spark_config.executor.extraClassPath }}
+    spark.executor.extraJavaOptions -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:/tmp/gc_executor.log
+    spark.executor.memory 512m
     spark.executor.port {{ .Values.spark_config.ports.executor }}
     spark.fileserver.port {{ .Values.spark_config.ports.fileserver }}
+    spark.python.worker.memory {{ .Values.spark_config.python.worker_memory }}
     spark.speculation {{ .Values.spark_config.speculation }}
     spark.speculation.interval {{ .Values.spark_config.speculation_interval }}
-    spark.eventLog.dir {{ .Values.spark_config.eventLog_dir }}
+    spark.sql.shuffle.partitions {{ .Values.spark_config.sql.shuffle_partitions }}
+    spark.sql.ui.retainedExecutions 10
+    spark.streaming.ui.retainedBatches 10
+    spark.ui.retainedJobs 10
+    spark.ui.retainedStages 10
+    spark.worker.cleanup.enabled True
+    spark.worker.ui.retainedDrivers 10
+    spark.worker.ui.retainedExecutors 10
+
+
   spark-env.sh: |
     #!/usr/bin/env bash
     export SPARK_MASTER_IP={{ .Values.spark_config.spark_master_ip }}
     export SPARK_MASTER_PORT={{ .Values.spark_config.ports.master }}
     export SPARK_MASTERS=${SPARK_MASTER_IP}:${SPARK_MASTER_PORT}
     export SPARK_LOG_DIR={{ .Values.spark_config.log_dir }}
+    export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS -Xmx512m"
 
 

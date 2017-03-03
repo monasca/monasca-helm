@@ -16,6 +16,9 @@ spec:
       containers:
         - name: {{ .Values.container_name }}
           image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
+          resources:
+            limits:
+              memory: 2000Mi
           volumeMounts:
             - name: config-volume
               mountPath: /etc/config

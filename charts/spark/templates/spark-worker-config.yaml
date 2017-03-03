@@ -5,18 +5,36 @@ metadata:
   name: spark-worker-config
 data:
   spark-defaults.conf: |
-    spark.driver.extraClassPath {{ .Values.spark_worker.config.driver.extraClassPath }}
-    spark.executor.extraClassPath {{ .Values.spark_worker.config.executor.extraClassPath }}
     spark.blockManager.port {{ .Values.spark_worker.config.ports.blockManager }}
     spark.broadcast.port {{ .Values.spark_worker.config.ports.broadcast }}
+    spark.cleaner.ttl 900
+    spark.cores.max 1
+    spark.driver.extraClassPath {{ .Values.spark_worker.config.driver.extraClassPath }}
+    spark.driver.extraJavaOptions -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:/tmp/gc_driver.log -Xmx512m
+    spark.driver.memory 512m
     spark.driver.port {{ .Values.spark_worker.config.ports.driver }}
+    spark.eventLog.dir {{ .Values.spark_worker.config.eventLog_dir }}
+    spark.executor.cores 1
+    spark.executor.extraClassPath {{ .Values.spark_worker.config.executor.extraClassPath }}
+    spark.executor.extraJavaOptions -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:/tmp/gc_executor.log
+    spark.executor.memory 512m
     spark.executor.port {{ .Values.spark_worker.config.ports.executor }}
     spark.fileserver.port {{ .Values.spark_worker.config.ports.fileserver }}
+    spark.history.fs.logDirectory {{ .Values.spark_worker.config.history_fs_logDirectory }}
     spark.history.ui.port {{ .Values.spark_worker.config.ports.history_ui }}
+    spark.python.worker.memory 16m
     spark.speculation {{ .Values.spark_worker.config.speculation }}
     spark.speculation.interval {{ .Values.spark_worker.config.speculation_interval }}
-    spark.eventLog.dir {{ .Values.spark_worker.config.eventLog_dir }}
-    spark.history.fs.logDirectory {{ .Values.spark_worker.config.history_fs_logDirectory }}
+    spark.sql.shuffle.partitions 32
+    spark.sql.ui.retainedExecutions 10
+    spark.streaming.ui.retainedBatches 10
+    spark.ui.retainedJobs 10
+    spark.ui.retainedStages 10
+    spark.worker.cleanup.enabled True
+    spark.worker.ui.retainedDrivers 10
+    spark.worker.ui.retainedExecutors 10
+
+
   spark-env.sh: |
     #!/usr/bin/env bash
     export SPARK_WORKER_PORT={{ .Values.spark_worker.config.ports.worker }}
