@@ -1,9 +1,0 @@
-apiVersion: v1
-description: A Helm chart for monasca forwarder in Kubernetes
-name: forwarder
-version: 0.1.0
-sources:
-- https://github.com/hpcloud-mon/monasca-docker/tree/master/monasca-forwarder
-maintainers:
-- name: Michael Hoppal
-  email: michael.jam.hoppal@hpe.com

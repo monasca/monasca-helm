@@ -1,0 +1,66 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: {{ template "agent.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.agent.name }}-daemonset"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  template:
+    metadata:
+      labels:
+        component: "{{ .Values.agent.name }}-daemonset"
+        app: {{ template "fullname" . }}
+    spec:
+      containers:
+        - name: {{ template "name" . }}-{{ .Values.agent.name }}-daemonset
+          image: "{{ .Values.agent.image.repository }}:{{ .Values.agent.image.tag }}"
+          imagePullPolicy: {{ .Values.agent.image.pullPolicy }}
+          env:
+            - name: AGENT_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: AGENT_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: KUBERNETES
+              value: "true"
+            - name: KUBERNETES_TIMEOUT
+              value: {{ .Values.agent.kubernetes.timeout | quote }}
+            - name: KUBERNETES_LABELS
+              value: {{ .Values.agent.kubernetes.kubernetes_labels | quote }}
+            - name: PROMETHEUS
+              value: {{ .Values.agent.prometheus.auto_detect_pod_endpoints | quote }}
+            - name: PROMETHEUS_TIMEOUT
+              value: {{ .Values.agent.prometheus.timeout | quote }}
+            - name: PROMETHEUS_DETECT_METHOD
+              value: pod
+            - name: PROMETHEUS_KUBERNETES_LABELS
+              value: {{ .Values.agent.prometheus.kubernetes_labels | quote }}
+            - name: CADVISOR
+              value: {{ .Values.agent.cadvisor.enabled | quote }}
+            - name: CADVISOR_TIMEOUT
+              value: {{ .Values.agent.cadvisor.timeout | quote }}
+            - name: OS_AUTH_URL
+              value:  "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            - name: OS_USERNAME
+              value: {{ .Values.agent.keystone.os_username | quote }}
+            - name: OS_USER_DOMAIN_NAME
+              value: {{ .Values.agent.keystone.os_user_domain_name | quote }}
+            - name: OS_PASSWORD
+              value: {{ .Values.agent.keystone.os_password | quote }}
+            - name: OS_PROJECT_NAME
+              value: {{ .Values.agent.keystone.os_project_name | quote }}
+            - name: OS_PROJECT_DOMAIN_NAME
+              value: {{ .Values.agent.keystone.os_project_domain_name | quote }}
+            - name: MONASCA_URL
+              value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
+            - name: LOG_LEVEL
+              value: {{ .Values.agent.log_level | quote }}
+            - name: HOSTNAME_FROM_KUBERNETES
+              value: "true"

@@ -20,4 +20,4 @@ spec:
           imagePullPolicy: {{ .Values.influx_init.image.pullPolicy }}
           env:
             - name: INFLUXDB_URL
-              value: "http://{{ .Release.Name }}-influxdb:8086"
+              value: "http://{{ .Release.Name }}-influxdb:{{ .Values.influxdb.config.http.bind_address }}"

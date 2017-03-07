@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "zookeeper.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.zookeeper.name }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.zookeeper.name }}"
+    spec:
+      containers:
+        - name: {{ template "name" . }}-{{ .Values.zookeeper.name }}
+          image: "{{ .Values.zookeeper.image.repository }}:{{ .Values.zookeeper.image.tag }}"
+          imagePullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
+          ports:
+            - name: client
+              containerPort: 2181
+            - name: peer
+              containerPort: 2888
+            - name: leader-election
+              containerPort: 3888
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: config-volume
+              mountPath: /conf
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ template "zookeeper.fullname" . }}
+        - name: data
+        {{- if .Values.zookeeper.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "zookeeper.fullname" . }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}

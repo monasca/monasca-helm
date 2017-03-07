@@ -1,10 +1,11 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: grafana-init-job
+  name: {{ template "grafana.fullname" . }}-init-job
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.grafana.name }}-init-job"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
@@ -12,24 +13,21 @@ spec:
     metadata:
       labels:
         app: {{ template "fullname" . }}
+        component: "{{ .Values.grafana.name }}-init-job"
     spec:
       restartPolicy: Never
       containers:
-        - name: grafana-init-job
+        - name: {{ template "name" . }}-{{ .Values.grafana.name }}-init-job
           image: "{{ .Values.grafana_init.image.repository }}:{{ .Values.grafana_init.image.tag }}"
           imagePullPolicy: {{ .Values.grafana_init.image.pullPolicy }}
           env:
             - name: LOG_LEVEL
               value: {{ .Values.grafana_init.log_level }}
             - name: GRAFANA_URL
-              value: {{ .Values.grafana_init.url }}
+              value: "http://{{ template "grafana.fullname" . }}:{{ .Values.grafana.service.port }}"
             - name: GRAFANA_USERNAME
               value: {{ .Values.grafana_init.username }}
             - name: GRAFANA_PASSWORD
               value: {{ .Values.grafana_init.password }}
-            - name: DATASOURCE_TYPE
-              value: {{ .Values.grafana_init.datasource.type }}
             - name: DATASOURCE_URL
-              value: {{ .Values.grafana_init.datasource.url }}
-            - name: DATASOURCE_ACCESS_MODE
-              value: {{ .Values.grafana_init.datasource.access_mode }}
+              value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}"

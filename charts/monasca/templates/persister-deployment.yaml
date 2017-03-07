@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.persister.name }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "persister.fullname" . }}
+spec:
+  replicas: {{ .Values.persister.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.persister.name }}"
+    spec:
+      containers:
+      - name: {{ template "name" . }}-{{ .Values.persister.name }}
+        image: "{{ .Values.persister.image.repository }}:{{ .Values.persister.image.tag }}"
+        imagePullPolicy: {{ .Values.persister.image.pullPolicy }}
+        env:
+            - name: DEBUG
+              value: {{ .Values.persister.logging.debug | quote }}
+            - name: VERBOSE
+              value: {{ .Values.persister.logging.verbose | quote }}
+            - name: ZOOKEEPER_URI
+              value: "{{ template "zookeeper.fullname" . }}:{{ .Values.zookeeper.service.port }}"
+            - name: KAFKA_URI
+              value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
+            - name: INFLUX_PORT
+              value: {{ .Values.influxdb.config.http.bind_address | quote }}
+            - name: INFLUX_USER
+              value: {{ .Values.persister.influxdb.user | quote }}
+            - name: INFLUX_PASSWORD
+              value: {{ .Values.persister.influxdb.password | quote }}
+            - name: INFLUX_DB
+              value: {{ .Values.persister.influxdb.database | quote }}
+            - name: INFLUX_HOST
+              value: "{{ .Release.Name }}-influxdb"

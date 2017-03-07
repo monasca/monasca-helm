@@ -5,10 +5,6 @@ mysql_init:
     pullPolicy: IfNotPresent
   disable_remote_root: true
   randon_password: true
-  host: mysql
-  port: 3306
-  username: root
-  password: secretmysql
 
 influx_init:
   image:
@@ -20,39 +16,26 @@ grafana_init:
   image:
     repository: monasca/grafana-init
     tag: latest
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   log_level: INFO
-  url: http://grafana:3000
   username: mini-mon
   password: password
   datasource:
     type: monasca
-    url: http://monasca:8070/
     access_mode: proxy
 
 influxdb:
-  ## influxdb image version
-  ## ref: https://hub.docker.com/r/library/influxdb/tags/
   image:
     repo: "influxdb"
     tag: "1.1"
     pullPolicy: IfNotPresent
-
-  ## Specify a service type
-  ## NodePort is default
-  ## ref: http://kubernetes.io/docs/user-guide/services/
   service:
     type: NodePort
-
-  ## Persist data to a persitent volume
   persistence:
     enabled: false
     storageClass: gluster-heketi # Set to storage being used
     accessMode: ReadWriteOnce
     size: 100Gi
-
-  ## Configure resource requests and limits
-  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
   resources:
     requests:
       memory: 256Mi
@@ -60,39 +43,240 @@ influxdb:
     limits:
       memory: 16Gi
       cpu: 8
+  config:
+    http:
+      bind_address: 8086
 
 mysql:
-  ## mysql image version
-  ## ref: https://hub.docker.com/r/library/mysql/tags/
-  ##
   imageTag: "5.6"
-
-  ## Specify password for root user
-  ##
-  ## Default: random 10 character string
   mysqlRootPassword: "secretmysql"
-
-  ## Create a database
-  ##
   mysqlDatabase: "mon"
-
-  ## Specify an imagePullPolicy (Required)
-  ## It's recommended to change this to 'Always' if the image tag is 'latest'
-  ## ref: http://kubernetes.io/docs/user-guide/images/#updating-images
-  ##
   imagePullPolicy: IfNotPresent
-
-  ## Persist data to a persitent volume
   persistence:
     enabled: false
     storageClass: gluster-heketi
     accessMode: ReadWriteOnce
     size: 10Gi
-
-  ## Configure resource requests and limits
-  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
-  ##
   resources:
     requests:
       memory: 256Mi
       cpu: 100m
+
+agent:
+  name: agent
+  image:
+    repository: monasca/agent
+    tag: latest
+    pullPolicy: Always
+  log_level: WARN
+  keystone:
+    os_username: mini-mon
+    os_user_domain_name: Default
+    os_password: password
+    os_project_name: mini-mon
+    os_project_domain_name: Default
+  prometheus:
+    auto_detect_pod_endpoints: true
+    auto_detect_service_endpoints: true
+    kubernetes_labels: 'app'
+    timeout: 3
+  kubernetes_api:
+    kubernetes_labels: 'app'
+    timeout: 3
+  kubernetes:
+    kubernetes_labels: 'app'
+    timeout: 3
+  cadvisor:
+    enabled: true
+    timeout: 3
+
+api:
+  name: api
+  image:
+    repository: monasca/api
+    tag: master-prometheus
+    pullPolicy: Always
+  replicaCount: 1
+  keystone:
+    admin_password: secretadmin
+    admin_user: admin
+    admin_tenant: admin
+  mysql:
+    user: monapi
+    password: password
+  influxdb:
+    user: mon_api
+    password: password
+    database: mon
+  service:
+    port: 8070
+    type: ClusterIP
+  logging:
+    log_level_root: WARN
+    log_level_console: WARN
+  auth_disabled: false
+  side_container:
+    enabled: true
+    image:
+      repository: timothyb89/monasca-sidecar
+      tag: 1.0.0
+      pullPolicy: Always
+
+forwarder:
+  name: forwarder
+  enabled: false
+  image:
+    repository: monasca/forwarder
+    tag: master
+    pullPolicy: Always
+  replicaCount: 1
+  logging:
+    debug: false
+    verbose: true
+  config:
+    remote_api_url: http://monasca:8070/v2.0
+    monasca_project_id: 3564760a3dd44ae9bd6618d442fd758c
+    use_insecure: false
+    monasca_role: monasca-agent
+
+grafana:
+  name: grafana
+  image:
+    repository: monasca/grafana
+    tag: 4.1.0-pre1-1.0.0
+    pullPolicy: Always
+  service:
+    name: grafana
+    type: NodePort
+    port: 3000
+
+kafka:
+  name: kafka
+  exporter:
+    enabled: false
+    image:
+      repositry: rbrndt/kafka-prometheus
+      tag: latest
+      pullPolicy: IfNotPresent
+    port: 7204
+  image:
+    repository: monasca/kafka
+    tag: 0.9.0.1-2.11
+    pullPolicy: IfNotPresent
+  topic_config: segment.ms=900000
+  service:
+    type: ClusterIP
+    port: 9092
+  persistence:
+    storageClass: gluster-heketi
+    enabled: false
+    accessMode: ReadWriteOnce
+    size: 10Gi
+
+keystone:
+  name: keystone
+  bootstrap:
+    user: admin
+    password: secretadmin
+    project: admin
+    role: admin
+    service: keystone
+    region: RegionOne
+  database_backend: mysql
+  image:
+    pullPolicy: Always
+    tag: 1.0.7
+    repository: monasca/keystone
+  mysql:
+    user: keystone
+    password: keystone
+    database: keystone
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 35357
+    admin_port: 5000
+  users:
+    mini_mon:
+      password: password
+    monasca_agent:
+      password: password
+    admin:
+      password: secretadmin
+    demo:
+      password: secretadmin
+    monasca_read_only:
+      password: password
+
+notification:
+  name: notification
+  image:
+    repository: monasca/notification
+    tag: master
+    pullPolicy: Always
+  replicaCount: 1
+  mysql:
+    user: notification
+    password: password
+  log_level: WARN
+  plugins: pagerduty,webhook
+
+persister:
+  name: persister
+  image:
+    repository: monasca/persister
+    tag: master
+    pullPolicy: Always
+  replicaCount: 1
+  influxdb:
+    user: mon_persister
+    password: password
+    database: mon
+  logging:
+    debug: false
+    verbose: true
+
+thresh:
+  name: thresh
+  storm_name: storm
+  image:
+    storm:
+      repository: timothyb89/storm
+      tag: 1.0.2.4
+      pullPolicy: Always
+    thresh:
+      repository: rbrndt/monasca-thresh
+      tag: latest
+      pullPolicy: Always
+  mysql:
+    user: thresh
+    password: password
+  persistence:
+    storageClass: gluster-heketi
+    enabled: false
+    accessMode: ReadWriteOnce
+    size: 4Gi
+  service:
+    nimbus:
+      type: ClusterIP
+      port: 6627
+  spout:
+    metricSpoutThreads: 2
+    metricSpoutTasks: 2
+
+zookeeper:
+  name: zookeeper
+  image:
+    repository: zookeeper
+    tag: 3.3
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 2181
+  persistence:
+    storageClass: gluster-heketi
+    enabled: false
+    accessMode: ReadWriteOnce
+    size: 10Gi
+
+

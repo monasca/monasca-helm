@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "storm.fullname" . }}-nimbus
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.thresh.storm_name }}-nimbus"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  type: {{ .Values.thresh.service.nimbus.type }}
+  ports:
+  - name: nimbus
+    port: {{ .Values.thresh.service.nimbus.port }}
+  selector:
+    app: {{ template "fullname" . }}
+    component: "{{ .Values.thresh.storm_name }}-nimbus"
