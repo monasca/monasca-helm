@@ -1,9 +1,0 @@
-apiVersion: v1
-description: A Helm chart for monasca persister in Kubernetes
-name: persister
-version: 0.1.0
-sources:
-- https://github.com/openstack/monasca-persister
-maintainers:
-- name: Michael Hoppal
-  email: michael.jam.hoppal@hpe.com

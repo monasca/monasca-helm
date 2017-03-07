@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.keystone.name }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "keystone.fullname" . }}
+spec:
+  type: {{ .Values.keystone.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.keystone.service.port }}
+      targetPort: http
+    - name: admin
+      port: {{ .Values.keystone.service.admin_port }}
+      targetPort: admin
+  selector:
+    app: {{ template "fullname" . }}
+    component: "{{ .Values.keystone.name }}"

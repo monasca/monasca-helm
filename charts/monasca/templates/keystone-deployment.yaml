@@ -1,0 +1,67 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.keystone.name }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "keystone.fullname" . }}
+spec:
+  replicas: {{ .Values.keystone.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.keystone.name }}"
+    spec:
+      volumes:
+        - name: preload-config
+          configMap:
+            name: {{ template "keystone.fullname" . }}
+            items:
+              - key: preload.yml
+                path: preload.yml
+      containers:
+        - name: {{ template "name" . }}-{{ .Values.keystone.name }}
+          image: "{{ .Values.keystone.image.repository }}:{{ .Values.keystone.image.tag }}"
+          imagePullPolicy: {{ .Values.keystone.image.pullPolicy }}
+          env:
+            - name: KEYSTONE_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: KEYSTONE_USERNAME
+              value: {{ .Values.keystone.bootstrap.user | quote }}
+            - name: KEYSTONE_PASSWORD
+              value: {{ .Values.keystone.bootstrap.password | quote }}
+            - name: KEYSTONE_PROJECT
+              value: {{ .Values.keystone.bootstrap.project | quote }}
+            - name: KEYSTONE_ROLE
+              value: {{ .Values.keystone.bootstrap.role | quote }}
+            - name: KEYSTONE_SERVICE
+              value: {{ .Values.keystone.bootstrap.service | quote }}
+            - name: KEYSTONE_REGION
+              value: {{ .Values.keystone.bootstrap.region | quote }}
+            - name: KEYSTONE_DATABASE_BACKEND
+              value: {{ .Values.keystone.database_backend | quote }}
+            - name: KEYSTONE_MYSQL_HOST
+              value: "{{ .Release.Name }}-mysql"
+            - name: KEYSTONE_MYSQL_USER
+              value: {{ .Values.keystone.mysql.user | quote }}
+            - name: KEYSTONE_MYSQL_PASSWORD
+              value: {{ .Values.keystone.mysql.password | quote }}
+            - name: KEYSTONE_MYSQL_DATABASE
+              value: {{ .Values.keystone.mysql.database | quote }}
+            - name: KEYSTONE_MYSQL_TCP_PORT
+              value: "3306"
+          ports:
+            - name: http
+              containerPort: 5000
+            - name: admin
+              containerPort: 35357
+          volumeMounts:
+            - name: preload-config
+              mountPath: /preload.yml
+              subPath: preload.yml

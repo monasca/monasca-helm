@@ -1,0 +1,82 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "api.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.api.name }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.api.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.api.name }}"
+      {{- if .Values.api.side_container.enabled }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "4888"
+      {{- end }}
+    spec:
+      containers:
+      - name: {{ template "name" . }}-{{ .Values.api.name }}
+        image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
+        imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+        ports:
+            - containerPort: 8070
+              name: client
+        env:
+            - name: LOG_LEVEL_ROOT
+              value: {{ .Values.api.logging.log_level_root | quote }}
+            - name: LOG_LEVEL_CONSOLE
+              value: {{ .Values.api.logging.log_level_console | quote }}
+            - name: KAFKA_URI
+              value: {{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}
+            - name: INFLUX_HOST
+              value: "{{ .Release.Name }}-influxdb"
+            - name: INFLUX_PORT
+              value: {{ .Values.influxdb.config.http.bind_address | quote }}
+            - name: INFLUX_USER
+              value: {{ .Values.api.influxdb.user | quote }}
+            - name: INFLUX_PASSWORD
+              value: {{ .Values.api.influxdb.password | quote }}
+            - name: INFLUX_DB
+              value: {{ .Values.api.influxdb.database | quote }}
+            - name: MYSQL_HOST
+              value: "{{ .Release.Name }}-mysql"
+            - name: MYSQL_USER
+              value: {{ .Values.api.mysql.user | quote }}
+            - name: MYSQL_PASSWORD
+              value: {{ .Values.api.mysql.password | quote }}
+            - name: MYSQL_DB
+              value: {{ .Values.mysql.mysqlDatabase | quote }}
+            - name: KEYSTONE_IDENTITY_URI
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}"
+            - name: KEYSTONE_AUTH_URI
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}"
+            - name: KEYSTONE_ADMIN_USER
+              value: {{ .Values.api.keystone.admin_user | quote }}
+            - name: KEYSTONE_ADMIN_PASSWORD
+              value: {{ .Values.api.keystone.admin_password | quote }}
+            - name: KEYSTONE_ADMIN_TENANT
+              value: {{ .Values.api.keystone.admin_tenant | quote }}
+            {{- if .Values.api.auth_disabled }}
+            - name: API_AUTH_DISABLED
+              value: "true"
+            {{- end}}
+            {{- if .Values.api.authorized_roles }}
+            - name: AUTHORIZED_ROLES
+              value: {{ .Values.api.authorized_roles | quote }}
+            {{- end}}
+      {{- if .Values.api.side_container.enabled }}
+      - name: {{ template "name" . }}-{{ .Values.api.name }}-side-container
+        image: "{{ .Values.api.side_container.image.repository }}:{{ .Values.api.side_container.image.tag }}"
+        imagePullPolicy: {{ .Values.api.side_container.image.pullPolicy }}
+        ports:
+          - containerPort: 4888
+            name: scrape
+      {{- end }}

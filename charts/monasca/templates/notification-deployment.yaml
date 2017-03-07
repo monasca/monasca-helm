@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.notification.name }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "notification.fullname" . }}
+spec:
+  replicas: {{ .Values.notification.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.notification.name }}"
+    spec:
+      containers:
+      - name: {{ template "name" . }}-{{ .Values.notification.name }}
+        image: "{{ .Values.notification.image.repository }}:{{ .Values.notification.image.tag }}"
+        imagePullPolicy: {{ .Values.notification.image.pullPolicy }}
+        env:
+            - name: MYSQL_DB_HOST
+              value: "{{ .Release.Name }}-mysql"
+            - name: MYSQL_DB_PORT
+              value: "3306"
+            - name: MYSQL_DB_USERNAME
+              value: {{ .Values.notification.mysql.user | quote }}
+            - name: MYSQL_DB_PASSWORD
+              value: {{ .Values.notification.mysql.password | quote }}
+            - name: MYSQL_DB_DATABASE
+              value: {{ .Values.mysql.mysqlDatabase | quote }}
+            - name: KAFKA_URI
+              value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
+            - name: ZOOKEEPER_URL
+              value: "{{ template "zookeeper.fullname" . }}:{{ .Values.zookeeper.service.port }}"
+            - name: LOG_LEVEL
+              value: {{ .Values.notification.log_level | quote }}
+            - name: NF_PLUGINS
+              value: {{ .Values.notification.plugins | quote }}

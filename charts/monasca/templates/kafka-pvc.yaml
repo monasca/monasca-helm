@@ -1,0 +1,24 @@
+{{- if .Values.kafka.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.kafka.name }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "kafka.fullname" . }}
+  annotations:
+  {{- if .Values.kafka.persistence.storageClass }}
+    volume.beta.kubernetes.io/storage-class: {{ .Values.kafka.persistence.storageClass | quote }}
+  {{- else }}
+    volume.alpha.kubernetes.io/storage-class: default
+  {{- end }}
+spec:
+  accessModes:
+    - {{ .Values.kafka.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.kafka.persistence.size | quote }}
+{{- end }}

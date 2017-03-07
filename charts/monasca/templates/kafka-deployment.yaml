@@ -1,0 +1,71 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "kafka.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.kafka.name }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.kafka.name }}"
+    spec:
+      containers:
+        - name: {{ template "name" . }}-{{ .Values.kafka.name }}
+          image: "{{ .Values.kafka.image.repository }}:{{ .Values.kafka.image.tag }}"
+          imagePullPolicy: {{ .Values.kafka.image.pullPolicy }}
+          ports:
+            - name: kafka
+              containerPort: 9092
+          volumeMounts:
+            - name: kafka
+              mountPath: /data
+          env:
+            - name: KAFKA_DELETE_TOPIC_ENABLE
+              value: "true"
+            - name: KAFKA_AUTO_CREATE_TOPICS
+              value: "false"
+            - name: KAFKA_JMX
+              value: "true"
+            - name: KAFKA_TOPIC_CONFIG
+              value: {{ .Values.kafka.topic_config | quote }}
+            - name: KAFKA_CREATE_TOPICS
+              value: "\
+                metrics:64:1,\
+                alarm-state-transitions:12:1,\
+                alarm-notifications:12:1,\
+                retry-notifications:3:1,\
+                events:12:1,\
+                60-seconds-notifications:3:1"
+            - name: ZOOKEEPER_CONNECTION_STRING
+              value: {{ template "zookeeper.fullname" . }}:{{ .Values.zookeeper.service.port }}
+        {{- if .Values.kafka.exporter.enabled }}
+        - name: {{ template "name" . }}-{{ .Values.kafka.name }}-exporter
+          image: "{{ .Values.kafka.exporter.image.repository }}:{{ .Values.kafka.exporter.image.tag }}"
+          imagePullPolicy: {{ .Values.kafka.exporter.image.pullPolicy }}
+          ports:
+            - name: exporter
+              containerPort: {{ .Values.kafka.exporter.port }}
+          volumeMounts:
+            - name: kafka-exporter
+              mountPath: /prometheus-config
+         {{- end }}
+      volumes:
+        - name: kafka
+        {{- if .Values.kafka.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ template "kafka.fullname" . }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}
+        {{- if .Values.kafka.exporter.enabled }}
+        - name: kafka-exporter
+          configMap:
+            name: {{ template "kafka.fullname" . }}-exporter
+        {{- end }}

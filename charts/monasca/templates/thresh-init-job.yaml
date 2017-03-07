@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "thresh.fullname" . }}-init-job
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.thresh.name }}-init-job"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.thresh.name }}-init-job"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: {{ template "name" . }}-{{ .Values.thresh.name }}-init-job
+          image: "{{ .Values.thresh.image.thresh.repository }}:{{ .Values.thresh.image.thresh.tag }}"
+          imagePullPolicy: {{ .Values.thresh.image.thresh.pullPolicy }}
+          volumeMounts:
+            - name: thresh-config-volume
+              mountPath: /config
+            - name: storm-config-volume
+              mountPath: /conf
+          env:
+            - name: NIMBUS_ADVERTISED_HOST
+              value: "{{ template "storm.fullname" . }}-nimbus"
+      volumes:
+        - name: thresh-config-volume
+          configMap:
+            name: {{ template "thresh.fullname" . }}
+        - name: storm-config-volume
+          configMap:
+            name: {{ template "storm.fullname" . }}
+            items:
+            - key: storm.yaml.template
+              path: storm.yaml

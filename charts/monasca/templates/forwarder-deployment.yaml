@@ -1,0 +1,49 @@
+{{- if .Values.forwarder.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "forwarder.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.forwarder.name }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.forwarder.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.forwarder.name }}"
+    spec:
+      containers:
+      - name: {{ template "name" . }}-{{ .Values.forwarder.name }}
+        image: "{{ .Values.forwarder.image.repository }}:{{ .Values.forwarder.image.tag }}"
+        imagePullPolicy: {{ .Values.forwarder.image.pullPolicy }}
+        env:
+            - name: MONASCA_PROJECT_ID
+              value: {{ .Values.forwarder.config.monasca_project_id | quote }}
+            - name: REMOTE_API_URL
+              value: {{ .Values.forwarder.config.remote_api_url | quote }}
+            - name: METRICS_TO_FORWARD
+              value: "
+              - name: kubernetes.node.allocatable.cpu_agg\n
+              - name: cpu.total_time_sec_agg\n"
+            - name: DEBUG
+              value: {{ .Values.forwarder.logging.debug | quote }}
+            - name: VERBOSE
+              value: {{ .Values.forwarder.logging.verbose | quote }}
+            - name: ZOOKEEPER_URI
+              value: "{{ template "zookeeper.fullname" . }}:{{ .Values.zookeeper.service.port }}"
+            - name: KAFKA_URI
+              value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
+            - name: USE_INSECURE
+              value: {{ .Values.forwarder.config.use_insecure | quote}}
+            - name: MONASCA_ROLE
+              value: {{ .Values.forwarder.config.monasca_role | quote }}
+            {{- if .Values.forwarder.metric_project_id }}
+            - name: METRIC_PROJECT_ID
+              value: {{ .Values.forwarder.config.metric_project_id | quote }}
+            {{- end }}
+{{- end }}

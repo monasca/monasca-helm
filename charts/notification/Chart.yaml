@@ -1,9 +1,0 @@
-apiVersion: v1
-description: A Helm chart for monasca notification in Kubernetes
-name: notification
-version: 0.1.0
-sources:
-- https://github.com/openstack/monasca-notification
-maintainers:
-- name: Michael Hoppal
-  email: michael.jam.hoppal@hpe.com
