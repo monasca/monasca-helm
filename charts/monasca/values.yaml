@@ -90,6 +90,16 @@ agent:
     enabled: true
     timeout: 3
 
+aggregation:
+  enabled: true
+  name: aggregation
+  image:
+    repository: rbrndt/test-agg
+    tag: latest
+    pullPolicy: Always
+  window_size: 10
+  window_lag: 2
+
 api:
   name: api
   image:
