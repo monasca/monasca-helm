@@ -64,3 +64,13 @@ spec:
               value: {{ .Values.agent.log_level | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
+            {{- if .Values.agent.namespace_annotations }}
+            - name: KUBERNETES_NAMESPACE_ANNOTATIONS
+              value: {{ .Values.agent.namespace_annotations | quote}}
+            {{- end}}
+            {{- if .Values.agent.kubernetes_api.storage.parameter_dimensions }}
+            - name: STORAGE_PARAMETERS_DIMENSIONS
+              value: {{ .Values.agent.kubernetes_api.storage.parameter_dimensions | quote}}
+            {{- end}}
+            - name: REPORT_PERSISTENT_STORAGE
+              value: {{ .Values.agent.kubernetes_api.storage.report | quote }}
