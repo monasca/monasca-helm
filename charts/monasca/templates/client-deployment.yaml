@@ -1,0 +1,39 @@
+{{- if .Values.client.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "client.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.client.name }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  template:
+    metadata:
+      labels:
+        component: "{{ .Values.client.name }}-deployment"
+        app: {{ template "fullname" . }}
+    spec:
+      containers:
+        - name: {{ template "name" . }}-{{ .Values.client.name }}-deployment
+          image: "{{ .Values.client.image.repository }}:{{ .Values.client.image.tag }}"
+          imagePullPolicy: {{ .Values.client.image.pullPolicy }}
+          command: ["sleep", "infinity"]
+          env:
+            - name: OS_AUTH_URL
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            - name: OS_USERNAME
+              value: {{ .Values.client.keystone.os_username | quote }}
+            - name: OS_USER_DOMAIN_NAME
+              value: {{ .Values.client.keystone.os_user_domain_name | quote }}
+            - name: OS_PASSWORD
+              value: {{ .Values.client.keystone.os_password | quote }}
+            - name: OS_PROJECT_NAME
+              value: {{ .Values.client.keystone.os_project_name | quote }}
+            - name: OS_PROJECT_DOMAIN_NAME
+              value: {{ .Values.client.keystone.os_project_domain_name | quote }}
+            - name: MONASCA_URL
+              value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
+{{- end }}

@@ -6,7 +6,7 @@ metadata:
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Values.thresh.storm_name }}"-nimbus
+    component: "{{ .Values.thresh.storm_name }}-nimbus"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
   annotations:

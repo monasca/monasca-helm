@@ -86,6 +86,8 @@ agent:
   kubernetes_api:
     kubernetes_labels: 'app'
     timeout: 3
+    storage:
+      report: true
   kubernetes:
     kubernetes_labels: 'app'
     timeout: 3
@@ -366,3 +368,17 @@ zookeeper:
       # library/zookeeper doesn't have a configurable heap size, so no memory
       # limit for now
       cpu: 1000m
+
+client:
+  name: client
+  enabled: false
+  image:
+    repository: rbrndt/python-monascaclient
+    tag: latest
+    pullPolicy: Always
+  keystone:
+    os_username: mini-mon
+    os_user_domain_name: Default
+    os_password: password
+    os_project_name: mini-mon
+    os_project_domain_name: Default
