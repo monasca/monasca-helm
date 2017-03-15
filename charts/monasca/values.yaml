@@ -83,6 +83,8 @@ agent:
   kubernetes_api:
     kubernetes_labels: 'app'
     timeout: 3
+    storage:
+      report: true
   kubernetes:
     kubernetes_labels: 'app'
     timeout: 3
