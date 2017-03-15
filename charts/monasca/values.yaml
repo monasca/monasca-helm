@@ -279,4 +279,16 @@ zookeeper:
     accessMode: ReadWriteOnce
     size: 10Gi
 
-
+client:
+  name: client
+  enabled: false
+  image:
+    repository: rbrndt/python-monascaclient
+    tag: latest
+    pullPolicy: Always
+  keystone:
+    os_username: mini-mon
+    os_user_domain_name: Default
+    os_password: password
+    os_project_name: mini-mon
+    os_project_domain_name: Default
