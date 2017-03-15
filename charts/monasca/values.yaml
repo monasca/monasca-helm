@@ -209,10 +209,10 @@ kafka:
     port: 9092
   resources:
     requests:
-      memory: 2Gi
+      memory: 1Gi
       cpu: 100m
     limits:
-      memory: 4Gi
+      memory: 2Gi
       cpu: 2000m
   persistence:
     storageClass: gluster-heketi
