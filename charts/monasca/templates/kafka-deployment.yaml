@@ -20,6 +20,8 @@ spec:
         - name: {{ template "name" . }}-{{ .Values.kafka.name }}
           image: "{{ .Values.kafka.image.repository }}:{{ .Values.kafka.image.tag }}"
           imagePullPolicy: {{ .Values.kafka.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.kafka.resources | indent 12 }}
           ports:
             - name: kafka
               containerPort: 9092

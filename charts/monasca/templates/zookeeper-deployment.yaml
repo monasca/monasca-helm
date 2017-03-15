@@ -20,6 +20,8 @@ spec:
         - name: {{ template "name" . }}-{{ .Values.zookeeper.name }}
           image: "{{ .Values.zookeeper.image.repository }}:{{ .Values.zookeeper.image.tag }}"
           imagePullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.zookeeper.resources | indent 12 }}
           ports:
             - name: client
               containerPort: 2181

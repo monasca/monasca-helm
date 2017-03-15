@@ -19,6 +19,8 @@ spec:
         - name: {{ template "name" . }}-{{ .Values.agent.name }}-daemonset
           image: "{{ .Values.agent.image.repository }}:{{ .Values.agent.image.tag }}"
           imagePullPolicy: {{ .Values.agent.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.agent.resources | indent 12 }}
           env:
             - name: AGENT_POD_NAME
               valueFrom:
