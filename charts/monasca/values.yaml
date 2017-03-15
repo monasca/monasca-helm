@@ -166,10 +166,10 @@ forwarder:
     monasca_role: monasca-agent
   resources:
     requests:
-      memory: 64Mi
+      memory: 128Mi
       cpu: 50m
     limits:
-      memory: 128Mi
+      memory: 256Mi
       cpu: 100m
 
 grafana:
@@ -276,10 +276,10 @@ notification:
   plugins: pagerduty,webhook
   resources:
     requests:
-      memory: 64Mi
+      memory: 128Mi
       cpu: 50m
     limits:
-      memory: 128Mi
+      memory: 256Mi
       cpu: 100m
 
 persister:
@@ -298,10 +298,10 @@ persister:
     verbose: true
   resources:
     requests:
-      memory: 64Mi
+      memory: 128Mi
       cpu: 50m
     limits:
-      memory: 128Mi
+      memory: 256Mi
       cpu: 100m
 
 thresh:
