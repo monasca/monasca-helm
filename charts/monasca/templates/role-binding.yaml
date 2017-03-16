@@ -2,7 +2,7 @@
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1alpha1
 metadata:
-  name: "monasca-role-binding"
+  name: "{{ .Release.Name }}-role-binding"
 subjects:
   - kind: ServiceAccount
     name: default
