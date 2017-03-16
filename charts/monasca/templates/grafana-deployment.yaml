@@ -20,6 +20,8 @@ spec:
         - name: {{ template "name" . }}-{{ .Values.grafana.name }}
           image: "{{ .Values.grafana.image.repository }}:{{ .Values.grafana.image.tag }}"
           imagePullPolicy: {{ .Values.grafana.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.grafana.resources | indent 12 }}
           ports:
             - name: http
               containerPort: 3000

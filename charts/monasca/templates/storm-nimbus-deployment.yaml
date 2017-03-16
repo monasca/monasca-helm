@@ -21,6 +21,8 @@ spec:
           image: "{{ .Values.thresh.image.storm.repository }}:{{ .Values.thresh.image.storm.tag }}"
           imagePullPolicy: {{ .Values.thresh.image.storm.pullPolicy }}
           args: ["storm", "nimbus"]
+          resources:
+{{ toYaml .Values.thresh.nimbus_resources | indent 12 }}
           ports:
             - containerPort: 6627
               name: nimbus

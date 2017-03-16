@@ -20,6 +20,8 @@ spec:
       - name: {{ template "name" . }}-{{ .Values.persister.name }}
         image: "{{ .Values.persister.image.repository }}:{{ .Values.persister.image.tag }}"
         imagePullPolicy: {{ .Values.persister.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.persister.resources | indent 10 }}
         env:
             - name: DEBUG
               value: {{ .Values.persister.logging.debug | quote }}

@@ -20,6 +20,8 @@ spec:
       - name: {{ template "name" . }}-{{ .Values.notification.name }}
         image: "{{ .Values.notification.image.repository }}:{{ .Values.notification.image.tag }}"
         imagePullPolicy: {{ .Values.notification.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.notification.resources | indent 10 }}
         env:
             - name: MYSQL_DB_HOST
               value: "{{ .Release.Name }}-mysql"

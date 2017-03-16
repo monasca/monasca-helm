@@ -21,6 +21,8 @@ spec:
       - name: {{ template "name" . }}-{{ .Values.forwarder.name }}
         image: "{{ .Values.forwarder.image.repository }}:{{ .Values.forwarder.image.tag }}"
         imagePullPolicy: {{ .Values.forwarder.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.forwarder.resources | indent 10 }}
         env:
             - name: MONASCA_PROJECT_ID
               value: {{ .Values.forwarder.config.monasca_project_id | quote }}

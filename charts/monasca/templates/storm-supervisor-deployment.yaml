@@ -21,6 +21,8 @@ spec:
           image: "{{ .Values.thresh.image.storm.repository }}:{{ .Values.thresh.image.storm.tag }}"
           imagePullPolicy: {{ .Values.thresh.image.storm.pullPolicy }}
           args: ["storm", "supervisor"]
+          resources:
+{{ toYaml .Values.thresh.supervisor_resources | indent 12 }}
           volumeMounts:
             - name: thresh-config-volume
               mountPath: /config
