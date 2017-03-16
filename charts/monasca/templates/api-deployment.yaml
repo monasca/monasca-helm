@@ -74,6 +74,10 @@ spec:
             - name: AUTHORIZED_ROLES
               value: {{ .Values.api.authorized_roles | quote }}
             {{- end}}
+            {{- if .Values.api.side_container.enabled }}
+            - name: SIDECAR_URL
+              value: http://localhost:4888/v1/ingest
+            {{- end }}
       {{- if .Values.api.side_container.enabled }}
       - name: {{ template "name" . }}-{{ .Values.api.name }}-side-container
         image: "{{ .Values.api.side_container.image.repository }}:{{ .Values.api.side_container.image.tag }}"
