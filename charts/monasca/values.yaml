@@ -382,3 +382,6 @@ client:
     os_password: password
     os_project_name: mini-mon
     os_project_domain_name: Default
+
+rbac:
+  enabled: false
