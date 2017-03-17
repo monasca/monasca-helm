@@ -172,7 +172,7 @@ forwarder:
       memory: 256Mi
       cpu: 100m
   metric_configuration:
-    forwarder_metric_match.yml: |
+    forwarder_metric_match.yml.j2: |
       metrics_to_forward:
         - name: kubernetes.node.allocatable.cpu_agg
         - name: cpu.total_time_sec_agg

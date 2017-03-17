@@ -38,6 +38,8 @@ spec:
               value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
             - name: USE_INSECURE
               value: {{ .Values.forwarder.config.use_insecure | quote}}
+            - name: CONFIG_TEMPLATE
+              value: "false"
             - name: MONASCA_ROLE
               value: {{ .Values.forwarder.config.monasca_role | quote }}
             {{- if .Values.forwarder.metric_project_id }}
