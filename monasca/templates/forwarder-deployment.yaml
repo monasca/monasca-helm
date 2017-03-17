@@ -16,6 +16,8 @@ spec:
       labels:
         app: {{ template "fullname" . }}
         component: "{{ .Values.forwarder.name }}"
+      annotations:
+        checksum/metric_config: {{ toYaml .Values.forwarder.metric_configuration | sha256sum }}
     spec:
       containers:
       - name: {{ template "name" . }}-{{ .Values.forwarder.name }}
@@ -32,7 +34,7 @@ spec:
               value: {{ .Values.forwarder.logging.debug | quote }}
             - name: VERBOSE
               value: {{ .Values.forwarder.logging.verbose | quote }}
-            - name: ZOOKEEPER_URI
+            - name: ZOOKEEPER_URL
               value: "{{ template "zookeeper.fullname" . }}:{{ .Values.zookeeper.service.port }}"
             - name: KAFKA_URI
               value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
@@ -46,10 +48,13 @@ spec:
             {{- end }}
         volumeMounts:
           - name: forwarder-config
-            mountPath: /config
+            mountPath: /config/forwarder_metric_match.yml.j2
+            subPath: forwarder_metric_match.yml.j2
       volumes:
         - name: forwarder-config
           configMap:
             name: {{ template "forwarder.fullname" . }}
-
+            items:
+              - key: forwarder_metric_match.yml
+                path: forwarder_metric_match.yml.j2
 {{- end }}
