@@ -16,6 +16,8 @@ spec:
       labels:
         app: {{ template "fullname" . }}
         component: "{{ .Values.forwarder.name }}"
+      annotations:
+        checksum/metric_config: {{ toYaml .Values.forwarder.metric_configuration | sha256sum }}
     spec:
       containers:
       - name: {{ template "name" . }}-{{ .Values.forwarder.name }}
@@ -28,15 +30,11 @@ spec:
               value: {{ .Values.forwarder.config.monasca_project_id | quote }}
             - name: REMOTE_API_URL
               value: {{ .Values.forwarder.config.remote_api_url | quote }}
-            - name: METRICS_TO_FORWARD
-              value: "
-              - name: kubernetes.node.allocatable.cpu_agg\n
-              - name: cpu.total_time_sec_agg\n"
             - name: DEBUG
               value: {{ .Values.forwarder.logging.debug | quote }}
             - name: VERBOSE
               value: {{ .Values.forwarder.logging.verbose | quote }}
-            - name: ZOOKEEPER_URI
+            - name: ZOOKEEPER_URL
               value: "{{ template "zookeeper.fullname" . }}:{{ .Values.zookeeper.service.port }}"
             - name: KAFKA_URI
               value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
@@ -48,4 +46,15 @@ spec:
             - name: METRIC_PROJECT_ID
               value: {{ .Values.forwarder.config.metric_project_id | quote }}
             {{- end }}
+        volumeMounts:
+          - name: forwarder-config
+            mountPath: /config/forwarder_metric_match.yml.j2
+            subPath: forwarder_metric_match.yml.j2
+      volumes:
+        - name: forwarder-config
+          configMap:
+            name: {{ template "forwarder.fullname" . }}
+            items:
+              - key: forwarder_metric_match.yml
+                path: forwarder_metric_match.yml.j2
 {{- end }}
