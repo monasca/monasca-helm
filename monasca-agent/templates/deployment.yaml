@@ -1,0 +1,64 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+    component: "{{ template "fullname" . }}-deployment"
+spec:
+  template:
+    metadata:
+      labels:
+        component: "{{ template "fullname" . }}-deployment"
+        app: {{ template "fullname" . }}
+    spec:
+      containers:
+        - name: {{ template "name" . }}--deployment
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          env:
+            - name: KUBERNETES_API
+              value: "true"
+            - name: KUBERNETES_API_TIMEOUT
+              value: {{ .Values.kubernetes_api.timeout | quote }}
+            - name: KUBERNETES_API_LABELS
+              value: {{ .Values.kubernetes_api.kubernetes_labels | quote }}
+            - name: PROMETHEUS
+              value: {{ .Values.prometheus.auto_detect_service_endpoints | quote }}
+            - name: PROMETHEUS_TIMEOUT
+              value: {{ .Values.prometheus.timeout | quote }}
+            - name: PROMETHEUS_DETECT_METHOD
+              value: service
+            - name: PROMETHEUS_KUBERNETES_LABELS
+              value: {{ .Values.prometheus.kubernetes_labels | quote }}
+            - name: OS_AUTH_URL
+              value: {{ .Values.keystone.url | quote }}
+            - name: OS_USERNAME
+              value: {{ .Values.keystone.os_username | quote }}
+            - name: OS_USER_DOMAIN_NAME
+              value: {{ .Values.keystone.os_user_domain_name | quote }}
+            - name: OS_PASSWORD
+              value: {{ .Values.keystone.os_password | quote }}
+            - name: OS_PROJECT_NAME
+              value: {{ .Values.keystone.os_project_name | quote }}
+            - name: OS_PROJECT_DOMAIN_NAME
+              value: {{ .Values.keystone.os_project_domain_name | quote }}
+            - name: MONASCA_URL
+              value: {{ .Values.monasca_url | quote }}
+            - name: LOG_LEVEL
+              value: {{ .Values.log_level | quote }}
+            {{- if .Values.namespace_annotations }}
+            - name: KUBERNETES_NAMESPACE_ANNOTATIONS
+              value: {{ .Values.namespace_annotations | quote}}
+            {{- end}}
+            {{- if .Values.kubernetes_api.storage.parameter_dimensions }}
+            - name: STORAGE_PARAMETERS_DIMENSIONS
+              value: {{ .Values.kubernetes_api.storage.parameter_dimensions | quote}}
+            {{- end}}
+            - name: REPORT_PERSISTENT_STORAGE
+              value: {{ .Values.kubernetes_api.storage.report | quote }}
