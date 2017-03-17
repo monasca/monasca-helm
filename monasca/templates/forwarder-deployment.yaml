@@ -44,4 +44,12 @@ spec:
             - name: METRIC_PROJECT_ID
               value: {{ .Values.forwarder.config.metric_project_id | quote }}
             {{- end }}
+        volumeMounts:
+          - name: forwarder-config
+            mountPath: /config
+      volumes:
+        - name: forwarder-config
+          configMap:
+            name: {{ template "forwarder.fullname" . }}
+
 {{- end }}
