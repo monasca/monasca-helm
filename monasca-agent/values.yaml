@@ -1,0 +1,38 @@
+
+name: agent
+image:
+  repository: monasca/agent
+  tag: latest
+  pullPolicy: Always
+log_level: WARN
+keystone:
+  os_username: mini-mon
+  os_user_domain_name: Default
+  os_password: password
+  os_project_name: mini-mon
+  os_project_domain_name: Default
+  url: http://keystone:35357/v3
+monasca_url: http://monasca-api:8070/v2.0
+prometheus:
+  auto_detect_pod_endpoints: true
+  auto_detect_service_endpoints: true
+  kubernetes_labels: 'app'
+  timeout: 3
+kubernetes_api:
+  kubernetes_labels: 'app'
+  timeout: 3
+  storage:
+    report: true
+kubernetes:
+  kubernetes_labels: 'app'
+  timeout: 3
+cadvisor:
+  enabled: true
+  timeout: 3
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 512Mi
+    cpu: 500m

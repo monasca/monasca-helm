@@ -1,0 +1,9 @@
+apiVersion: v1
+description: A Helm chart for Monasca-agent
+name: monasca-agent
+version: 0.1.0
+sources:
+- https://github.com/openstack/monasca-agent
+maintainers:
+- name: Michael Hoppal
+  email: michael.jam.hoppal@hpe.com
