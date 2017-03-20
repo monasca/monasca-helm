@@ -14,9 +14,15 @@ spec:
     - name: http
       port: {{ .Values.keystone.service.port }}
       targetPort: http
+      {{- if .Values.keystone.service.node_port }}
+      nodePort: {{ .Values.keystone.service.node_port }}
+      {{- end }}
     - name: admin
       port: {{ .Values.keystone.service.admin_port }}
       targetPort: admin
+      {{- if .Values.keystone.service.admin_node_port }}
+      nodePort: {{ .Values.keystone.service.admin_node_port }}
+      {{- end }}
   selector:
     app: {{ template "fullname" . }}
     component: "{{ .Values.keystone.name }}"
