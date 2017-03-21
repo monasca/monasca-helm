@@ -22,6 +22,14 @@ spec:
           resources:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
+            - name: KAFKA_METRICS_BATCH_SIZE
+              value: {{ .Values.agent.kafka.metrics.batch_size | quote }}
+            - name: KAFKA_METRICS_WAIT_TIME
+              value: {{ .Values.agent.kafka.metrics.wait_time | quote }}
+            - name: KAFKA_ALARM_HISTORY_BATCH_SIZE
+              value: {{ .Values.agent.kafka.alarm_history.batch_size | quote }}
+            - name: KAFKA_ALARM_HISTORY_WAIT_TIME
+              value: {{ .Values.agent.kafka.alarm_history.wait_time | quote }}
             - name: KUBERNETES_API
               value: "true"
             - name: KUBERNETES_API_TIMEOUT
