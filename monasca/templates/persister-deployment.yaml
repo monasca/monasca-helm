@@ -41,3 +41,11 @@ spec:
               value: {{ .Values.persister.influxdb.database | quote }}
             - name: INFLUX_HOST
               value: "{{ .Release.Name }}-influxdb"
+            - name: KAFKA_METRICS_BATCH_SIZE
+              value: {{ .Values.persister.kafka.metrics.batch_size | quote }}
+            - name: KAFKA_METRICS_WAIT_TIME
+              value: {{ .Values.persister.kafka.metrics.wait_time | quote }}
+            - name: KAFKA_ALARM_HISTORY_BATCH_SIZE
+              value: {{ .Values.persister.kafka.alarm_history.batch_size | quote }}
+            - name: KAFKA_ALARM_HISTORY_WAIT_TIME
+              value: {{ .Values.persister.kafka.alarm_history.wait_time | quote }}
