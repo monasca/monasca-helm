@@ -274,7 +274,6 @@ Parameter | Description | Default
 `thresh.image.storm.repository` | Storm container image repository | `timothyb89/storm
 `thresh.image.storm.tag` | Storm container image tag | `1.0.2.4`
 `thresh.image.storm.pullPolicy` | Storm container image pull policy | `Always`
-
 `thresh.image.thresh.repository` | Thresh container image repository | `rbrndt/monasca-thresh`
 `thresh.image.thresh.tag` | Thresh container image tag | `latest`
 `thresh.image.thresh.pullPolicy` | Thresh container image pull policy | `Always`
@@ -288,12 +287,10 @@ Parameter | Description | Default
 `thresh.service.nimbus.type` | Storm nimbus service type | `ClusterIP`
 `thresh.spout.metricSpoutThreads` | Amount of metric spout threads | `2`
 `thresh.spout.metricSpoutTasks` | Amount of metric spout tasks | `2`
-
 `thresh.nimbus_resources.requests.memory` | Memory request per agent pod | `512Mi`
 `thresh.nimbus_resources.requests.cpu` | CPU request per agent pod | `100m`
 `thresh.nimbus_resources.limits.memory` | Memory limit per agent pod | `2Gi`
 `thresh.nimbus_resources.limits.cpu` | Memory limit per agent pod | `500m`
-
 `thresh.supervisor_resources.requests.memory` | Memory request per agent pod | `2Gi`
 `thresh.supervisor_resources.requests.cpu` | CPU request per agent pod | `500m`
 `thresh.supervisor_resources.limits.memory` | Memory limit per agent pod | `4Gi`
