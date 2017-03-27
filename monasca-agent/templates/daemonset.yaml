@@ -70,3 +70,7 @@ spec:
             - name: KUBERNETES_NAMESPACE_ANNOTATIONS
               value: {{ .Values.namespace_annotations | quote}}
             {{- end}}
+            {{- if .Values.dimensions }}
+            - name: DIMENSIONS
+              value: {{ .Values.dimensions | quote}}
+            {{- end}}
