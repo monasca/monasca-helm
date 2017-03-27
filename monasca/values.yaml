@@ -33,7 +33,7 @@ influxdb:
     type: NodePort
   persistence:
     enabled: false
-    storageClass: gluster-heketi # Set to storage being used
+    storageClass: default # Set to storage being used
     accessMode: ReadWriteOnce
     size: 100Gi
   resources:
@@ -54,7 +54,7 @@ mysql:
   imagePullPolicy: IfNotPresent
   persistence:
     enabled: false
-    storageClass: gluster-heketi
+    storageClass: default
     accessMode: ReadWriteOnce
     size: 10Gi
   resources:
@@ -184,7 +184,6 @@ grafana:
     tag: 4.1.0-pre1-1.0.0
     pullPolicy: Always
   service:
-    name: grafana
     type: NodePort
     port: 3000
   resources:
@@ -220,7 +219,7 @@ kafka:
       memory: 2Gi
       cpu: 2000m
   persistence:
-    storageClass: gluster-heketi
+    storageClass: default
     enabled: false
     accessMode: ReadWriteOnce
     size: 10Gi
@@ -325,7 +324,7 @@ thresh:
     user: thresh
     password: password
   persistence:
-    storageClass: gluster-heketi
+    storageClass: default
     enabled: false
     accessMode: ReadWriteOnce
     size: 4Gi
@@ -361,7 +360,7 @@ zookeeper:
     type: ClusterIP
     port: 2181
   persistence:
-    storageClass: gluster-heketi
+    storageClass: default
     enabled: false
     accessMode: ReadWriteOnce
     size: 10Gi
