@@ -28,11 +28,17 @@ spec:
             - name: MYSQL_DB_PORT
               value: "3306"
             - name: MYSQL_DB_USERNAME
-              value: {{ .Values.notification.mysql.user | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-mysql-notification-secret"
+                  key: username
             - name: MYSQL_DB_PASSWORD
-              value: {{ .Values.notification.mysql.password | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-mysql-notification-secret"
+                  key: password
             - name: MYSQL_DB_DATABASE
-              value: {{ .Values.mysql.mysqlDatabase | quote }}
+              value: "mon"
             - name: KAFKA_URI
               value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
             - name: ZOOKEEPER_URL

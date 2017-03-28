@@ -2,7 +2,7 @@
 
 ##  An Open-Source Monitoring as a Service at Scale solution
 
-[Monasca](https://wiki.openstack.org/wiki/Monasca), an [Openstack](https://www.openstack.org/) official project, is a 
+[Monasca](https://wiki.openstack.org/wiki/Monasca), an [Openstack](https://www.openstack.org/) official project, is a
 scalable monitoring as a service solution. It monitors services and systems by a push model. The Monasca Agent will
 collect metrics from each node and push them to the Monasca API. It will then be processed by separate microservices for
 storing, alarming and notifications. The architecture can be viewed [here](https://wiki.openstack.org/wiki/File:Monasca-arch-component-diagram.png)
@@ -97,8 +97,6 @@ Parameter | Description | Default
 `api.keystone.admin_password` | Keystone admin account password | `secretadmin`
 `api.keystone.admin_user` | Keystone admin account user | `admin`
 `api.keystone.admin_tenant` | Keystone admin account tenant | `admin`
-`api.mysql.user` | MySQL DB username | `monapi`
-`api.mysql.password` | MySQL DB password | `password`
 `api.influxdb.user` | The influx username | `mon_api`
 `api.influxdb.password` | The influx password | `password`
 `api.influxdb.database` | The influx database | `mon`
@@ -211,8 +209,6 @@ Parameter | Description | Default
 `keystone.bootstrap.service` | Keystone bootstrap service | `keystone`
 `keystone.bootstrap.region` | Keystone bootstrap region | `RegionOne`
 `keystone.database_backend` | Keystone backend database | `mysql`
-`keystone.mysql.user` | Keystone mysql user | `keystone`
-`keystone.mysql.password` | Keystone mysql password | `keystone`
 `keystone.mysql.database` | Keystone mysql database | `keystone`
 `keystone.replicaCount` | Keystone pod replicas | `1`
 `keystone.service.type` | Keystone service type | `ClusterIP`
@@ -228,6 +224,41 @@ Parameter | Description | Default
 `keystone.resources.limits.memory` | Memory limit per keystone pod | `1Gi`
 `keystone.resources.limits.cpu` | Memory limit per keystone pod | `500m`
 
+
+### MySQL
+
+Parameter | Description | Default
+----------|-------------|--------
+`mysql.imageTag` | Tag to use from `library/mysql` | `5.6`
+`mysql.imagePullPolicy` | K8s pull policy for mysql image | `IfNotPresent`
+`mysql.persistence.enabled` | If `true`, enable persistent storage | `false`
+`mysql.persistence.storageClass` | K8s storage class to use for persistence | `default`
+`mysql.persistence.accessMode` | PVC access mode | `ReadWriteOnce`
+`mysql.persistence.size` | PVC request size | `10Gi`
+`mysql.resources.requests.memory` | Memory request | `256Mi`
+`mysql.resources.requests.cpu` | CPU request | `100m`
+`mysql.resources.limits.memory` | Memory limit | `1Gi`
+`mysql.resources.limits.cpu` | CPU limit | `500m`
+`mysql.users.keystone.username` | Keystone MySQL username | `keystone`
+`mysql.users.keystone.password` | Keystone MySQL password | `keystone`
+`mysql.users.api.username` | API MySQL username | `monapi`
+`mysql.users.api.password` | API MySQL password | `password`
+`mysql.users.notification.username` | Notification MySQL username | `notification`
+`mysql.users.notification.password` | Notification MySQL password | `password`
+`mysql.users.thresh.username` | Thresh MySQL username | `thresh`
+`mysql.users.thresh.password` | Thresh MySQL password | `password`
+
+
+### MySQL Init
+
+Parameter | Description | Default
+--------- | ----------- | -------
+`mysql_init.image.repository` | docker repository for mysql-init | `monasca/mysql-init`
+`mysql_init.image.tag` | Docker image tag | `1.2.0`
+`mysql_init.image.pullPolicy` | Kubernetes pull polify for image | `IfNotPresent`
+`mysql_init.disable_remote_root` | If `true`, disable root account after init finishes successfully | `true`
+
+
 ### Notification
 
 Parameter | Description | Default
@@ -237,8 +268,6 @@ Parameter | Description | Default
 `notification.image.tag` | Notification container image tag | `master`
 `notification.image.pullPolicy` | Notification container image pull policy | `Always`
 `notification.replicaCount` | Notification pod replica count | `1`
-`notification.mysql.user` | Notification mysql user | `notification`
-`notification.mysql.password` | Notification mysql user password | `password`
 `notification.log_level` | Notification log level | `WARN`
 `notification.plugins` | Notification plugins enabled | `pagerduty,webhook`
 `notification.resources.requests.memory` | Memory request per notification pod | `128Mi`
@@ -281,8 +310,6 @@ Parameter | Description | Default
 `thresh.persistence.enabled` | Zookeeper persistent storage enabled flag | `false`
 `thresh.persistence.accessMode` | Zookeeper persistent storage accessMode | `ReadWriteOnce`
 `thresh.persistence.size` | Zookeeper persistent storage size | `10Gi`
-`thresh.mysql.user` | Thresh mysql user | `thresh`
-`thresh.mysql.password` | Thresh mysql password | `password`
 `thresh.service.nimbus.port` | Storm nimbus service port | `6627`
 `thresh.service.nimbus.type` | Storm nimbus service type | `ClusterIP`
 `thresh.spout.metricSpoutThreads` | Amount of metric spout threads | `2`
@@ -329,4 +356,3 @@ $ helm install monasca --name my-release -f values.yaml
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
-
