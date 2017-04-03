@@ -1,10 +1,9 @@
 mysql_init:
   image:
     repository: monasca/mysql-init
-    tag: 1.1.0
+    tag: 1.2.0
     pullPolicy: IfNotPresent
   disable_remote_root: true
-  randon_password: true
 
 influx_init:
   image:
@@ -49,8 +48,6 @@ influxdb:
 
 mysql:
   imageTag: "5.6"
-  mysqlRootPassword: "secretmysql"
-  mysqlDatabase: "mon"
   imagePullPolicy: IfNotPresent
   persistence:
     enabled: false
@@ -64,6 +61,19 @@ mysql:
     limits:
       memory: 1Gi
       cpu: 500m
+  users:
+    api:
+      username: monapi
+      password: password
+    notification:
+      username: notification
+      password: password
+    thresh:
+      username: thresh
+      password: password
+    keystone:
+      username: keystone
+      password: keystone
 
 agent:
   name: agent
@@ -113,9 +123,6 @@ api:
     admin_password: secretadmin
     admin_user: admin
     admin_tenant: admin
-  mysql:
-    user: monapi
-    password: password
   influxdb:
     user: mon_api
     password: password
@@ -239,8 +246,6 @@ keystone:
     tag: 1.0.7
     repository: monasca/keystone
   mysql:
-    user: keystone
-    password: keystone
     database: keystone
   replicaCount: 1
   service:
@@ -273,9 +278,6 @@ notification:
     tag: master
     pullPolicy: Always
   replicaCount: 1
-  mysql:
-    user: notification
-    password: password
   log_level: WARN
   plugins: pagerduty,webhook
   resources:
@@ -327,9 +329,6 @@ thresh:
       repository: rbrndt/monasca-thresh
       tag: latest
       pullPolicy: Always
-  mysql:
-    user: thresh
-    password: password
   persistence:
     storageClass: default
     enabled: false

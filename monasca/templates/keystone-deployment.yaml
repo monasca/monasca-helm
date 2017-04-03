@@ -51,9 +51,15 @@ spec:
             - name: KEYSTONE_MYSQL_HOST
               value: "{{ .Release.Name }}-mysql"
             - name: KEYSTONE_MYSQL_USER
-              value: {{ .Values.keystone.mysql.user | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-mysql-keystone-secret"
+                  key: username
             - name: KEYSTONE_MYSQL_PASSWORD
-              value: {{ .Values.keystone.mysql.password | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-mysql-keystone-secret"
+                  key: password
             - name: KEYSTONE_MYSQL_DATABASE
               value: {{ .Values.keystone.mysql.database | quote }}
             - name: KEYSTONE_MYSQL_TCP_PORT

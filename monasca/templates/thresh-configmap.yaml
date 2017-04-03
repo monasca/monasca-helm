@@ -105,9 +105,9 @@ data:
 
     database:
       driverClass: com.mysql.jdbc.Driver
-      url: "jdbc:mysql://{{ .Release.Name }}-mysql:3306/{{ .Values.mysql.mysqlDatabase }}?useSSL=true"
-      user: {{ .Values.thresh.mysql.user | quote }}
-      password: {{ .Values.thresh.mysql.password | quote }}
+      url: "jdbc:mysql://{{ .Release.Name }}-mysql:3306/mon?useSSL=true"
+      user: {{ .Values.mysql.users.thresh.username | quote }}
+      password: {{ .Values.mysql.users.thresh.password | quote }}
       properties:
           ssl: false
       # the maximum amount of time to wait on an empty pool before throwing an exception
