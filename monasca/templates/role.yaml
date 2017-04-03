@@ -16,4 +16,5 @@ rules:
       - services
       - componentstatuses
       - storageclasses
+      - persistentvolumes
 {{- end }}

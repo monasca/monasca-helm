@@ -70,3 +70,10 @@ spec:
             - name: KUBERNETES_NAMESPACE_ANNOTATIONS
               value: {{ .Values.agent.namespace_annotations | quote}}
             {{- end}}
+          volumeMounts:
+          - mountPath: /kubelet_plugins
+            name: kubelet-plugin-volume
+      volumes:
+      - name: kubelet-plugin-volume
+        hostPath:
+          path: "/var/lib/kubelet/plugins"
