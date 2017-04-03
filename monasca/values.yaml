@@ -395,3 +395,119 @@ client:
 
 rbac:
   enabled: false
+
+aggregation:
+  enabled: true
+  name: aggregation
+  image:
+    repository: rbrndt/test-agg
+    tag: latest
+    pullPolicy: Always
+  window_size: 10
+  window_lag: 2
+  metric_configuration:
+     aggregation-specifications.yaml: |
+      aggregationSpecifications:
+        - name: namespaceCPUtotal_sec
+          aggregatedMetricName: namespace.cpu.total_time_sec
+          filteredMetricName: pod.cpu.total_time_sec
+          function: avg
+          groupedDimensions:
+            - namespace
+            - pod_name
+          rollup:
+            function: sum
+            groupedDimensions:
+              - namespace
+
+        - name: namespaceMemoryUsedBytes
+          aggregatedMetricName: namespace.mem.used_bytes
+          filteredMetricName: pod.mem.used_bytes
+          function: avg
+          groupedDimensions:
+            - namespace
+            - pod_name
+          rollup:
+            function: sum
+            groupedDimensions:
+              - namespace
+
+        - name: namespaceNetowrkInBytes
+          aggregatedMetricName: namespace.net.in_bytes
+          filteredMetricName: pod.net.in_bytes
+          function: avg
+          groupedDimensions:
+            - namespace
+            - pod_name
+          rollup:
+            function: sum
+            groupedDimensions:
+              - namespace
+
+        - name: namespaceNetowrkOutBytes
+          aggregatedMetricName: namespace.net.out_bytes
+          filteredMetricName: pod.net.out_bytes
+          function: avg
+          groupedDimensions:
+            - namespace
+            - pod_name
+          rollup:
+            function: sum
+            groupedDimensions:
+              - namespace
+
+        - name: totalCPUallocatable
+          aggregatedMetricName: kubernetes.allocatable.cpu
+          filteredMetricName: kubernetes.node.allocatable.cpu
+          function: max
+          groupedDimensions:
+            - hostname
+          rollup:
+            function: sum
+
+        - name: totalCPU
+          aggregatedMetricName: kubernetes.cpu.total_time_sec
+          filteredMetricName: pod.cpu.total_time_sec
+          function: avg
+          groupedDimensions:
+            - pod_name
+          rollup:
+            function: sum
+
+        - name: totalMemAllocatable
+          aggregatedMetricName: kubernetes.allocatable.memory_bytes
+          filteredMetricName: kubernetes.node.allocatable.memory_bytes
+          function: max
+          groupedDimensions:
+            - hostname
+          rollup:
+            function: sum
+
+        - name: totalMemBytes
+          aggregatedMetricName: kubernetes.used_memory_bytes
+          filteredMetricName: mem.used_bytes
+          function: avg
+          groupedDimensions:
+            - hostname
+          rollup:
+            function: sum
+
+        - name: totalNetworkInBytes
+          aggregatedMetricName: kubernetes.net.in_bytes
+          filteredMetricName: net.in_bytes
+          function: max
+          groupedDimensions:
+            - hostname
+            - interface
+          rollup:
+            function: sum
+
+        - name: totalNetworkOutBytes
+          aggregatedMetricName: kubernetes.net.out_bytes
+          filteredMetricName: net.out_bytes
+          function: max
+          groupedDimensions:
+            - hostname
+            - interface
+          rollup:
+            function: sum

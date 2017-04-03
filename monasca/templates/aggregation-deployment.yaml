@@ -1,0 +1,50 @@
+{{- if .Values.aggregation.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "aggregation.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.aggregation.name }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.aggregation.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.aggregation.name }}"
+      annotations:
+        checksum/metric_config: {{ toYaml .Values.aggregation.metric_configuration | sha256sum }}
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+      - name: {{ template "name" . }}-{{ .Values.aggregation.name }}
+        image: "{{ .Values.aggregation.image.repository }}:{{ .Values.aggregation.image.tag }}"
+        imagePullPolicy: {{ .Values.aggregation.image.pullPolicy }}
+        ports:
+            - containerPort: 8080
+              name: metrics
+        env:
+            - name: AGGREGATION_WINDOW_SIZE
+              value: {{ .Values.aggregation.window_size | quote }}
+            - name: AGGREGATION_WINDOW_LAG
+              value: {{ .Values.aggregation.window_lag | quote }}
+            - name: KAFKA_URI
+              value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
+        volumeMounts:
+          - name: aggregation-config
+            mountPath: /aggregation-specifications.yaml
+            subPath: aggregation-specifications.yaml
+      volumes:
+        - name: aggregation-config
+          configMap:
+            name: {{ template "aggregation.fullname" . }}
+            items:
+              - key: aggregation-specifications.yaml
+                path: aggregation-specifications.yaml
+{{- end }}
