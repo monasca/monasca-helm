@@ -71,7 +71,7 @@ spec:
               value: {{ .Values.agent.namespace_annotations | quote}}
             {{- end}}
           volumeMounts:
-          - mountPath: /kubelet_plugins
+          - mountPath: /var/lib/kubelet/plugins
             name: kubelet-plugin-volume
       volumes:
       - name: kubelet-plugin-volume
