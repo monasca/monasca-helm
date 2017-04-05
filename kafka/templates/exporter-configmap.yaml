@@ -1,12 +1,11 @@
-{{- if .Values.kafka.exporter.enabled }}
+{{- if .Values.exporter.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "kafka.fullname" . }}-exporter
+  name: {{ template "fullname" . }}-exporter
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Values.kafka.name }}"-exporter
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 data:

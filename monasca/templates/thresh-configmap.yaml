@@ -29,7 +29,7 @@ data:
         topic: "metrics"
         numThreads: 1
         groupId: "thresh-metric"
-        zookeeperConnect: "{{ template "zookeeper.fullname" . }}:{{ .Values.zookeeper.service.port }}"
+        zookeeperConnect: "{{ template "zookeeper.fullname" . }}:{{ .Values.kafka.zookeeper.service.port }}"
         consumerId: 1
         socketTimeoutMs: 30000
         socketReceiveBufferBytes : 65536
@@ -56,7 +56,7 @@ data:
         topic: "events"
         numThreads: 1
         groupId: "thresh-event"
-        zookeeperConnect: "{{ template "zookeeper.fullname" . }}:{{ .Values.zookeeper.service.port }}"
+        zookeeperConnect: "{{ template "zookeeper.fullname" . }}:{{ .Values.kafka.zookeeper.service.port }}"
         consumerId: 1
         socketTimeoutMs: 30000
         socketReceiveBufferBytes : 65536

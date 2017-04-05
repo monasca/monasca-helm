@@ -1,11 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "zookeeper.fullname" . }}
+  name: {{ template "fullname" . }}
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Values.zookeeper.name }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 data:

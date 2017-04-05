@@ -18,7 +18,7 @@ data:
     ### zookeeper.*
     storm.zookeeper.servers:
         - "{{ template "zookeeper.fullname" . }}"
-    storm.zookeeper.port: {{ .Values.zookeeper.service.port }}
+    storm.zookeeper.port: {{ .Values.kafka.zookeeper.service.port }}
     storm.zookeeper.retry.interval: 5000
     storm.zookeeper.retry.times: 60
     storm.zookeeper.root: /storm
@@ -48,7 +48,7 @@ data:
     ### transactional.* configs
     transactional.zookeeper.servers:
         - "{{ template "zookeeper.fullname" . }}"
-    transactional.zookeeper.port: {{ .Values.zookeeper.service.port }}
+    transactional.zookeeper.port: {{ .Values.kafka.zookeeper.service.port }}
     transactional.zookeeper.root: /storm-transactional
 
     ### topology.* configs are for specific executing storms

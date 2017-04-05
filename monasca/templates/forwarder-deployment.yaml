@@ -35,7 +35,7 @@ spec:
             - name: VERBOSE
               value: {{ .Values.forwarder.logging.verbose | quote }}
             - name: ZOOKEEPER_URL
-              value: "{{ template "zookeeper.fullname" . }}:{{ .Values.zookeeper.service.port }}"
+              value: "{{ template "zookeeper.fullname" . }}:{{ .Values.kafka.zookeeper.service.port }}"
             - name: KAFKA_URI
               value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
             - name: USE_INSECURE
