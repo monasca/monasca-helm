@@ -168,32 +168,6 @@ Parameter | Description | Default
 `grafana.resources.limits.memory` | Memory limit per grafana pod | `128Mi`
 `grafana.resources.limits.cpu` | Memory limit per grafana pod | `100m`
 
-### Kafka
-
-Parameter | Description | Default
---------- | ----------- | -------
-`kafka.name` | Kafka container name | `kafka`
-`kafka.image.repository` | Kafka container image repository | `monasca/kafka`
-`kafka.image.tag` | Kafka container image tag | `0.9.0.1-2.11`
-`kafka.image.pullPolicy` | Kafka container image pull policy | `IfNotPresent`
-`kafka.resources.requests.memory` | Memory request per kafka pod | `1Gi`
-`kafka.resources.requests.cpu` | CPU request per kafka pod | `250m`
-`kafka.resources.limits.memory` | Memory limit per kafka pod | `2Gi`
-`kafka.resources.limits.cpu` | Memory limit per kafka pod | `2000m`
-`kafka.persistence.storageClass` | Kafka storage class | `default`
-`kafka.persistence.enabled` | Kafka persistent storage enabled flag | `false`
-`kafka.persistence.accessMode` | Kafka persistent storage accessMode | `ReadWriteOnce`
-`kafka.persistence.size` | Kafka persistent storage size | `10Gi`
-`kafka.topic_config` | Default config args for created topics  | `segment.ms=900000`
-`kafka.service.port` | Kafka service port | `9092`
-`kafka.service.type` | Kafka service type | `ClusterIP`
-`kafka.exporter.enabled` | Kafka exporter enabled flag | `false`
-`kafka.exporter.image.repository` | Kafka exporter container image repository | `rbrndt/kafka-prometheus`
-`kafka.exporter.image.tag` | Kafka exporter container image tag | `latest`
-`kafka.exporter.image.pullPolicy` | Kafka exporter container image pull policy | `IfNotPresent`
-`kafka.exporter.port` | Kafka exporter port to expose Promethues metrics on | `7204`
-
-
 ### Keystone
 
 Parameter | Description | Default
@@ -323,23 +297,6 @@ Parameter | Description | Default
 `thresh.supervisor_resources.limits.memory` | Memory limit per agent pod | `4Gi`
 `thresh.supervisor_resources.limits.cpu` | Memory limit per agent pod | `2000m`
 
-### Zookeeper
-
-Parameter | Description | Default
---------- | ----------- | -------
-`zookeeper.name` | Zookeeper container name | `zookeeper`
-`zookeeper.image.repository` | Zookeeper container image repository | `zookeeper`
-`zookeeper.image.tag` | Zookeeper container image tag | `3.3`
-`zookeeper.image.pullPolicy` | Zookeeper container image pull policy | `IfNotPresent`
-`zookeeper.service.port` | Zookeeper service port | `2181`
-`zookeeper.service.type` | Zookeeper service type | `ClusterIP`
-`zookeeper.persistence.storageClass` | Zookeeper storage class | `default`
-`zookeeper.persistence.enabled` | Zookeeper persistent storage enabled flag | `false`
-`zookeeper.persistence.accessMode` | Zookeeper persistent storage accessMode | `ReadWriteOnce`
-`zookeeper.persistence.size` | Zookeeper persistent storage size | `10Gi`
-`zookeeper.resources.requests.memory` | Memory request per zookeeper pod | `384Mi`
-`zookeeper.resources.requests.cpu` | CPU request per zookeeper pod | `100m`
-`zookeeper.resources.limits.cpu` | Memory limit per zookeeper pod | `1000m`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 

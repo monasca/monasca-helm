@@ -1,11 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "zookeeper.fullname" . }}
+  name: {{ template "fullname" . }}
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Values.zookeeper.name }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
@@ -14,14 +13,13 @@ spec:
     metadata:
       labels:
         app: {{ template "fullname" . }}
-        component: "{{ .Values.zookeeper.name }}"
     spec:
       containers:
-        - name: {{ template "name" . }}-{{ .Values.zookeeper.name }}
-          image: "{{ .Values.zookeeper.image.repository }}:{{ .Values.zookeeper.image.tag }}"
-          imagePullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
-{{ toYaml .Values.zookeeper.resources | indent 12 }}
+{{ toYaml .Values.resources | indent 12 }}
           ports:
             - name: client
               containerPort: 2181
@@ -37,11 +35,11 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: {{ template "zookeeper.fullname" . }}
+            name: {{ template "fullname" . }}
         - name: data
-        {{- if .Values.zookeeper.persistence.enabled }}
+        {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ template "zookeeper.fullname" . }}
+            claimName: {{ template "fullname" . }}
         {{- else }}
           emptyDir: {}
         {{- end -}}

@@ -11,5 +11,11 @@ dependencies:
   repository: https://kubernetes-charts.storage.googleapis.com/
   tags: null
   version: 0.2.4
-digest: sha256:94ae749cda24eecd97c82662b089cc4795162abbc8701698c59096b891b49bcc
-generated: 2017-03-06T14:48:49.13779058-07:00
+- condition: ""
+  enabled: false
+  name: kafka
+  repository: http://monasca.io/monasca-helm-repo/
+  tags: null
+  version: 0.1.0
+digest: sha256:259a77b0d237c68e37f763b3dbdfee9920ceed4e1f5ddabbb1453d149077b0f5
+generated: 2017-04-04T21:39:12.763933895-06:00

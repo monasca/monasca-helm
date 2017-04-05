@@ -1,0 +1,20 @@
+name: zookeeper
+image:
+  repository: zookeeper
+  tag: 3.3
+  pullPolicy: IfNotPresent
+service:
+  type: ClusterIP
+persistence:
+  storageClass: default
+  enabled: false
+  accessMode: ReadWriteOnce
+  size: 10Gi
+resources:
+  requests:
+    memory: 384Mi
+    cpu: 100m
+  limits:
+    # library/zookeeper doesn't have a configurable heap size, so no memory
+    # limit for now
+    cpu: 1000m

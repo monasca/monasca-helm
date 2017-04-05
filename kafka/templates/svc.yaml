@@ -4,16 +4,14 @@ metadata:
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Values.kafka.name }}"
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
-  name: {{ template "kafka.fullname" . }}
+  name: {{ template "fullname" . }}
 spec:
-  type: {{ .Values.kafka.service.type }}
+  type: {{ .Values.service.type }}
   ports:
     - name: kafka
-      port: {{ .Values.kafka.service.port }}
+      port: {{ .Values.service.port }}
       targetPort: kafka
   selector:
     app: {{ template "fullname" . }}
-    component: "{{ .Values.kafka.name }}"

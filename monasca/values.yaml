@@ -201,36 +201,6 @@ grafana:
       memory: 128Mi
       cpu: 100m
 
-kafka:
-  name: kafka
-  exporter:
-    enabled: false
-    image:
-      repositry: rbrndt/kafka-prometheus
-      tag: latest
-      pullPolicy: IfNotPresent
-    port: 7204
-  image:
-    repository: monasca/kafka
-    tag: 0.9.0.1-2.11
-    pullPolicy: IfNotPresent
-  topic_config: segment.ms=900000
-  service:
-    type: ClusterIP
-    port: 9092
-  resources:
-    requests:
-      memory: 1Gi
-      cpu: 250m
-    limits:
-      memory: 2Gi
-      cpu: 2000m
-  persistence:
-    storageClass: default
-    enabled: false
-    accessMode: ReadWriteOnce
-    size: 10Gi
-
 keystone:
   name: keystone
   bootstrap:
@@ -356,29 +326,6 @@ thresh:
       memory: 4Gi
       cpu: 2000m
 
-zookeeper:
-  name: zookeeper
-  image:
-    repository: zookeeper
-    tag: 3.3
-    pullPolicy: IfNotPresent
-  service:
-    type: ClusterIP
-    port: 2181
-  persistence:
-    storageClass: default
-    enabled: false
-    accessMode: ReadWriteOnce
-    size: 10Gi
-  resources:
-    requests:
-      memory: 384Mi
-      cpu: 100m
-    limits:
-      # library/zookeeper doesn't have a configurable heap size, so no memory
-      # limit for now
-      cpu: 1000m
-
 client:
   name: client
   enabled: false
@@ -395,3 +342,10 @@ client:
 
 rbac:
   enabled: false
+
+kafka:
+  service:
+    port: 9092
+  zookeeper:
+    service:
+      port: 2181
