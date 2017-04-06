@@ -46,5 +46,16 @@ data:
         description: Monasca monitoring service
         type: monitoring
         region: RegionOne
-        url: http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0
-        interfaces: ['public', 'internal', 'admin']
+        interfaces:
+          - name: internal
+            url: http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0
+          - name: public
+            url: http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0
+            {{- if .Values.api.service.node_port }}
+            resolve: true
+            {{- end }}
+          - name: admin
+            url: http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0
+            {{- if .Values.api.service.node_port }}
+            resolve: true
+            {{- end }}
