@@ -62,3 +62,7 @@ spec:
             {{- end}}
             - name: REPORT_PERSISTENT_STORAGE
               value: {{ .Values.kubernetes_api.storage.report | quote }}
+            {{- if .Values.dimensions }}
+            - name: DIMENSIONS
+              value: {{ .Values.dimensions | quote}}
+            {{- end}}
