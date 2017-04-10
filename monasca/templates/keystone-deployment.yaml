@@ -64,6 +64,14 @@ spec:
               value: {{ .Values.keystone.mysql.database | quote }}
             - name: KEYSTONE_MYSQL_TCP_PORT
               value: "3306"
+            {{- if .Values.keystone.service.node_port }}
+            {{- if .Values.keystone.service.admin_node_port }}
+            - name: KUBERNETES_RESOLVE_PUBLIC_ENDPOINTS
+              value: "true"
+            - name: KEYSTONE_SERVICE_NAME
+              value: "{{ template "keystone.fullname" . }}"
+            {{- end }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 5000
