@@ -188,7 +188,7 @@ grafana:
   name: grafana
   image:
     repository: monasca/grafana
-    tag: 4.1.0-pre1-1.0.0
+    tag: 4.0.0-1.1.0
     pullPolicy: Always
   service:
     type: NodePort
