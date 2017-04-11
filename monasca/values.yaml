@@ -213,7 +213,7 @@ keystone:
   database_backend: mysql
   image:
     pullPolicy: Always
-    tag: 1.0.7
+    tag: 1.1.0
     repository: monasca/keystone
   mysql:
     database: keystone
