@@ -1,4 +1,4 @@
-{{- if .Values.thresh.persistence.enabled }}
+{{- if .Values.storm.persistence.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -6,19 +6,19 @@ metadata:
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Values.thresh.storm_name }}-nimbus"
+    component: "{{ .Values.storm.name }}-nimbus"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
   annotations:
-  {{- if .Values.thresh.persistence.storageClass }}
-    volume.beta.kubernetes.io/storage-class: {{ .Values.thresh.persistence.storageClass | quote }}
+  {{- if .Values.storm.persistence.storageClass }}
+    volume.beta.kubernetes.io/storage-class: {{ .Values.storm.persistence.storageClass | quote }}
   {{- else }}
     volume.alpha.kubernetes.io/storage-class: default
   {{- end }}
 spec:
   accessModes:
-    - {{ .Values.thresh.persistence.accessMode | quote }}
+    - {{ .Values.storm.persistence.accessMode | quote }}
   resources:
     requests:
-      storage: {{ .Values.thresh.persistence.size | quote }}
+      storage: {{ .Values.storm.persistence.size | quote }}
 {{- end }}

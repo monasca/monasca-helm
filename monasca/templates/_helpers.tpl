@@ -80,14 +80,6 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
-Create a fully qualified storm-nimbus name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-*/}}
-{{- define "storm.fullname" -}}
-{{- printf "%s-%s" .Release.Name "storm" | trunc 63 -}}
-{{- end -}}
-
-{{/*
 Create a fully qualified storm-supervisor name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
