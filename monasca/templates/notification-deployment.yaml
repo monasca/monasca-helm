@@ -52,10 +52,12 @@ spec:
               value: {{ .Values.notification.plugin_config.email.server | quote }}
             - name: NF_EMAIL_PORT
               value: {{ .Values.notification.plugin_config.email.port  | quote }}
+            {{- if .Values.notification.plugin_config.email.user }}
             - name: NF_EMAIL_USER
               value: {{ .Values.notification.plugin_config.email.user | quote }}
             - name: NF_EMAIL_PASSWORD
               value: {{ .Values.notification.plugin_config.email.password | quote }}
+            {{- end }}
             - name: NF_EMAIL_FROM_ADDR
               value: {{ .Values.notification.plugin_config.email.from_addr | quote }}
             {{- end }}
