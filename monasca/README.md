@@ -2,10 +2,13 @@
 
 ##  An Open-Source Monitoring as a Service at Scale solution
 
-[Monasca](https://wiki.openstack.org/wiki/Monasca), an [Openstack](https://www.openstack.org/) official project, is a
-scalable monitoring as a service solution. It monitors services and systems by a push model. The Monasca Agent will
-collect metrics from each node and push them to the Monasca API. It will then be processed by separate microservices for
-storing, alarming and notifications. The architecture can be viewed [here](https://wiki.openstack.org/wiki/File:Monasca-arch-component-diagram.png)
+[Monasca](https://wiki.openstack.org/wiki/Monasca), an
+[Openstack](https://www.openstack.org/) official project, is a scalable
+monitoring as a service solution. It monitors services and systems by a push
+model. The Monasca Agent will collect metrics from each node and push them to
+the Monasca API. It will then be processed by separate microservices for
+storing, alarming and notifications. The architecture can be viewed
+[here](https://wiki.openstack.org/wiki/File:Monasca-arch-component-diagram.png)
 
 ## QuickStart
 
@@ -15,7 +18,8 @@ $ helm install monasca --name foo --namespace bar
 
 ## Introduction
 
-This chart bootstraps a [Monasca](https://wiki.openstack.org/wiki/Monasca) deployment on a Kubernetes cluster using the Helm Package manager.
+This chart bootstraps a [Monasca](https://wiki.openstack.org/wiki/Monasca)
+deployment on a Kubernetes cluster using the Helm Package manager.
 
 ## Prerequisites
 
@@ -29,8 +33,9 @@ To install the chart with the release name `my-release`:
 $ helm install --name my-release monasca
 ```
 
-The command deploys Monasca on the Kubernetes cluster in the default configuration. The [configuration](#configuration)
-section lists the parameters that can be configured during installation.
+The command deploys Monasca on the Kubernetes cluster in the default
+configuration. The [configuration](#configuration) section lists the parameters
+that can be configured during installation.
 
 > **Tip**: List all releases using `helm list`
 
@@ -42,12 +47,30 @@ To uninstall/delete the `my-release` deployment:
 $ helm delete my-release --purge
 ```
 
-The command removes all the Kubernetes components associated with the chart and deletes the release.
+The command removes all the Kubernetes components associated with the chart and
+deletes the release.
 
 ## Configuration
 
-The following tables lists the configurable parameters of the Monasca chart broken down by microservice and their
-default values.
+The following tables lists the configurable parameters of the Monasca chart
+broken down by microservice and their default values.
+
+Specify each parameter using the `--set key=value[,key=value]` argument to
+`helm install`. For example,
+
+```console
+$ helm install monasca --name my-release \
+    --set persister.replicaCount=4
+```
+
+Alternatively, a YAML file that specifies the values for the below parameters
+can be provided while installing the chart. For example,
+
+```console
+$ helm install monasca --name my-release -f values.yaml
+```
+
+> **Tip**: You can use the default [values.yaml](values.yaml)
 
 ### Agent
 
@@ -273,43 +296,16 @@ Parameter | Description | Default
 Parameter | Description | Default
 --------- | ----------- | -------
 `thresh.name` | Thresh container name | `thresh`
-`thresh.storm_name` | Storm container name | `storm`
-`thresh.image.storm.repository` | Storm container image repository | `timothyb89/storm
-`thresh.image.storm.tag` | Storm container image tag | `1.0.2.4`
 `thresh.image.storm.pullPolicy` | Storm container image pull policy | `Always`
-`thresh.image.thresh.repository` | Thresh container image repository | `rbrndt/monasca-thresh`
-`thresh.image.thresh.tag` | Thresh container image tag | `latest`
-`thresh.image.thresh.pullPolicy` | Thresh container image pull policy | `Always`
-`thresh.persistence.storageClass` | Zookeeper storage class | `default`
-`thresh.persistence.enabled` | Zookeeper persistent storage enabled flag | `false`
-`thresh.persistence.accessMode` | Zookeeper persistent storage accessMode | `ReadWriteOnce`
-`thresh.persistence.size` | Zookeeper persistent storage size | `10Gi`
-`thresh.service.nimbus.port` | Storm nimbus service port | `6627`
-`thresh.service.nimbus.type` | Storm nimbus service type | `ClusterIP`
+`thresh.image.repository` | Thresh container image repository | `monasca/thresh`
+`thresh.image.tag` | Thresh container image tag | `master`
+`thresh.image.pullPolicy` | Thresh container image pull policy | `Always`
+`thresh.secretSuffix` | MySQL secret suffix | `mysql-thresh-secret`
 `thresh.spout.metricSpoutThreads` | Amount of metric spout threads | `2`
 `thresh.spout.metricSpoutTasks` | Amount of metric spout tasks | `2`
-`thresh.nimbus_resources.requests.memory` | Memory request per agent pod | `512Mi`
-`thresh.nimbus_resources.requests.cpu` | CPU request per agent pod | `100m`
-`thresh.nimbus_resources.limits.memory` | Memory limit per agent pod | `2Gi`
-`thresh.nimbus_resources.limits.cpu` | Memory limit per agent pod | `500m`
-`thresh.supervisor_resources.requests.memory` | Memory request per agent pod | `2Gi`
-`thresh.supervisor_resources.requests.cpu` | CPU request per agent pod | `500m`
-`thresh.supervisor_resources.limits.memory` | Memory limit per agent pod | `4Gi`
-`thresh.supervisor_resources.limits.cpu` | Memory limit per agent pod | `2000m`
+`thresh.wait.retries` | Number of startup connection attempts to make before giving up | `24`
+`thresh.wait.delay` | Seconds to wait between retries | `5`
+`thresh.wait.timeout` | Attempt connection timeout in seconds | `10`
 
-
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
-
-```console
-$ helm install monasca --name my-release \
-    --set persister.replicaCount=4
-```
-
-Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the
-chart. For example,
-
-```console
-$ helm install monasca --name my-release -f values.yaml
-```
-
-> **Tip**: You can use the default [values.yaml](values.yaml)
+Storm-specific options are documented in the
+[Storm chart](https://github.com/hpcloud-mon/monasca-helm/tree/master/storm).

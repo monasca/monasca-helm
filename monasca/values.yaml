@@ -322,6 +322,7 @@ thresh:
     repository: monasca/thresh
     tag: master
     pullPolicy: Always
+  secretSuffix: mysql-thresh-secret
   spout:
     metricSpoutThreads: 2
     metricSpoutTasks: 2
