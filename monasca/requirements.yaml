@@ -10,4 +10,4 @@ dependencies:
   repository: http://monasca.io/monasca-helm-repo/
 - name: storm
   version: 0.1.0
-  repository: file:///home/tim/projects/monasca-helm/storm/
+  repository: http://monasca.io/monasca-helm-repo/
