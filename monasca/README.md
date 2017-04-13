@@ -244,6 +244,21 @@ Parameter | Description | Default
 `notification.replicaCount` | Notification pod replica count | `1`
 `notification.log_level` | Notification log level | `WARN`
 `notification.plugins` | Notification plugins enabled | `pagerduty,webhook`
+`notification.plugin_config.email.defined` | Notification email plugin configuration is defined | `false`
+`notification.plugin_config.email.server` | SMTP server address | ``
+`notification.plugin_config.email.port` | SMTP server port | ``
+`notification.plugin_config.email.user` | SMTP username | ``
+`notification.plugin_config.email.password` | SMTP password | ``
+`notification.plugin_config.email.from_addr` | "from" field for emails sent, e.g. "Name" <name@example.com> | ``
+`notification.plugin_config.webhook.timeout` | Webhook timeout | `5`
+`notification.plugin_config.hipchat.ssl_certs` | Path to SSL certs | ``
+`notification.plugin_config.hipchat.timeout` | Hipchat timeout | `5`
+`notification.plugin_config.hipchat.insecure` | Insecure when sending to Hipchat | ``
+`notification.plugin_config.hipchat.proxy` |  if set, use the given HTTP(S) proxy server to send Hipchat notifications | ``
+`notification.plugin_config.slack.timeout` | Notification slack timeout | `5`
+`notification.plugin_config.slack.certs` | Path to Slack certs | ``
+`notification.plugin_config.slack.insecure` | Insecure when sending to Slack | ``
+`notification.plugin_config.slack.proxy` |  if set, use the given HTTP(S) proxy server to send Slack notifications | ``
 `notification.resources.requests.memory` | Memory request per notification pod | `128Mi`
 `notification.resources.requests.cpu` | CPU request per notification pod | `50m`
 `notification.resources.limits.memory` | Memory limit per notification pod | `256Mi`

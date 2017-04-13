@@ -47,3 +47,45 @@ spec:
               value: {{ .Values.notification.log_level | quote }}
             - name: NF_PLUGINS
               value: {{ .Values.notification.plugins | quote }}
+            {{- if .Values.notification.plugin_config.email.defined }}
+            - name: NF_EMAIL_SERVER
+              value: {{ .Values.notification.plugin_config.email.server | quote }}
+            - name: NF_EMAIL_PORT
+              value: {{ .Values.notification.plugin_config.email.port  | quote }}
+            - name: NF_EMAIL_USER
+              value: {{ .Values.notification.plugin_config.email.user | quote }}
+            - name: NF_EMAIL_PASSWORD
+              value: {{ .Values.notification.plugin_config.email.password | quote }}
+            - name: NF_EMAIL_FROM_ADDR
+              value: {{ .Values.notification.plugin_config.email.from_addr | quote }}
+            {{- end }}
+            - name: NF_WEBHOOK_TIMEOUT
+              value: {{ .Values.notification.plugin_config.webhook.timeout | quote }}
+            {{- if .Values.notification.plugin_config.hipchat.ssl_certs }}
+            - name: NF_HIPCHAT_SSL_CERTS
+              value: {{ .Values.notification.plugin_config.hipchat.ssl_certs | quote }}
+            {{- end }}
+            - name: NF_HIPCHAT_TIMEOUT
+              value: {{ .Values.notification.plugin_config.hipchat.timeout | quote }}
+            {{- if .Values.notification.plugin_config.hipchat.insecure }}
+            - name: NF_HIPCHAT_INSECURE
+              value: {{ .Values.notification.plugin_config.hipchat.insecure | quote }}
+            {{- end }}
+            {{- if .Values.notification.plugin_config.hipchat.proxy }}
+            - name: NF_HIPCHAT_PROXY
+              value: {{ .Values.notification.plugin_config.hipchat.proxy | quote }}
+            {{- end }}
+            - name: NF_SLACK_TIMEOUT
+              value: {{ .Values.notification.plugin_config.slack.timeout | quote }}
+            {{- if .Values.notification.plugin_config.slack.certs }}
+            - name: NF_SLACK_CERTS
+              value: {{ .Values.notification.plugin_config.slack.certs | quote }}
+            {{- end }}
+            {{- if .Values.notification.plugin_config.slack.insecure }}
+            - name: NF_SLACK_INSECURE
+              value: {{ .Values.notification.plugin_config.slack.insecure | quote }}
+            {{- end }}
+            {{- if .Values.notification.plugin_config.slack.proxy }}
+            - name: NF_SLACK_PROXY
+              value: {{ .Values.notification.plugin_config.slack.proxy | quote }}
+            {{- end }}

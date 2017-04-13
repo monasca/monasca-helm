@@ -250,6 +250,15 @@ notification:
   replicaCount: 1
   log_level: WARN
   plugins: pagerduty,webhook
+  plugin_config:
+    email:
+      defined: false
+    webhook:
+      timeout: 5
+    slack:
+      timeout: 5
+    hipchat:
+      timeout: 5
   resources:
     requests:
       memory: 128Mi
