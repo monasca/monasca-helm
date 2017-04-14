@@ -1,0 +1,43 @@
+storm:
+  name: storm
+  image:
+    repository: monasca/storm
+    tag: 1.0.3
+    pullPolicy: Always
+  persistence:
+    storageClass: default
+    enabled: false
+    accessMode: ReadWriteOnce
+    size: 4Gi
+  service:
+    type: ClusterIP
+    port: 6627
+  nimbus_resources:
+    requests:
+      memory: 512Mi
+      cpu: 100m
+    limits:
+      memory: 2Gi
+      cpu: 500m
+  supervisor_resources:
+    requests:
+      memory: 2Gi
+      cpu: 250m
+    limits:
+      memory: 4Gi
+      cpu: 2000m
+
+thresh:
+  secretSuffix: mysql-thresh-secret
+  spout:
+    metricSpoutThreads: 2
+    metricSpoutTasks: 2
+
+# keep kafka in its own block since we want to reference+override it from
+# monasca/monasca and helm can't apply templates in values.yaml
+kafka:
+  service:
+    port: 9092
+  zookeeper:
+    service:
+      port: 2181

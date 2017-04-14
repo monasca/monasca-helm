@@ -296,30 +296,20 @@ persister:
       memory: 256Mi
       cpu: 100m
 
-thresh:
-  name: thresh
-  storm_name: storm
+storm:
+  name: storm
   image:
-    storm:
-      repository: timothyb89/storm
-      tag: 1.0.2.4
-      pullPolicy: Always
-    thresh:
-      repository: rbrndt/monasca-thresh
-      tag: latest
-      pullPolicy: Always
+    repository: monasca/storm
+    tag: 1.0.3
+    pullPolicy: Always
   persistence:
     storageClass: default
     enabled: false
     accessMode: ReadWriteOnce
     size: 4Gi
   service:
-    nimbus:
-      type: ClusterIP
-      port: 6627
-  spout:
-    metricSpoutThreads: 2
-    metricSpoutTasks: 2
+    type: ClusterIP
+    port: 6627
   nimbus_resources:
     requests:
       memory: 512Mi
@@ -334,6 +324,21 @@ thresh:
     limits:
       memory: 4Gi
       cpu: 2000m
+
+thresh:
+  name: thresh
+  image:
+    repository: monasca/thresh
+    tag: master
+    pullPolicy: Always
+  secretSuffix: mysql-thresh-secret
+  spout:
+    metricSpoutThreads: 2
+    metricSpoutTasks: 2
+  wait:
+    retries: 24
+    delay: 5
+    timeout: 10
 
 client:
   name: client
