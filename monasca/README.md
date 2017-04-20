@@ -103,6 +103,9 @@ Parameter | Description | Default
 `agent.resources.requests.cpu` | CPU request per agent pod | `100m`
 `agent.resources.limits.memory` | Memory limit per agent pod | `512Mi`
 `agent.resources.limits.cpu` | Memory limit per agent pod | `500m`
+`agent.proxies.http` | http_proxy to use when forwarding metrics | ``
+`agent.proxies.https` | https_proxy to use when forwarding metrics | ``
+`agent.proxies.no_proxy` | no_proxy to use when forwarding metrics | ``
 
 ### API
 
@@ -175,6 +178,9 @@ Parameter | Description | Default
 `forwarder.resources.requests.cpu` | CPU request per forwarder pod | `50m`
 `forwarder.resources.limits.memory` | Memory limit per forwarder pod | `256Mi`
 `forwarder.resources.limits.cpu` | Memory limit per forwarder pod | `100m`
+`forwarder.proxies.http` | http_proxy to use when forwarding metrics | ``
+`forwarder.proxies.https` | https_proxy to use when forwarding metrics | ``
+`forwarder.proxies.no_proxy` | no_proxy to use when forwarding metrics | ``
 
 ### Grafana
 
@@ -190,6 +196,9 @@ Parameter | Description | Default
 `grafana.resources.requests.cpu` | CPU request per grafana pod | `50m`
 `grafana.resources.limits.memory` | Memory limit per grafana pod | `128Mi`
 `grafana.resources.limits.cpu` | Memory limit per grafana pod | `100m`
+`grafana.proxies.http` | HTTP Proxy to use when downloading plugins from grafana.net | ``
+`grafana.proxies.https` | HTTPS Proxy to use when downloading plugins from grafana.net | ``
+`grafana.proxies.no_proxy` | NO Proxy to use when downloading plugins from grafana.net | ``
 
 ### Keystone
 

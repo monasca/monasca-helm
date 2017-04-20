@@ -36,3 +36,7 @@ resources:
   limits:
     memory: 512Mi
     cpu: 500m
+proxies:
+  http: ''
+  https: ''
+  no_proxy: ''

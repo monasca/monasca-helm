@@ -70,3 +70,25 @@ spec:
             - name: KUBERNETES_NAMESPACE_ANNOTATIONS
               value: {{ .Values.agent.namespace_annotations | quote}}
             {{- end}}
+            {{- if .Values.agent.dimensions }}
+            - name: DIMENSIONS
+              value: {{ .Values.agent.dimensions | quote }}
+            {{- end}}
+            {{- if .Values.agent.proxies.https }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.agent.proxies.https | quote }}
+            - name: https_proxy
+              value: {{ .Values.agent.proxies.https | quote }}
+            {{- end}}
+            {{- if .Values.agent.proxies.http }}
+            - name: HTTP_PROXY
+              value: {{ .Values.agent.proxies.http | quote }}
+            - name: http_proxy
+              value: {{ .Values.agent.proxies.http | quote }}
+            {{- end}}
+            {{- if .Values.agent.proxies.no_proxy }}
+            - name: NO_PROXY
+              value: {{ .Values.agent.proxies.no_proxy | quote }}
+            - name: no_proxy
+              value: {{ .Values.agent.proxies.no_proxy | quote }}
+            {{- end}}
