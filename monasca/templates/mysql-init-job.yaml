@@ -30,10 +30,7 @@ spec:
             - name: MYSQL_INIT_USERNAME
               value: "root"
             - name: MYSQL_INIT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Release.Name }}-mysql"
-                  key: "mysql-root-password"
+              value: "{{ .Values.mysql.mysqlRootPassword }}"
             - name: KEYSTONE_USERNAME
               valueFrom:
                 secretKeyRef:
