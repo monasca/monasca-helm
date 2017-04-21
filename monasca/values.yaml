@@ -1,9 +1,9 @@
 mysql_init:
   image:
     repository: monasca/mysql-init
-    tag: 1.2.0
+    tag: 1.4.0
     pullPolicy: IfNotPresent
-  disable_remote_root: true
+  disable_remote_root: false
 
 influx_init:
   image:
@@ -61,6 +61,7 @@ mysql:
     limits:
       memory: 1Gi
       cpu: 500m
+  mysqlRootPassword: secretmysql
   users:
     api:
       username: monapi
@@ -363,3 +364,10 @@ kafka:
   zookeeper:
     service:
       port: 2181
+
+cleanup:
+  name: cleanup
+  image:
+    repository: monasca/job-cleanup
+    tag: 1.0.0
+    pullPolicy: IfNotPresent
