@@ -80,6 +80,7 @@ Parameter | Description | Default
 `agent.image.repository` | Agent container image repository | `monasca/agent`
 `agent.image.tag` | Agent container image tag | `latest`
 `agent.image.pullPolicy` | Agent container image pull policy | `Always`
+`agent.insecure` | Insecure connection to Keystone and Monasca API | `False`
 `agent.log_level` | Log level of agent log files | `WARN`
 `agent.keystone.os_username` | Agent Keystone username | `mini-mon`
 `agent.keystone.os_user_domain_name` | Agent Keystone user domain | `Default`
@@ -163,6 +164,7 @@ Parameter | Description | Default
 `forwarder.image.repository` | Forwarder container image repository | `monasca/forwarder`
 `forwarder.image.tag` | Forwarder container image tag | `master`
 `forwarder.image.pullPolicy` | Forwarder container image pull policy | `Always`
+`forwarder.insecure` | Insecure connection to Monasca API | `False`
 `forwarder.enabled` | Enable deploying the forwarder | `false`
 `forwarder.replicaCount` | Replica count of Forwarder pods | `1`
 `forwarder.logging.debug` | Enable debug logging | `false`
