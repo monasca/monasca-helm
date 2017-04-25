@@ -1,9 +1,9 @@
-
 name: agent
 image:
   repository: monasca/agent
   tag: latest
   pullPolicy: Always
+insecure: False
 log_level: WARN
 keystone:
   os_username: mini-mon
