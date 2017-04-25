@@ -83,6 +83,7 @@ agent:
     tag: latest
     pullPolicy: Always
   log_level: WARN
+  insecure: False
   keystone:
     os_username: mini-mon
     os_user_domain_name: Default
@@ -163,6 +164,7 @@ forwarder:
     repository: monasca/forwarder
     tag: master
     pullPolicy: Always
+  insecure: False
   replicaCount: 1
   logging:
     debug: false

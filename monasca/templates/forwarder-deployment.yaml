@@ -46,6 +46,8 @@ spec:
             - name: METRIC_PROJECT_ID
               value: {{ .Values.forwarder.config.metric_project_id | quote }}
             {{- end }}
+            - name: USE_INSECURE
+              value: {{ .Values.forwarder.insecure | quote }}
         volumeMounts:
           - name: forwarder-config
             mountPath: /config/forwarder_metric_match.yml.j2

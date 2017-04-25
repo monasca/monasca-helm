@@ -64,6 +64,8 @@ spec:
               value: {{ .Values.monasca_url | quote }}
             - name: LOG_LEVEL
               value: {{ .Values.log_level | quote }}
+            - name: INSECURE
+              value: {{ .Values.insecure | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
             {{- if .Values.namespace_annotations }}
