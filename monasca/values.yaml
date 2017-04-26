@@ -343,6 +343,28 @@ thresh:
     delay: 5
     timeout: 10
 
+alarms:
+  name: alarms
+  image:
+    repository: monasca/alarms
+    tag: master
+    pullPolicy: Always
+  secretSuffix: mysql-thresh-secret
+  spout:
+    metricSpoutThreads: 2
+    metricSpoutTasks: 2
+  wait:
+    enabled: true
+    retries: 24
+    delay: 5
+  keystone:
+    os_username: mini-mon
+    os_user_domain_name: Default
+    os_password: password
+    os_project_name: mini-mon
+    os_project_domain_name: Default
+    auth_url: http://keystone:35357/v3/
+
 client:
   name: client
   enabled: false
