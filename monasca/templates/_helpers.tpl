@@ -102,3 +102,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- define "client.fullname" -}}
 {{- printf "%s-%s" .Release.Name "client" | trunc 63 -}}
 {{- end -}}
+
+{{/*
+Create a fully qualified cleanup name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "cleanup.fullname" -}}
+{{- printf "%s-%s" .Release.Name "cleanup" | trunc 63 -}}
+{{- end -}}

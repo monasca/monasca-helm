@@ -64,6 +64,8 @@ spec:
             - name: no_proxy
               value: {{ .Values.forwarder.proxies.no_proxy | quote }}
             {{- end}}
+            - name: USE_INSECURE
+              value: {{ .Values.forwarder.insecure | quote }}
         volumeMounts:
           - name: forwarder-config
             mountPath: /config/forwarder_metric_match.yml.j2
