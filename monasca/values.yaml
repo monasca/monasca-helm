@@ -388,5 +388,5 @@ cleanup:
   name: cleanup
   image:
     repository: monasca/job-cleanup
-    tag: 1.1.0
+    tag: 1.1.1
     pullPolicy: IfNotPresent
