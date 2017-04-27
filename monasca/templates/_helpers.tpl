@@ -110,3 +110,10 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- define "cleanup.fullname" -}}
 {{- printf "%s-%s" .Release.Name "cleanup" | trunc 63 -}}
 {{- end -}}
+{{/*
+Create a fully qualified alarms name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "alarms.fullname" -}}
+{{- printf "%s-%s" .Release.Name "alarms" | trunc 63 -}}
+{{- end -}}

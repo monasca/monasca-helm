@@ -347,12 +347,8 @@ alarms:
   name: alarms
   image:
     repository: monasca/alarms
-    tag: master
+    tag: 1.0.0
     pullPolicy: Always
-  secretSuffix: mysql-thresh-secret
-  spout:
-    metricSpoutThreads: 2
-    metricSpoutTasks: 2
   wait:
     enabled: true
     retries: 24
@@ -363,7 +359,6 @@ alarms:
     os_password: password
     os_project_name: mini-mon
     os_project_domain_name: Default
-    auth_url: http://keystone:35357/v3/
 
 client:
   name: client
