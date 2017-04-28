@@ -164,7 +164,6 @@ forwarder:
     repository: monasca/forwarder
     tag: master
     pullPolicy: Always
-  insecure: False
   replicaCount: 1
   logging:
     debug: false
