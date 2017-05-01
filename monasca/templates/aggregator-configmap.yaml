@@ -1,14 +1,14 @@
-{{- if .Values.aggregation.enabled }}
+{{- if .Values.aggregator.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "aggregation.fullname" . }}
+  name: {{ template "aggregator.fullname" . }}
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Values.aggregation.name }}"
+    component: "{{ .Values.aggregator.name }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 data:
-{{ toYaml .Values.aggregation.metric_configuration | indent 2 }}
+{{ toYaml .Values.aggregator.metric_configuration | indent 2 }}
 {{- end }}

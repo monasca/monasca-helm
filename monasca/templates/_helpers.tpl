@@ -27,8 +27,8 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 Create a fully qualified agent name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "aggregation.fullname" -}}
-{{- printf "%s-%s" .Release.Name "aggregation" | trunc 63 -}}
+{{- define "aggregator.fullname" -}}
+{{- printf "%s-%s" .Release.Name "aggregator" | trunc 63 -}}
 {{- end -}}
 
 {{/*
