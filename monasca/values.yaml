@@ -78,7 +78,7 @@ mysql:
 
 agent:
   name: agent
-  enabled: false
+  enabled: true
   image:
     repository: monasca/agent
     tag: latest

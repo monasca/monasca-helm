@@ -1,3 +1,4 @@
+{{- if .Values.grafana.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -29,3 +30,4 @@ data:
 
     [log.console]
     level = trace
+{{- end}}
