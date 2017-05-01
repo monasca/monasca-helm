@@ -12,7 +12,13 @@ $ helm repo add monasca http://monasca.io/monasca-helm-repo
 $ helm install monasca/monasca --name monasca --namespace monitoring
 ```
 
+It may take several minutes to download the container images.
+
 By default Monasca will monitor pod workloads, basic Kubernetes Health and autodetect Prometheus endpoints.
+
+### Local Development Environment
+For local development we use [minikube](https://github.com/kubernetes/minikube) for bringing up Kubernetes to deploy
+Monasca on.
 
 ### Accessing Data via Grafana
 
@@ -28,8 +34,4 @@ $ kubectl port-forward {{ grafana_pod_name_from_output_above }} -n monitoring 30
 After the above is set up you can visit [grafana](http://localhost:3000) with the default credentials mini-mon/password
 
 For more details on configuring the Monasca chart you can refer to the chart's [README](monasca/README.md) and for
-general details around Monasca in Kubernetes you can refer to [monasca.io Kubernetes](http://monasca.io/docs/kubernetes.html)
-
-## Local Development Environment
-
-For Local development we use [minikube](https://github.com/kubernetes/minikube) for deploying Monasca.
+general details around Monasca in Kubernetes you can refer to [monasca.io](http://monasca.io/docs/kubernetes.html)

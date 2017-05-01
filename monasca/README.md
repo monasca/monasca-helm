@@ -45,7 +45,7 @@ $ helm dependency update monasca
 $ helm install monasca --name monasca --namespace monitoring
 ```
 
-Either option will bring Monasca on the Kubernetes cluster with the default
+Either option will bring up Monasca on the Kubernetes cluster with the default
 configuration. The [configuration](#configuration) section lists the parameters
 that can be configured during installation.
 
@@ -73,7 +73,7 @@ It will also autodetect Prometheus Endpoints by looking for the following annota
 * prometheus.io/port: Scrape the pod on the indicated port instead of the default of '9102'.
 
 More information on our monitoring within in Kubernetes can be found on
-[monasca.io Kubernetes](http://monasca.io/docs/kubernetes.html)
+[monasca.io](http://monasca.io/docs/kubernetes.html)
 
 ## Configuration
 
