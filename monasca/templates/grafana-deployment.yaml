@@ -22,6 +22,25 @@ spec:
           imagePullPolicy: {{ .Values.grafana.image.pullPolicy }}
           resources:
 {{ toYaml .Values.grafana.resources | indent 12 }}
+          env:
+            {{- if .Values.grafana.proxies.https }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.grafana.proxies.https | quote }}
+            - name: https_proxy
+              value: {{ .Values.grafana.proxies.https | quote }}
+            {{- end}}
+            {{- if .Values.grafana.proxies.http }}
+            - name: HTTP_PROXY
+              value: {{ .Values.grafana.proxies.http | quote }}
+            - name: http_proxy
+              value: {{ .Values.grafana.proxies.http | quote }}
+            {{- end}}
+            {{- if .Values.grafana.proxies.no_proxy }}
+            - name: NO_PROXY
+              value: {{ .Values.grafana.proxies.no_proxy | quote }}
+            - name: no_proxy
+              value: {{ .Values.grafana.proxies.no_proxy | quote }}
+            {{- end}}
           ports:
             - name: http
               containerPort: 3000

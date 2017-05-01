@@ -74,5 +74,23 @@ spec:
             {{- end}}
             {{- if .Values.dimensions }}
             - name: DIMENSIONS
-              value: {{ .Values.dimensions | quote}}
+              value: {{ .Values.dimensions | quote }}
+            {{- end}}
+            {{- if .Values.proxies.https }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.proxies.https | quote }}
+            - name: https_proxy
+              value: {{ .Values.proxies.https | quote }}
+            {{- end}}
+            {{- if .Values.proxies.http }}
+            - name: HTTP_PROXY
+              value: {{ .Values.proxies.http | quote }}
+            - name: http_proxy
+              value: {{ .Values.proxies.http | quote }}
+            {{- end}}
+            {{- if .Values.proxies.no_proxy }}
+            - name: NO_PROXY
+              value: {{ .Values.proxies.no_proxy | quote }}
+            - name: no_proxy
+              value: {{ .Values.proxies.no_proxy | quote }}
             {{- end}}

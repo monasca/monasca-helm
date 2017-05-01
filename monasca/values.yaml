@@ -106,6 +106,10 @@ agent:
   cadvisor:
     enabled: true
     timeout: 3
+  proxies:
+    http: ''
+    https: ''
+    no_proxy: ''
   resources:
     requests:
       memory: 256Mi
@@ -180,6 +184,10 @@ forwarder:
     limits:
       memory: 256Mi
       cpu: 100m
+  proxies:
+    http: ''
+    https: ''
+    no_proxy: ''
   metric_configuration:
     forwarder_metric_match.yml: |
       metrics_to_forward:
@@ -202,6 +210,10 @@ grafana:
     limits:
       memory: 128Mi
       cpu: 100m
+  proxies:
+    http: ''
+    https: ''
+    no_proxy: ''
 
 keystone:
   name: keystone

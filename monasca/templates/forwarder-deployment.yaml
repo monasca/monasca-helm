@@ -46,6 +46,26 @@ spec:
             - name: METRIC_PROJECT_ID
               value: {{ .Values.forwarder.config.metric_project_id | quote }}
             {{- end }}
+            {{- if .Values.forwarder.proxies.https }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.forwarder.proxies.https | quote }}
+            - name: https_proxy
+              value: {{ .Values.forwarder.proxies.https | quote }}
+            {{- end}}
+            {{- if .Values.forwarder.proxies.http }}
+            - name: HTTP_PROXY
+              value: {{ .Values.forwarder.proxies.http | quote }}
+            - name: http_proxy
+              value: {{ .Values.forwarder.proxies.http | quote }}
+            {{- end}}
+            {{- if .Values.forwarder.proxies.no_proxy }}
+            - name: NO_PROXY
+              value: {{ .Values.forwarder.proxies.no_proxy | quote }}
+            - name: no_proxy
+              value: {{ .Values.forwarder.proxies.no_proxy | quote }}
+            {{- end}}
+            - name: USE_INSECURE
+              value: {{ .Values.forwarder.insecure | quote }}
         volumeMounts:
           - name: forwarder-config
             mountPath: /config/forwarder_metric_match.yml.j2
