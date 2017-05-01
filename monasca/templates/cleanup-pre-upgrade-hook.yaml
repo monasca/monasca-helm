@@ -31,3 +31,10 @@ spec:
         - name: {{ template "name" . }}-{{ .Values.cleanup.name }}-job
           image: "{{ .Values.cleanup.image.repository }}:{{ .Values.cleanup.image.tag }}"
           imagePullPolicy: {{ .Values.cleanup.image.pullPolicy }}
+          env:
+            - name: "WAIT_RETRIES"
+              value: "{{ .Values.cleanup.wait.retries }}"
+            - name: "WAIT_DELAY"
+              value: "{{ .Values.cleanup.wait.delay }}"
+            - name: "WAIT_TIMEOUT"
+              value: "{{ .Values.cleanup.wait.timeout }}"
