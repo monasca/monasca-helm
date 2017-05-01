@@ -344,6 +344,7 @@ thresh:
 
 alarms:
   name: alarms
+  enabled: true
   image:
     repository: monasca/alarms
     tag: 1.1.0
