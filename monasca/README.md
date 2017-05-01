@@ -13,7 +13,8 @@ storing, alarming and notifications. The architecture can be viewed
 ## QuickStart
 
 ```bash
-$ helm install monasca --name foo --namespace bar
+$ helm repo add monasca http://monasca.io/monasca-helm-repo
+$ helm install monasca/monasca --name monasca --namespace monitoring
 ```
 
 ## Introduction
@@ -27,13 +28,24 @@ deployment on a Kubernetes cluster using the Helm Package manager.
 
 ## Installing the Chart
 
-To install the chart with the release name `my-release`:
+Monasca can either be install from the [monasca.io](https://monasca.io/) helm repo or by source.
+
+### Installing via Helm repo (recommended)
 
 ```bash
-$ helm install --name my-release monasca
+$ helm repo add monasca http://monasca.io/monasca-helm-repo
+$ helm install monasca/monasca --name monasca --namespace monitoring
 ```
 
-The command deploys Monasca on the Kubernetes cluster in the default
+### Installing via source
+
+```bash
+$ helm repo add monasca http://monasca.io/monasca-helm-repo
+$ helm dependency update monasca
+$ helm install monasca --name monasca --namespace monitoring
+```
+
+Either option will bring Monasca on the Kubernetes cluster with the default
 configuration. The [configuration](#configuration) section lists the parameters
 that can be configured during installation.
 
@@ -49,6 +61,19 @@ $ helm delete my-release --purge
 
 The command removes all the Kubernetes components associated with the chart and
 deletes the release.
+
+### Default monitoring
+
+By default Monasca will monitor pod workloads (CPU, Network, Memory, etc.) and Kubernetes health.
+
+It will also autodetect Prometheus Endpoints by looking for the following annotations on services and pods
+
+* prometheus.io/scrape: Only scrape pods that have a value of 'true'
+* prometheus.io/path: If the metrics path is not '/metrics' override this.
+* prometheus.io/port: Scrape the pod on the indicated port instead of the default of '9102'.
+
+More information on our monitoring within in Kubernetes can be found on
+[monasca.io Kubernetes](http://monasca.io/docs/kubernetes.html)
 
 ## Configuration
 
