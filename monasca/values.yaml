@@ -346,8 +346,8 @@ alarms:
   name: alarms
   image:
     repository: monasca/alarms
-    tag: 1.0.0
-    pullPolicy: Always
+    tag: 1.1.0
+    pullPolicy: IfNotPresent
   wait:
     enabled: true
     retries: 24
@@ -387,5 +387,862 @@ cleanup:
   name: cleanup
   image:
     repository: monasca/job-cleanup
-    tag: 1.1.1
+    tag: 1.1.2
     pullPolicy: IfNotPresent
+  wait:
+    retries: "24"
+    delay: "5.0"
+    timeout: "10"
+
+aggregation:
+  enabled: true
+  name: aggregation
+  image:
+    repository: monasca/aggregation
+    tag: latest
+    pullPolicy: Always
+  window_size: 60
+  window_lag: 2
+  metric_configuration:
+     aggregation-specifications.yaml: |
+      aggregationSpecifications:
+      - aggregatedMetricName: deployment.cpu.system_time_agg
+        filteredMetricName: pod.cpu.system_time
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: cpu.system_time
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.cpu.system_time_agg
+        filteredMetricName: pod.cpu.system_time
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: cpu.system_time
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.cpu.system_time_agg
+        filteredMetricName: pod.cpu.system_time
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: cpu.system_time
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.cpu.system_time_agg
+        filteredMetricName: pod.cpu.system_time
+        function: max
+        groupedDimensions: [pod_name]
+        name: cpu.system_time
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.cpu.system_time_sec_agg
+        filteredMetricName: pod.cpu.system_time_sec
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: cpu.system_time_sec
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.cpu.system_time_sec_agg
+        filteredMetricName: pod.cpu.system_time_sec
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: cpu.system_time_sec
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.cpu.system_time_sec_agg
+        filteredMetricName: pod.cpu.system_time_sec
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: cpu.system_time_sec
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.cpu.system_time_sec_agg
+        filteredMetricName: pod.cpu.system_time_sec
+        function: avg
+        groupedDimensions: [pod_name]
+        name: cpu.system_time_sec
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.cpu.total_time_agg
+        filteredMetricName: pod.cpu.total_time
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: cpu.total_time
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.cpu.total_time_agg
+        filteredMetricName: pod.cpu.total_time
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: cpu.total_time
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.cpu.total_time_agg
+        filteredMetricName: pod.cpu.total_time
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: cpu.total_time
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.cpu.total_time_agg
+        filteredMetricName: pod.cpu.total_time
+        function: max
+        groupedDimensions: [pod_name]
+        name: cpu.total_time
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.cpu.total_time_sec_agg
+        filteredMetricName: pod.cpu.total_time_sec
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: cpu.total_time_sec
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.cpu.total_time_sec_agg
+        filteredMetricName: pod.cpu.total_time_sec
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: cpu.total_time_sec
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.cpu.total_time_sec_agg
+        filteredMetricName: pod.cpu.total_time_sec
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: cpu.total_time_sec
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.cpu.total_time_sec_agg
+        filteredMetricName: pod.cpu.total_time_sec
+        function: avg
+        groupedDimensions: [pod_name]
+        name: cpu.total_time_sec
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.cpu.user_time_agg
+        filteredMetricName: pod.cpu.user_time
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: cpu.user_time
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.cpu.user_time_agg
+        filteredMetricName: pod.cpu.user_time
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: cpu.user_time
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.cpu.user_time_agg
+        filteredMetricName: pod.cpu.user_time
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: cpu.user_time
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.cpu.user_time_agg
+        filteredMetricName: pod.cpu.user_time
+        function: max
+        groupedDimensions: [pod_name]
+        name: cpu.user_time
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.cpu.user_time_sec_agg
+        filteredMetricName: pod.cpu.user_time_sec
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: cpu.user_time_sec
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.cpu.user_time_sec_agg
+        filteredMetricName: pod.cpu.user_time_sec
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: cpu.user_time_sec
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.cpu.user_time_sec_agg
+        filteredMetricName: pod.cpu.user_time_sec
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: cpu.user_time_sec
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.cpu.user_time_sec_agg
+        filteredMetricName: pod.cpu.user_time_sec
+        function: avg
+        groupedDimensions: [pod_name]
+        name: cpu.user_time_sec
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.mem.cache_bytes_agg
+        filteredMetricName: pod.mem.cache_bytes
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: mem.cache_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.mem.cache_bytes_agg
+        filteredMetricName: pod.mem.cache_bytes
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: mem.cache_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.mem.cache_bytes_agg
+        filteredMetricName: pod.mem.cache_bytes
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: mem.cache_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.mem.cache_bytes_agg
+        filteredMetricName: pod.mem.cache_bytes
+        function: avg
+        groupedDimensions: [pod_name]
+        name: mem.cache_bytes
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.mem.fail_count_agg
+        filteredMetricName: pod.mem.fail_count
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: mem.fail_count
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.mem.fail_count_agg
+        filteredMetricName: pod.mem.fail_count
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: mem.fail_count
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.mem.fail_count_agg
+        filteredMetricName: pod.mem.fail_count
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: mem.fail_count
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.mem.fail_count_agg
+        filteredMetricName: pod.mem.fail_count
+        function: avg
+        groupedDimensions: [pod_name]
+        name: mem.fail_count
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.mem.rss_bytes_agg
+        filteredMetricName: pod.mem.rss_bytes
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: mem.rss_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.mem.rss_bytes_agg
+        filteredMetricName: pod.mem.rss_bytes
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: mem.rss_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.mem.rss_bytes_agg
+        filteredMetricName: pod.mem.rss_bytes
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: mem.rss_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.mem.rss_bytes_agg
+        filteredMetricName: pod.mem.rss_bytes
+        function: avg
+        groupedDimensions: [pod_name]
+        name: mem.rss_bytes
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.mem.swap_bytes_agg
+        filteredMetricName: pod.mem.swap_bytes
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: mem.swap_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.mem.swap_bytes_agg
+        filteredMetricName: pod.mem.swap_bytes
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: mem.swap_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.mem.swap_bytes_agg
+        filteredMetricName: pod.mem.swap_bytes
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: mem.swap_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.mem.swap_bytes_agg
+        filteredMetricName: pod.mem.swap_bytes
+        function: avg
+        groupedDimensions: [pod_name]
+        name: mem.swap_bytes
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.mem.used_bytes_agg
+        filteredMetricName: pod.mem.used_bytes
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: mem.used_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.mem.used_bytes_agg
+        filteredMetricName: pod.mem.used_bytes
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: mem.used_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.mem.used_bytes_agg
+        filteredMetricName: pod.mem.used_bytes
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: mem.used_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.mem.used_bytes_agg
+        filteredMetricName: pod.mem.used_bytes
+        function: avg
+        groupedDimensions: [pod_name]
+        name: mem.used_bytes
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.in_bytes_agg
+        filteredMetricName: pod.net.in_bytes
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: net.in_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.in_bytes_agg
+        filteredMetricName: pod.net.in_bytes
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.in_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.in_bytes_agg
+        filteredMetricName: pod.net.in_bytes
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: net.in_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.in_bytes_agg
+        filteredMetricName: pod.net.in_bytes
+        function: max
+        groupedDimensions: [pod_name]
+        name: net.in_bytes
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.in_bytes_sec_agg
+        filteredMetricName: pod.net.in_bytes_sec
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: net.in_bytes_sec
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.in_bytes_sec_agg
+        filteredMetricName: pod.net.in_bytes_sec
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.in_bytes_sec
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.in_bytes_sec_agg
+        filteredMetricName: pod.net.in_bytes_sec
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: net.in_bytes_sec
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.in_bytes_sec_agg
+        filteredMetricName: pod.net.in_bytes_sec
+        function: avg
+        groupedDimensions: [pod_name]
+        name: net.in_bytes_sec
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.in_dropped_packets_agg
+        filteredMetricName: pod.net.in_dropped_packets
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: net.in_dropped_packets
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.in_dropped_packets_agg
+        filteredMetricName: pod.net.in_dropped_packets
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.in_dropped_packets
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.in_dropped_packets_agg
+        filteredMetricName: pod.net.in_dropped_packets
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: net.in_dropped_packets
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.in_dropped_packets_agg
+        filteredMetricName: pod.net.in_dropped_packets
+        function: max
+        groupedDimensions: [pod_name]
+        name: net.in_dropped_packets
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.in_dropped_packets_sec_agg
+        filteredMetricName: pod.net.in_dropped_packets_sec
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: net.in_dropped_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.in_dropped_packets_sec_agg
+        filteredMetricName: pod.net.in_dropped_packets_sec
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.in_dropped_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.in_dropped_packets_sec_agg
+        filteredMetricName: pod.net.in_dropped_packets_sec
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: net.in_dropped_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.in_dropped_packets_sec_agg
+        filteredMetricName: pod.net.in_dropped_packets_sec
+        function: avg
+        groupedDimensions: [pod_name]
+        name: net.in_dropped_packets_sec
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.in_errors_agg
+        filteredMetricName: pod.net.in_errors
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: net.in_errors
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.in_errors_agg
+        filteredMetricName: pod.net.in_errors
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.in_errors
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.in_errors_agg
+        filteredMetricName: pod.net.in_errors
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: net.in_errors
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.in_errors_agg
+        filteredMetricName: pod.net.in_errors
+        function: max
+        groupedDimensions: [pod_name]
+        name: net.in_errors
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.in_errors_sec_agg
+        filteredMetricName: pod.net.in_errors_sec
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: net.in_errors_sec
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.in_errors_sec_agg
+        filteredMetricName: pod.net.in_errors_sec
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.in_errors_sec
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.in_errors_sec_agg
+        filteredMetricName: pod.net.in_errors_sec
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: net.in_errors_sec
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.in_errors_sec_agg
+        filteredMetricName: pod.net.in_errors_sec
+        function: avg
+        groupedDimensions: [pod_name]
+        name: net.in_errors_sec
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.in_packets_agg
+        filteredMetricName: pod.net.in_packets
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: net.in_packets
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.in_packets_agg
+        filteredMetricName: pod.net.in_packets
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.in_packets
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.in_packets_agg
+        filteredMetricName: pod.net.in_packets
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: net.in_packets
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.in_packets_agg
+        filteredMetricName: pod.net.in_packets
+        function: max
+        groupedDimensions: [pod_name]
+        name: net.in_packets
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.in_packets_sec_agg
+        filteredMetricName: pod.net.in_packets_sec
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: net.in_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.in_packets_sec_agg
+        filteredMetricName: pod.net.in_packets_sec
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.in_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.in_packets_sec_agg
+        filteredMetricName: pod.net.in_packets_sec
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: net.in_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.in_packets_sec_agg
+        filteredMetricName: pod.net.in_packets_sec
+        function: avg
+        groupedDimensions: [pod_name]
+        name: net.in_packets_sec
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.out_bytes_agg
+        filteredMetricName: pod.net.out_bytes
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: net.out_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.out_bytes_agg
+        filteredMetricName: pod.net.out_bytes
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.out_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.out_bytes_agg
+        filteredMetricName: pod.net.out_bytes
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: net.out_bytes
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.out_bytes_agg
+        filteredMetricName: pod.net.out_bytes
+        function: max
+        groupedDimensions: [pod_name]
+        name: net.out_bytes
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.out_bytes_sec_agg
+        filteredMetricName: pod.net.out_bytes_sec
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: net.out_bytes_sec
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.out_bytes_sec_agg
+        filteredMetricName: pod.net.out_bytes_sec
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.out_bytes_sec
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.out_bytes_sec_agg
+        filteredMetricName: pod.net.out_bytes_sec
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: net.out_bytes_sec
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.out_bytes_sec_agg
+        filteredMetricName: pod.net.out_bytes_sec
+        function: avg
+        groupedDimensions: [pod_name]
+        name: net.out_bytes_sec
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.out_dropped_packets_agg
+        filteredMetricName: pod.net.out_dropped_packets
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: net.out_dropped_packets
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.out_dropped_packets_agg
+        filteredMetricName: pod.net.out_dropped_packets
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.out_dropped_packets
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.out_dropped_packets_agg
+        filteredMetricName: pod.net.out_dropped_packets
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: net.out_dropped_packets
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.out_dropped_packets_agg
+        filteredMetricName: pod.net.out_dropped_packets
+        function: max
+        groupedDimensions: [pod_name]
+        name: net.out_dropped_packets
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.out_dropped_packets_sec_agg
+        filteredMetricName: pod.net.out_dropped_packets_sec
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: net.out_dropped_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.out_dropped_packets_sec_agg
+        filteredMetricName: pod.net.out_dropped_packets_sec
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.out_dropped_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.out_dropped_packets_sec_agg
+        filteredMetricName: pod.net.out_dropped_packets_sec
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: net.out_dropped_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.out_dropped_packets_sec_agg
+        filteredMetricName: pod.net.out_dropped_packets_sec
+        function: avg
+        groupedDimensions: [pod_name]
+        name: net.out_dropped_packets_sec
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.out_errors_agg
+        filteredMetricName: pod.net.out_errors
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: net.out_errors
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.out_errors_agg
+        filteredMetricName: pod.net.out_errors
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.out_errors
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.out_errors_agg
+        filteredMetricName: pod.net.out_errors
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: net.out_errors
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.out_errors_agg
+        filteredMetricName: pod.net.out_errors
+        function: max
+        groupedDimensions: [pod_name]
+        name: net.out_errors
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.out_errors_sec_agg
+        filteredMetricName: pod.net.out_errors_sec
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: net.out_errors_sec
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.out_errors_sec_agg
+        filteredMetricName: pod.net.out_errors_sec
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.out_errors_sec
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.out_errors_sec_agg
+        filteredMetricName: pod.net.out_errors_sec
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: net.out_errors_sec
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.out_errors_sec_agg
+        filteredMetricName: pod.net.out_errors_sec
+        function: avg
+        groupedDimensions: [pod_name]
+        name: net.out_errors_sec
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.out_packets_agg
+        filteredMetricName: pod.net.out_packets
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: net.out_packets
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.out_packets_agg
+        filteredMetricName: pod.net.out_packets
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.out_packets
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.out_packets_agg
+        filteredMetricName: pod.net.out_packets
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: net.out_packets
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.out_packets_agg
+        filteredMetricName: pod.net.out_packets
+        function: max
+        groupedDimensions: [pod_name]
+        name: net.out_packets
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.net.out_packets_sec_agg
+        filteredMetricName: pod.net.out_packets_sec
+        function: avg
+        groupedDimensions: [deployment, pod_name]
+        name: net.out_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.net.out_packets_sec_agg
+        filteredMetricName: pod.net.out_packets_sec
+        function: avg
+        groupedDimensions: [daemon_set, pod_name]
+        name: net.out_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.net.out_packets_sec_agg
+        filteredMetricName: pod.net.out_packets_sec
+        function: avg
+        groupedDimensions: [namespace, pod_name]
+        name: net.out_packets_sec
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.net.out_packets_sec_agg
+        filteredMetricName: pod.net.out_packets_sec
+        function: avg
+        groupedDimensions: [pod_name]
+        name: net.out_packets_sec
+        rollup: {function: sum}
+      - aggregatedMetricName: deployment.restart_count_agg
+        filteredMetricName: pod.restart_count
+        function: max
+        groupedDimensions: [deployment, pod_name]
+        name: restart_count
+        rollup:
+          function: sum
+          groupedDimensions: [deployment]
+      - aggregatedMetricName: daemon_set.restart_count_agg
+        filteredMetricName: pod.restart_count
+        function: max
+        groupedDimensions: [daemon_set, pod_name]
+        name: restart_count
+        rollup:
+          function: sum
+          groupedDimensions: [daemon_set]
+      - aggregatedMetricName: namespace.restart_count_agg
+        filteredMetricName: pod.restart_count
+        function: max
+        groupedDimensions: [namespace, pod_name]
+        name: restart_count
+        rollup:
+          function: sum
+          groupedDimensions: [namespace]
+      - aggregatedMetricName: cluster.restart_count_agg
+        filteredMetricName: pod.restart_count
+        function: max
+        groupedDimensions: [pod_name]
+        name: restart_count
+        rollup: {function: sum}

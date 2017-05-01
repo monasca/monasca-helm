@@ -80,6 +80,7 @@ Parameter | Description | Default
 `agent.image.repository` | Agent container image repository | `monasca/agent`
 `agent.image.tag` | Agent container image tag | `latest`
 `agent.image.pullPolicy` | Agent container image pull policy | `Always`
+`agent.dimensions` | Default dimensions to attach to every metric being sent | ``
 `agent.insecure` | Insecure connection to Keystone and Monasca API | `False`
 `agent.log_level` | Log level of agent log files | `WARN`
 `agent.keystone.os_username` | Agent Keystone username | `mini-mon`
@@ -104,6 +105,18 @@ Parameter | Description | Default
 `agent.resources.requests.cpu` | CPU request per agent pod | `100m`
 `agent.resources.limits.memory` | Memory limit per agent pod | `512Mi`
 `agent.resources.limits.cpu` | Memory limit per agent pod | `500m`
+
+### Aggregation
+
+Parameter | Description | Default
+--------- | ----------- | -------
+`aggregation.name` | Aggregation container name | `aggregation`
+`aggregation.enabled` | Aggregation enabled | `true`
+`aggregation.image.repository` | Aggregation container image repository | `rbrndt/test-agg`
+`aggregation.image.tag` | Aggregation container image tag | `latest`
+`aggregation.image.pullPolicy` | Aggregation container image pull policy | `Always`
+`aggregation.window_size` | Window size in seconds of metrics to aggregate on. | `60`
+`aggregation.window_lag` | Lag in seconds outside the window to accept metrics into current aggregations | `2`
 
 ### API
 
@@ -164,6 +177,7 @@ Parameter | Description | Default
 `forwarder.image.repository` | Forwarder container image repository | `monasca/forwarder`
 `forwarder.image.tag` | Forwarder container image tag | `master`
 `forwarder.image.pullPolicy` | Forwarder container image pull policy | `Always`
+`forwarder.insecure` | Insecure connection to Monasca API | `False`
 `forwarder.enabled` | Enable deploying the forwarder | `false`
 `forwarder.replicaCount` | Replica count of Forwarder pods | `1`
 `forwarder.logging.debug` | Enable debug logging | `false`
@@ -212,6 +226,8 @@ Parameter | Description | Default
 `keystone.service.type` | Keystone service type | `ClusterIP`
 `keystone.service.port` | Keystone service port | `35357`
 `keystone.service.admin_port` | Keystone admin service port | `5000`
+`keystone.service.admin_node_port` | Keystone admin service node port if service type is NodePort | ``
+`keystone.service.node_port` | Keystone service node port if service type is NodePort | ``
 `keystone.users.mini_mon.password` | Keystone container image pull policy | `password`
 `keystone.users.monasca_agent.password` | Keystone container image pull policy | `password`
 `keystone.users.admin.password` | Keystone container image pull policy | `secretadmin`

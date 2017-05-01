@@ -39,3 +39,17 @@ spec:
               value: "{{ .Values.alarms.keystone.os_project_domain_name }}"
             - name: OS_AUTH_URL
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            {{- if .Values.alarms.notification_type }}
+            - name: NOTIFICATION_TYPE
+              value: "{{ .Values.alarms.notification_type }}"
+            {{- end }}
+            {{- if .Values.alarms.notification_address_secret }}
+            - name: NOTIFICATION_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.alarms.notification_address_secret }}"
+                  key: "{{ .Values.alarms.notification_address_secret_key | default .Values.alarms.notification_address_secret }}"
+            {{- else if .Values.alarms.notification_address }}
+            - name: NOTIFICATION_ADDRESS
+              value: "{{ .Values.alarms.notification_address }}"
+            {{- end }}
