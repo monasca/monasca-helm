@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "alarms.fullname" . }}-init-job
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.alarms.name }}-init-job"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.alarms.name }}-init-job"
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: {{ template "name" . }}-{{ .Values.alarms.name }}-init-job
+          image: "{{ .Values.alarms.image.repository }}:{{ .Values.alarms.image.tag }}"
+          imagePullPolicy: {{ .Values.alarms.image.pullPolicy }}
+          env:
+            - name: MONASCA_WAIT_FOR_API
+              value: "{{ .Values.alarms.wait.enabled }}"
+            - name: MONASCA_API_WAIT_RETRIES
+              value: "{{ .Values.alarms.wait.retries }}"
+            - name: MONASCA_API_WAIT_DELAY
+              value: "{{ .Values.alarms.wait.delay }}"
+            - name: OS_PASSWORD
+              value: "{{ .Values.alarms.keystone.os_password }}"
+            - name: OS_USERNAME
+              value: "{{ .Values.alarms.keystone.os_username }}"
+            - name: OS_PROJECT_NAME
+              value: "{{ .Values.alarms.keystone.os_project_name }}"
+            - name: OS_USER_DOMAIN_NAME
+              value: "{{ .Values.alarms.keystone.os_user_domain_name }}"
+            - name: OS_PROJECT_DOMAIN_NAME
+              value: "{{ .Values.alarms.keystone.os_project_domain_name }}"
+            - name: OS_AUTH_URL
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"

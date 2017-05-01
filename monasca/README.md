@@ -167,7 +167,6 @@ Parameter | Description | Default
 `forwarder.image.repository` | Forwarder container image repository | `monasca/forwarder`
 `forwarder.image.tag` | Forwarder container image tag | `master`
 `forwarder.image.pullPolicy` | Forwarder container image pull policy | `Always`
-`forwarder.insecure` | Insecure connection to Monasca API | `False`
 `forwarder.enabled` | Enable deploying the forwarder | `false`
 `forwarder.replicaCount` | Replica count of Forwarder pods | `1`
 `forwarder.logging.debug` | Enable debug logging | `false`

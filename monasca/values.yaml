@@ -168,7 +168,6 @@ forwarder:
     repository: monasca/forwarder
     tag: master
     pullPolicy: Always
-  insecure: False
   replicaCount: 1
   logging:
     debug: false
@@ -355,6 +354,23 @@ thresh:
     delay: 5
     timeout: 10
 
+alarms:
+  name: alarms
+  image:
+    repository: monasca/alarms
+    tag: 1.0.0
+    pullPolicy: Always
+  wait:
+    enabled: true
+    retries: 24
+    delay: 5
+  keystone:
+    os_username: mini-mon
+    os_user_domain_name: Default
+    os_password: password
+    os_project_name: mini-mon
+    os_project_domain_name: Default
+
 client:
   name: client
   enabled: false
@@ -383,5 +399,5 @@ cleanup:
   name: cleanup
   image:
     repository: monasca/job-cleanup
-    tag: 1.1.0
+    tag: 1.1.1
     pullPolicy: IfNotPresent
