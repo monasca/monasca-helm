@@ -14,7 +14,7 @@ influx_init:
 grafana_init:
   image:
     repository: monasca/grafana-init
-    tag: latest
+    tag: 1.2.0
     pullPolicy: Always
   log_level: INFO
   username: mini-mon
@@ -400,7 +400,7 @@ aggregation:
   name: aggregation
   image:
     repository: monasca/aggregation
-    tag: latest
+    tag: 0.1.0
     pullPolicy: Always
   window_size: 60
   window_lag: 2
