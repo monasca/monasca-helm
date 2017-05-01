@@ -14,6 +14,13 @@ $ helm install monasca/monasca --name monasca --namespace monitoring
 
 It may take several minutes to download the container images.
 
+If you have already added the helm repo make sure you update it before installing monasca to ensure you get the latest
+version
+
+```bash
+$ helm repo update
+```
+
 By default Monasca will monitor pod workloads, basic Kubernetes Health and autodetect Prometheus endpoints.
 
 ### Local Development Environment
