@@ -106,6 +106,13 @@ agent:
   cadvisor:
     enabled: true
     timeout: 3
+  kafka:
+    metrics:
+      batch_size: 1000
+      wait_time: 15
+    alarm_history:
+      batch_size: 1000
+      wait_time: 15
   resources:
     requests:
       memory: 256Mi
