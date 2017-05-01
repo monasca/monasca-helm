@@ -1,3 +1,4 @@
+{{- if .Values.agent.enabled }}
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
@@ -76,3 +77,4 @@ spec:
             - name: DIMENSIONS
               value: {{ .Values.agent.dimensions | quote}}
             {{- end}}
+{{- end}}
