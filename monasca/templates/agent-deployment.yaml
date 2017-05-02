@@ -1,3 +1,4 @@
+{{- if .Values.agent.enabled }}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -68,3 +69,4 @@ spec:
             - name: DIMENSIONS
               value: {{ .Values.agent.dimensions | quote}}
             {{- end}}
+{{- end}}

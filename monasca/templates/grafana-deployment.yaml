@@ -1,3 +1,4 @@
+{{- if .Values.grafana.enabled }}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -32,3 +33,4 @@ spec:
         - name: grafana-config
           configMap:
             name: {{ template "grafana.fullname" . }}
+{{- end}}

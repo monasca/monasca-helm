@@ -78,6 +78,7 @@ mysql:
 
 agent:
   name: agent
+  enabled: true
   image:
     repository: monasca/agent
     tag: latest
@@ -188,6 +189,7 @@ forwarder:
 
 grafana:
   name: grafana
+  enabled: true
   image:
     repository: monasca/grafana
     tag: 4.0.0-1.1.0
@@ -205,6 +207,7 @@ grafana:
 
 keystone:
   name: keystone
+  enabled: true
   bootstrap:
     user: admin
     password: secretadmin

@@ -1,3 +1,4 @@
+{{- if .Values.grafana.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -31,3 +32,4 @@ spec:
               value: {{ .Values.grafana_init.password }}
             - name: DATASOURCE_URL
               value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}"
+{{- end}}
