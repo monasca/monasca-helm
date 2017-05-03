@@ -75,6 +75,9 @@ mysql:
     keystone:
       username: keystone
       password: keystone
+    grafana:
+      username: grafana
+      password: password
 
 agent:
   name: agent

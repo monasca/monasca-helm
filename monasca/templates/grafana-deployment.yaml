@@ -29,6 +29,19 @@ spec:
           volumeMounts:
           - name: grafana-config
             mountPath: /etc/grafana
+          env:
+            - name: GF_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-mysql-grafana-secret"
+                  key: password
+            - name: GF_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Release.Name }}-mysql-grafana-secret"
+                  key: username
+            - name: GF_SESSION_PROVIDER_CONFIG
+              value: "$GF_DATABASE_USER:$GF_DATABASE_PASSWORD@tcp({{ .Release.Name }}-mysql:3306)/grafana"
       volumes:
         - name: grafana-config
           configMap:
