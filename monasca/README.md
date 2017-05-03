@@ -286,6 +286,8 @@ Parameter | Description | Default
 `mysql.users.notification.password` | Notification MySQL password | `password`
 `mysql.users.thresh.username` | Thresh MySQL username | `thresh`
 `mysql.users.thresh.password` | Thresh MySQL password | `password`
+`mysql.users.grafana.username` | Grafana MySQL username | `grafana`
+`mysql.users.grafana.password` | Grafana MySQL password | `password`
 
 
 ### MySQL Init

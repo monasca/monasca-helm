@@ -30,4 +30,10 @@ data:
 
     [log.console]
     level = trace
+
+    [database]
+    type = mysql
+    host = {{ .Release.Name }}-mysql:3306
+    name = grafana
+    ssl_mode = disable
 {{- end}}

@@ -1,7 +1,7 @@
 mysql_init:
   image:
     repository: monasca/mysql-init
-    tag: 1.4.0
+    tag: 1.5.0
     pullPolicy: IfNotPresent
   disable_remote_root: false
 
@@ -75,6 +75,9 @@ mysql:
     keystone:
       username: keystone
       password: keystone
+    grafana:
+      username: grafana
+      password: password
 
 agent:
   name: agent
