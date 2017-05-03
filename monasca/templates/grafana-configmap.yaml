@@ -36,7 +36,4 @@ data:
     host = {{ .Release.Name }}-mysql:3306
     name = grafana
     ssl_mode = disable
-
-    [session]
-    provider = mysql
 {{- end}}
