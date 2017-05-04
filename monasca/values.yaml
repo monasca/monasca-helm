@@ -253,7 +253,7 @@ notification:
   name: notification
   image:
     repository: monasca/notification
-    tag: master
+    tag: master-20170504-225038
     pullPolicy: Always
   replicaCount: 1
   log_level: WARN

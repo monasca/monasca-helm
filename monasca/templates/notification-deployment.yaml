@@ -17,12 +17,12 @@ spec:
         component: "{{ .Values.notification.name }}"
     spec:
       containers:
-      - name: {{ template "name" . }}-{{ .Values.notification.name }}
-        image: "{{ .Values.notification.image.repository }}:{{ .Values.notification.image.tag }}"
-        imagePullPolicy: {{ .Values.notification.image.pullPolicy }}
-        resources:
-{{ toYaml .Values.notification.resources | indent 10 }}
-        env:
+        - name: {{ template "name" . }}-{{ .Values.notification.name }}
+          image: "{{ .Values.notification.image.repository }}:{{ .Values.notification.image.tag }}"
+          imagePullPolicy: {{ .Values.notification.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.notification.resources | indent 12 }}
+          env:
             - name: MYSQL_DB_HOST
               value: "{{ .Release.Name }}-mysql"
             - name: MYSQL_DB_PORT
@@ -91,3 +91,22 @@ spec:
             - name: NF_SLACK_PROXY
               value: {{ .Values.notification.plugin_config.slack.proxy | quote }}
             {{- end }}
+            {{- if .Values.notification.plugin_config.hipchat.template }}
+            - name: NF_HIPCHAT_TEMPLATE
+              value: "/hipchat-template.yml.j2"
+            {{- end }}
+          {{- if .Values.notification.plugin_config.hipchat.template }}
+          volumeMounts:
+            - name: hipchat-template
+              mountPath: /hipchat-template.yml.j2
+              subPath: hipchat-template.yml.j2
+          {{- end }}
+      {{- if .Values.notification.plugin_config.hipchat.template }}
+      volumes:
+        - name: hipchat-template
+          configMap:
+            name: "{{ template "notification.fullname" . }}-hipchat-template"
+            items:
+              - key: hipchat-template.yml.j2
+                path: hipchat-template.yml.j2
+      {{- end }}
