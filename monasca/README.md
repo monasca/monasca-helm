@@ -106,6 +106,8 @@ Parameter | Description | Default
 `agent.image.tag` | Agent container image tag | `latest`
 `agent.image.pullPolicy` | Agent container image pull policy | `Always`
 `agent.dimensions` | Default dimensions to attach to every metric being sent | ``
+`agent.plugins.enabled` | Enable passing in agent plugins | `False`
+`agent.plugins.config_files` | List of plugin yamls to be used with the agent | ``
 `agent.insecure` | Insecure connection to Keystone and Monasca API | `False`
 `agent.log_level` | Log level of agent log files | `WARN`
 `agent.keystone.os_username` | Agent Keystone username | `mini-mon`
