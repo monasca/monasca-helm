@@ -68,3 +68,14 @@ spec:
             - name: DIMENSIONS
               value: {{ .Values.dimensions | quote}}
             {{- end}}
+          {{- if .Values.plugins.enabled }}
+          volumeMounts:
+            - name: agent-config
+              mountPath: /plugins.d
+          {{- end}}
+      {{- if .Values.plugins.enabled }}
+      volumes:
+        - name: agent-config
+          configMap:
+            name: {{ template "fullname" . }}
+      {{- end}}

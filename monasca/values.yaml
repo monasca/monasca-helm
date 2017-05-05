@@ -117,6 +117,8 @@ agent:
     limits:
       memory: 512Mi
       cpu: 500m
+  plugins:
+    enabled: false
 
 api:
   name: api
