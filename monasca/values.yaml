@@ -375,12 +375,11 @@ alarms:
           address: "{{ NOTIFICATION_ADDRESS | default('root@localhost') }}"
 
       alarm_definitions:
-        - name: "Host Status"
-          description: "Alarms when the specified host is down or not reachable"
+        - name: "Kubernetes Node Ready Status"
+          expression: "max(kubernetes.node.ready_status) > 0"
+          description: "Alarms when the Kubernetes Node is not ready"
           severity: "HIGH"
-          expression: "host_alive_status > 0"
           match_by:
-            - "target_host"
             - "hostname"
           alarm_actions:
             - "{{ NOTIFICATION_NAME | default('default') }}"
@@ -388,165 +387,78 @@ alarms:
             - "{{ NOTIFICATION_NAME | default('default') }}"
           undetermined_actions:
             - "{{ NOTIFICATION_NAME | default('default') }}"
-        - name: "HTTP Status"
-          description: >
-            "Alarms when the specified HTTP endpoint is down or not reachable"
+        - name: "Kubernetes Kubelet Status"
+          expression: "max(kubelet.health_status) > 0"
+          description: "Alarms when the kubelet has a bad health status"
           severity: "HIGH"
-          expression: "http_status > 0"
-          match_by:
-            - "service"
-            - "component"
-            - "hostname"
-            - "url"
-          alarm_actions:
-            - default
-          ok_actions:
-            - default
-          undetermined_actions:
-            - default
-        - name: "CPU Usage"
-          description: "Alarms when CPU usage is high"
-          expression: "avg(cpu.idle_perc) < 10 times 3"
           match_by:
             - "hostname"
           alarm_actions:
-            - default
+            - "{{ NOTIFICATION_NAME | default('default') }}"
           ok_actions:
-            - default
+            - "{{ NOTIFICATION_NAME | default('default') }}"
           undetermined_actions:
-            - default
-        - name: "High CPU IOWait"
-          description: "Alarms when CPU IOWait is high, possible slow disk issue"
-          expression: "avg(cpu.wait_perc) > 40 times 3"
-          match_by:
-            - "hostname"
-          alarm_actions:
-            - default
-          ok_actions:
-            - default
-          undetermined_actions:
-            - default
-        - name: "Disk Inode Usage"
-          description: "Alarms when disk inode usage is high"
-          expression: "disk.inode_used_perc > 90"
-          match_by:
-            - "hostname"
-            - "device"
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "Kubernetes API Status"
+          expression: "max(kubernetes.api.health_status) > 0"
+          description: "Alarms when the Kubernetes API has a bad health status"
           severity: "HIGH"
-          alarm_actions:
-            - default
-          ok_actions:
-            - default
-          undetermined_actions:
-            - default
-        - name: "Disk Usage"
-          description: "Alarms when disk usage is high"
-          expression: "disk.space_used_perc > 90"
           match_by:
             - "hostname"
-            - "device"
+          alarm_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          ok_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          undetermined_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "Kubernetes Node Disk Pressure"
+          expression: "max(kubernetes.node.disk_pressure) > 0"
+          description: "Alarms when the Kubernetes node has memory pressure"
           severity: "HIGH"
+          match_by:
+            - "hostname"
           alarm_actions:
-            - default
+            - "{{ NOTIFICATION_NAME | default('default') }}"
           ok_actions:
-            - default
+            - "{{ NOTIFICATION_NAME | default('default') }}"
           undetermined_actions:
-            - default
-        - name: "Memory Usage"
-          description: "Alarms when memory usage is high"
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "Kubernetes Node CPU Pressure"
+          expression: "max(kubernetes.node.memory_pressure) > 0"
+          description: "Alarms when the Kubernetes node has disk pressure"
           severity: "HIGH"
-          expression: "avg(mem.usable_perc) < 10 times 3"
           match_by:
             - "hostname"
           alarm_actions:
-            - default
+            - "{{ NOTIFICATION_NAME | default('default') }}"
           ok_actions:
-            - default
+            - "{{ NOTIFICATION_NAME | default('default') }}"
           undetermined_actions:
-            - default
-        - name: "Network Errors"
-          description: >
-            "Alarms when either incoming or outgoing network errors are high"
-          severity: "MEDIUM"
-          expression: "net.in_errors_sec > 5 or net.out_errors_sec > 5"
-          match_by:
-            - "hostname"
-          alarm_actions:
-            - default
-          ok_actions:
-            - default
-          undetermined_actions:
-            - default
-        - name: "Process Check"
-          description: "Alarms when the specified process is not running"
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "Kubernetes Out Of Disk"
+          expression: "max(kubernetes.node.out_of_disk) > 0"
+          description: "Alarms when the Kubernetes node is out of disk"
           severity: "HIGH"
-          expression: "process.pid_count < 1"
-          match_by:
-            - "process_name"
-            - "hostname"
-          alarm_actions:
-            - default
-          ok_actions:
-            - default
-          undetermined_actions:
-            - default
-        - name: "Crash Dump Count"
-          description: "Alarms when a crash directory is found"
-          severity: "MEDIUM"
-          expression: "crash.dump_count > 0"
           match_by:
             - "hostname"
           alarm_actions:
-            - default
+            - "{{ NOTIFICATION_NAME | default('default') }}"
           ok_actions:
-            - default
+            - "{{ NOTIFICATION_NAME | default('default') }}"
           undetermined_actions:
-            - default
-        - name: "Monasca Agent Collection Time"
-          description: "Alarms when the elapsed time the Monasca Agent takes to \
-                          collect metrics is high"
-          expression: "avg(monasca.collection_time_sec) > 30 times 3"
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "Kubernetes Component Status"
+          expression: "max(kubernetes.component_status) > 0"
+          description: "Alarms when a Kubernetes component has a bad status"
+          severity: "HIGH"
           match_by:
-            - "hostname"
+            - "component_name"
           alarm_actions:
-            - default
+            - "{{ NOTIFICATION_NAME | default('default') }}"
           ok_actions:
-            - default
+            - "{{ NOTIFICATION_NAME | default('default') }}"
           undetermined_actions:
-            - default
-        - name: "ZooKeeper Latency"
-          description: "Alarms when the ZooKeeper latency is high"
-          expression: "avg(zookeeper.avg_latency_sec) > 1 times 3"
-          match_by:
-            - "hostname"
-          alarm_actions:
-            - default
-          ok_actions:
-            - default
-          undetermined_actions:
-            - default
-        - name: "NTP Time Sync"
-          description: "Alarms when the NTP time offset is high"
-          expression: "ntp.offset > 5 or ntp.offset < -5"
-          match_by:
-            - "hostname"
-          alarm_actions:
-            - default
-          ok_actions:
-            - default
-          undetermined_actions:
-            - default
-        - name: "NTP Connection Status"
-          description: "Alarms when the connection failed to the NTP server"
-          expression: "ntp.connection_status > 0"
-          match_by:
-            - "hostname"
-          alarm_actions:
-            - default
-          ok_actions:
-            - default
-          undetermined_actions:
-            - default
+            - "{{ NOTIFICATION_NAME | default('default') }}"
 
 client:
   name: client
