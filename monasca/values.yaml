@@ -367,6 +367,98 @@ alarms:
     os_password: password
     os_project_name: mini-mon
     os_project_domain_name: Default
+  definitions_configuration:
+     definitions.yml.j2: |
+      notifications:
+        - name: "{{ NOTIFICATION_NAME | default('default') }}"
+          type: "{{ NOTIFICATION_TYPE | default('email') }}"
+          address: "{{ NOTIFICATION_ADDRESS | default('root@localhost') }}"
+
+      alarm_definitions:
+        - name: "Kubernetes Node Ready Status"
+          expression: "max(kubernetes.node.ready_status) > 0"
+          description: "Alarms when the Kubernetes Node is not ready"
+          severity: "HIGH"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          ok_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          undetermined_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "Kubernetes Kubelet Status"
+          expression: "max(kubelet.health_status) > 0"
+          description: "Alarms when the kubelet has a bad health status"
+          severity: "HIGH"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          ok_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          undetermined_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "Kubernetes API Status"
+          expression: "max(kubernetes.api.health_status) > 0"
+          description: "Alarms when the Kubernetes API has a bad health status"
+          severity: "HIGH"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          ok_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          undetermined_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "Kubernetes Node Disk Pressure"
+          expression: "max(kubernetes.node.disk_pressure) > 0"
+          description: "Alarms when the Kubernetes node has memory pressure"
+          severity: "HIGH"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          ok_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          undetermined_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "Kubernetes Node CPU Pressure"
+          expression: "max(kubernetes.node.memory_pressure) > 0"
+          description: "Alarms when the Kubernetes node has disk pressure"
+          severity: "HIGH"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          ok_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          undetermined_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "Kubernetes Out Of Disk"
+          expression: "max(kubernetes.node.out_of_disk) > 0"
+          description: "Alarms when the Kubernetes node is out of disk"
+          severity: "HIGH"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          ok_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          undetermined_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "Kubernetes Component Status"
+          expression: "max(kubernetes.component_status) > 0"
+          description: "Alarms when a Kubernetes component has a bad status"
+          severity: "HIGH"
+          match_by:
+            - "component_name"
+          alarm_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          ok_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          undetermined_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
 
 client:
   name: client
