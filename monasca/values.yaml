@@ -367,6 +367,186 @@ alarms:
     os_password: password
     os_project_name: mini-mon
     os_project_domain_name: Default
+  definitions_configuration:
+     definitions.yml.j2: |
+      notifications:
+        - name: "{{ NOTIFICATION_NAME | default('default') }}"
+          type: "{{ NOTIFICATION_TYPE | default('email') }}"
+          address: "{{ NOTIFICATION_ADDRESS | default('root@localhost') }}"
+
+      alarm_definitions:
+        - name: "Host Status"
+          description: "Alarms when the specified host is down or not reachable"
+          severity: "HIGH"
+          expression: "host_alive_status > 0"
+          match_by:
+            - "target_host"
+            - "hostname"
+          alarm_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          ok_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+          undetermined_actions:
+            - "{{ NOTIFICATION_NAME | default('default') }}"
+        - name: "HTTP Status"
+          description: >
+            "Alarms when the specified HTTP endpoint is down or not reachable"
+          severity: "HIGH"
+          expression: "http_status > 0"
+          match_by:
+            - "service"
+            - "component"
+            - "hostname"
+            - "url"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "CPU Usage"
+          description: "Alarms when CPU usage is high"
+          expression: "avg(cpu.idle_perc) < 10 times 3"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "High CPU IOWait"
+          description: "Alarms when CPU IOWait is high, possible slow disk issue"
+          expression: "avg(cpu.wait_perc) > 40 times 3"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "Disk Inode Usage"
+          description: "Alarms when disk inode usage is high"
+          expression: "disk.inode_used_perc > 90"
+          match_by:
+            - "hostname"
+            - "device"
+          severity: "HIGH"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "Disk Usage"
+          description: "Alarms when disk usage is high"
+          expression: "disk.space_used_perc > 90"
+          match_by:
+            - "hostname"
+            - "device"
+          severity: "HIGH"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "Memory Usage"
+          description: "Alarms when memory usage is high"
+          severity: "HIGH"
+          expression: "avg(mem.usable_perc) < 10 times 3"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "Network Errors"
+          description: >
+            "Alarms when either incoming or outgoing network errors are high"
+          severity: "MEDIUM"
+          expression: "net.in_errors_sec > 5 or net.out_errors_sec > 5"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "Process Check"
+          description: "Alarms when the specified process is not running"
+          severity: "HIGH"
+          expression: "process.pid_count < 1"
+          match_by:
+            - "process_name"
+            - "hostname"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "Crash Dump Count"
+          description: "Alarms when a crash directory is found"
+          severity: "MEDIUM"
+          expression: "crash.dump_count > 0"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "Monasca Agent Collection Time"
+          description: "Alarms when the elapsed time the Monasca Agent takes to \
+                          collect metrics is high"
+          expression: "avg(monasca.collection_time_sec) > 30 times 3"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "ZooKeeper Latency"
+          description: "Alarms when the ZooKeeper latency is high"
+          expression: "avg(zookeeper.avg_latency_sec) > 1 times 3"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "NTP Time Sync"
+          description: "Alarms when the NTP time offset is high"
+          expression: "ntp.offset > 5 or ntp.offset < -5"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
+        - name: "NTP Connection Status"
+          description: "Alarms when the connection failed to the NTP server"
+          expression: "ntp.connection_status > 0"
+          match_by:
+            - "hostname"
+          alarm_actions:
+            - default
+          ok_actions:
+            - default
+          undetermined_actions:
+            - default
 
 client:
   name: client
