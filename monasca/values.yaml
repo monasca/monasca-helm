@@ -334,21 +334,20 @@ storm:
     limits:
       memory: 4Gi
       cpu: 2000m
-
-thresh:
-  name: thresh
-  image:
-    repository: monasca/thresh
-    tag: master
-    pullPolicy: Always
-  secretSuffix: mysql-thresh-secret
-  spout:
-    metricSpoutThreads: 2
-    metricSpoutTasks: 2
-  wait:
-    retries: 24
-    delay: 5
-    timeout: 10
+  thresh:
+    name: thresh
+    image:
+      repository: monasca/thresh
+      tag: master
+      pullPolicy: Always
+    secretSuffix: mysql-thresh-secret
+    spout:
+      metricSpoutThreads: 2
+      metricSpoutTasks: 2
+    wait:
+      retries: 24
+      delay: 5
+      timeout: 10
 
 alarms:
   name: alarms

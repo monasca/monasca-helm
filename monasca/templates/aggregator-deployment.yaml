@@ -37,7 +37,7 @@ spec:
           - name: AGGREGATION_WINDOW_LAG
             value: {{ .Values.aggregator.window_lag | quote }}
           - name: KAFKA_URI
-            value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
+            value: "{{ template "kafka.fullname" . }}:9092"
         volumeMounts:
           - name: aggregator-config
             mountPath: /aggregation-specifications.yaml

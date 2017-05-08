@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Values.storm.name }}-supervisor"
+    component: "{{ .Values.name }}-supervisor"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
@@ -14,22 +14,22 @@ spec:
     metadata:
       labels:
         app: {{ template "fullname" . }}
-        component: "{{ .Values.storm.name }}-supervisor"
+        component: "{{ .Values.name }}-supervisor"
     spec:
       containers:
-        - name: {{ template "name" . }}-{{ .Values.storm.name }}
-          image: "{{ .Values.storm.image.repository }}:{{ .Values.storm.image.tag }}"
-          imagePullPolicy: {{ .Values.storm.image.pullPolicy }}
+        - name: {{ template "name" . }}-{{ .Values.name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           args: ["storm", "supervisor"]
           resources:
-{{ toYaml .Values.storm.supervisor_resources | indent 12 }}
+{{ toYaml .Values.supervisor_resources | indent 12 }}
           env:
             - name: STORM_HOSTNAME_FROM_IP
               value: "true"
             - name: ZOOKEEPER_SERVERS
               value: "{{ .Release.Name }}-zookeeper"
             - name: STORM_ZOOKEEPER_PORT
-              value: "{{ .Values.kafka.zookeeper.service.port }}"
+              value: "2181"
             - name: NIMBUS_SEEDS
               value: "{{ template "storm.fullname" . }}-nimbus"
             - name: METRIC_SPOUT_THREADS
@@ -37,7 +37,7 @@ spec:
             - name: METRIC_SPOUT_TASKS
               value: "{{ .Values.thresh.spout.metricSpoutTasks }}"
             - name: KAFKA_URI
-              value: "{{ .Release.Name }}-kafka:{{ .Values.kafka.service.port }}"
+              value: "{{ .Release.Name }}-kafka:9092"
             - name: MYSQL_DB_HOST
               value: "{{ .Release.Name }}-mysql"
             - name: MYSQL_DB_PORT

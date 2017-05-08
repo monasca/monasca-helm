@@ -37,7 +37,7 @@ spec:
             - name: LOG_LEVEL_CONSOLE
               value: {{ .Values.api.logging.log_level_console | quote }}
             - name: KAFKA_URI
-              value: {{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}
+              value: "{{ template "kafka.fullname" . }}:9092"
             - name: INFLUX_HOST
               value: "{{ .Release.Name }}-influxdb"
             - name: INFLUX_PORT

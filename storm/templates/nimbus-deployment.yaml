@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Values.storm.name }}-nimbus"
+    component: "{{ .Values.name }}-nimbus"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
@@ -14,17 +14,17 @@ spec:
     metadata:
       labels:
         app: {{ template "fullname" . }}
-        component: "{{ .Values.storm.name }}-nimbus"
+        component: "{{ .Values.name }}-nimbus"
     spec:
       containers:
-        - name: {{ template "name" . }}-{{ .Values.storm.name }}-nimbus
-          image: "{{ .Values.storm.image.repository }}:{{ .Values.storm.image.tag }}"
-          imagePullPolicy: {{ .Values.storm.image.pullPolicy }}
+        - name: {{ template "name" . }}-{{ .Values.name }}-nimbus
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           args: ["storm", "nimbus"]
           resources:
-{{ toYaml .Values.storm.nimbus_resources | indent 12 }}
+{{ toYaml .Values.nimbus_resources | indent 12 }}
           ports:
-            - containerPort: {{ .Values.storm.service.port }}
+            - containerPort: {{ .Values.service.port }}
               name: nimbus
           env:
             - name: STORM_HOSTNAME_FROM_IP
@@ -32,7 +32,7 @@ spec:
             - name: ZOOKEEPER_SERVERS
               value: "{{ .Release.Name }}-zookeeper"
             - name: STORM_ZOOKEEPER_PORT
-              value: "{{ .Values.kafka.zookeeper.service.port }}"
+              value: "2181"
             - name: NIMBUS_SEEDS
               value: "{{ template "storm.fullname" . }}-nimbus"
           volumeMounts:
@@ -40,7 +40,7 @@ spec:
               mountPath: /data
       volumes:
         - name: data
-        {{- if .Values.storm.persistence.enabled }}
+        {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ template "storm.fullname" . }}-nimbus
         {{- else }}

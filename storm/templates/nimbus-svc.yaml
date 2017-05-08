@@ -5,14 +5,14 @@ metadata:
   labels:
     app: {{ template "fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Values.storm.name }}-nimbus"
+    component: "{{ .Values.name }}-nimbus"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
-  type: {{ .Values.storm.service.type }}
+  type: {{ .Values.service.type }}
   ports:
   - name: nimbus
-    port: {{ .Values.storm.service.port }}
+    port: {{ .Values.service.port }}
   selector:
     app: {{ template "fullname" . }}
-    component: "{{ .Values.storm.name }}-nimbus"
+    component: "{{ .Values.name }}-nimbus"
