@@ -28,9 +28,9 @@ spec:
             - name: VERBOSE
               value: {{ .Values.persister.logging.verbose | quote }}
             - name: ZOOKEEPER_URI
-              value: "{{ template "zookeeper.fullname" . }}:{{ .Values.kafka.zookeeper.service.port }}"
+              value: "{{ template "zookeeper.fullname" . }}:2181"
             - name: KAFKA_URI
-              value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
+              value: "{{ template "kafka.fullname" . }}:9092"
             - name: INFLUX_PORT
               value: {{ .Values.influxdb.config.http.bind_address | quote }}
             - name: INFLUX_USER

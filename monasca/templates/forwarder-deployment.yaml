@@ -35,9 +35,9 @@ spec:
             - name: VERBOSE
               value: {{ .Values.forwarder.logging.verbose | quote }}
             - name: ZOOKEEPER_URL
-              value: "{{ template "zookeeper.fullname" . }}:{{ .Values.kafka.zookeeper.service.port }}"
+              value: "{{ template "zookeeper.fullname" . }}:2181"
             - name: KAFKA_URI
-              value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
+              value: "{{ template "kafka.fullname" . }}:9092"
             - name: USE_INSECURE
               value: {{ .Values.forwarder.config.use_insecure | quote}}
             - name: MONASCA_ROLE

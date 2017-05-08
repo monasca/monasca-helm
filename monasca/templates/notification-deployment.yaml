@@ -40,9 +40,9 @@ spec:
             - name: MYSQL_DB_DATABASE
               value: "mon"
             - name: KAFKA_URI
-              value: "{{ template "kafka.fullname" . }}:{{ .Values.kafka.service.port }}"
+              value: "{{ template "kafka.fullname" . }}:9092"
             - name: ZOOKEEPER_URL
-              value: "{{ template "zookeeper.fullname" . }}:{{ .Values.kafka.zookeeper.service.port }}"
+              value: "{{ template "zookeeper.fullname" . }}:2181"
             - name: LOG_LEVEL
               value: {{ .Values.notification.log_level | quote }}
             - name: NF_PLUGINS
