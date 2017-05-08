@@ -22,6 +22,6 @@ dependencies:
   name: storm
   repository: http://monasca.io/monasca-helm-repo/
   tags: null
-  version: 0.1.0
-digest: sha256:e8a9ae0ea7922e567f9fb3dc314222744f5d3ba526df9be1ec0562a0ee83a626
-generated: 2017-04-14T11:46:53.269215402-06:00
+  version: 0.2.0
+digest: sha256:74d3139b7aff43e718715060207deeb69a79a5f8601e8050503f145966c65d31
+generated: 2017-05-08T16:26:27.323929201-06:00
