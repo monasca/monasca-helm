@@ -308,6 +308,7 @@ persister:
 
 storm:
   name: storm
+  enabled: true
   image:
     repository: monasca/storm
     tag: 1.0.3

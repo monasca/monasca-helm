@@ -1,3 +1,4 @@
+{{- if .Values.storm.enabled }}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -54,3 +55,4 @@ spec:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-{{ .Values.thresh.secretSuffix }}"
                   key: password
+{{- end}}
