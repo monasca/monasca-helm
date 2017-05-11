@@ -345,6 +345,19 @@ storm:
     spout:
       metricSpoutThreads: 2
       metricSpoutTasks: 2
+      eventSpoutThreads: 2
+      eventSpoutTasks: 2
+    bolt:
+      eventBoltThreads: 2
+      eventBoltTasks: 2
+      filteringBoltThreads: 2
+      filteringBoltTasks: 2
+      alarmCreationBoltThreads: 2
+      alarmCreationBoltTasks: 2
+      aggregationBoltThreads: 2
+      aggregationBoltTasks: 2
+      thresholdingBoltThreads: 2
+      thresholdingBoltTasks: 2
     wait:
       retries: 24
       delay: 5
