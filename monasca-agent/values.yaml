@@ -38,3 +38,5 @@ resources:
     cpu: 500m
 plugins:
   enabled: false
+rbac:
+  enabled: false
