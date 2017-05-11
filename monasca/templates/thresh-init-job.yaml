@@ -40,6 +40,30 @@ spec:
               value: "{{ .Values.storm.thresh.spout.metricSpoutThreads }}"
             - name: METRIC_SPOUT_TASKS
               value: "{{ .Values.storm.thresh.spout.metricSpoutTasks }}"
+            - name: EVENT_SPOUT_THREADS
+              value: "{{ .Values.storm.thresh.spout.eventSpoutThreads }}"
+            - name: EVENT_SPOUT_TASKS
+              value: "{{ .Values.storm.thresh.spout.eventSpoutTasks }}"
+            - name: EVENT_BOLT_THREADS
+              value: "{{ .Values.storm.thresh.bolt.eventBoltThreads }}"
+            - name: EVENT_BOLT_TASKS
+              value: "{{ .Values.storm.thresh.bolt.eventBoltTasks }}"
+            - name: FILTERING_BOLT_THREADS
+              value: "{{ .Values.storm.thresh.bolt.filteringBoltThreads }}"
+            - name: FILTERING_BOLT_TASKS
+              value: "{{ .Values.storm.thresh.bolt.filteringBoltTasks }}"
+            - name: ALARM_CREATION_BOLT_THREADS
+              value: "{{ .Values.storm.thresh.bolt.alarmCreationBoltThreads }}"
+            - name: ALARM_CREATION_BOLT_TASKS
+              value: "{{ .Values.storm.thresh.bolt.alarmCreationBoltTasks }}"
+            - name: AGGREGATION_BOLT_THREADS
+              value: "{{ .Values.storm.thresh.bolt.aggregationBoltThreads }}"
+            - name: AGGREGATION_BOLT_TASKS
+              value: "{{ .Values.storm.thresh.bolt.aggregationBoltTasks }}"
+            - name: THRESHOLDING_BOLT_THREADS
+              value: "{{ .Values.storm.thresh.bolt.thresholdingBoltThreads }}"
+            - name: THRESHOLDING_BOLT_TASKS
+              value: "{{ .Values.storm.thresh.bolt.thresholdingBoltTasks }}"
             - name: KAFKA_URI
               value: "{{ .Release.Name }}-kafka:9092"
             - name: MYSQL_DB_HOST
