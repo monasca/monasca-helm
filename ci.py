@@ -59,6 +59,7 @@ def get_dirty_modules(dirty_files):
 
 def get_dirty_for_module(files, module=None):
     ret = []
+    print(files)
     for f in files:
         if os.path.sep in f:
             mod, rel_path = f.split(os.path.sep, 1)
@@ -126,10 +127,6 @@ def run_verify(modules):
 #         print('build failed, exiting!')
 #         sys.exit(p.returncode)
 
-
-
-
-
 def handle_pull_request(files, modules):
     if os.environ.get('TRAVIS_BRANCH', None) != 'master':
         print('Not master branch, skipping tests.')
@@ -158,6 +155,7 @@ def handle_push(files, modules):
 
     for module in modules:
         dirty = get_dirty_for_module(files, module)
+
         if 'Chart.yaml' in dirty:
             modules_to_push.append(module)
 
