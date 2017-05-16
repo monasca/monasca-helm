@@ -51,6 +51,8 @@ that can be configured during installation.
 
 > **Tip**: List all releases using `helm list`
 
+test
+
 ## Uninstalling the Chart
 
 To uninstall/delete the `my-release` deployment:

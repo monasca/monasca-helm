@@ -18,13 +18,9 @@
 from __future__ import print_function
 
 import os
-import re
 import signal
 import subprocess
 import sys
-
-
-# TAG_REGEX = re.compile(r'^!(\w+)(?:\s+(\w+))?$')
 
 
 class SubprocessException(Exception):
@@ -47,39 +43,12 @@ def get_changed_files():
     return [line.strip() for line in stdout.splitlines()]
 
 
-# def get_message_tags():
-#     commit = os.environ.get('TRAVIS_COMMIT_RANGE', None)
-#     if not commit:
-#         return []
-#
-#     p = subprocess.Popen([
-#         'git', 'log', '--pretty=%B', '-1', commit
-#     ], stdout=subprocess.PIPE)
-#     stdout, _ = p.communicate()
-#     if p.returncode != 0:
-#         raise SubprocessException('git returned non-zero exit code')
-#
-#     tags = []
-#     for line in stdout.splitlines():
-#         line = line.strip()
-#         m = TAG_REGEX.match(line)
-#         if m:
-#             tags.append(m.groups())
-#
-#     return tags
-
-
 def get_dirty_modules(dirty_files):
     dirty = set()
     for f in dirty_files:
         if os.path.sep in f:
             mod, _ = f.split(os.path.sep, 1)
 
-            # if not os.path.exists(os.path.join(mod, 'Dockerfile')):
-            #     continue
-            #
-            # if not os.path.exists(os.path.join(mod, 'build.yml')):
-            #     continue
             if not os.path.exists(os.path.join(mod, 'Chart.yaml')):
                 continue
 
@@ -105,7 +74,6 @@ def get_dirty_for_module(files, module=None):
 
 def run_verify(modules):
     build_args = ['helm', 'lint'] + modules
-    # build_args = ['dbuild', '-sd', 'build', 'all'] + modules
 
     print('verify command:', build_args)
 
@@ -159,27 +127,7 @@ def run_verify(modules):
 #         sys.exit(p.returncode)
 
 
-# def run_readme(modules):
-#     if os.environ.get('TRAVIS_SECURE_ENV_VARS', None) != "true":
-#         print('No Docker Hub permissions in this context, skipping!')
-#         print('Not updating READMEs: %r' % modules)
-#         return
-#
-#     readme_args = ['dbuild', '-sd', 'readme'] + modules
-#     print('readme command:', readme_args)
-#
-#     p = subprocess.Popen(readme_args, stdin=subprocess.PIPE)
-#
-#     def kill(signal, frame):
-#         p.kill()
-#         print()
-#         print('killed!')
-#         sys.exit(1)
-#
-#     signal.signal(signal.SIGINT, kill)
-#     if p.wait() != 0:
-#         print('build failed, exiting!')
-#         sys.exit(p.returncode)
+
 
 
 def handle_pull_request(files, modules):
@@ -192,6 +140,8 @@ def handle_pull_request(files, modules):
     else:
         print('No modules to verify.')
 
+    for module in modules:
+        print (get_dirty_for_module(files, module))
 
 def handle_push(files, modules):
     if os.environ.get('TRAVIS_BRANCH', None) != 'master':
@@ -202,32 +152,14 @@ def handle_push(files, modules):
         run_verify(modules)
     else:
         print('No modules to verify.')
+        return
 
-    # modules_to_push = []
-    # modules_to_readme = []
-    #
-    # force_push = False
-    # force_readme = False
-    #
-    # for tag, arg in tags:
-    #     if tag == 'push':
-    #         if arg is None:
-    #             force_push = True
-    #         else:
-    #             modules_to_push.append(arg)
-    #     elif tag == 'readme':
-    #         if arg is None:
-    #             force_readme = True
-    #         else:
-    #             modules_to_readme.append(arg)
-    #
-    # for module in modules:
-    #     dirty = get_dirty_for_module(files, module)
-    #     if force_push or 'build.yml' in dirty:
-    #         modules_to_push.append(module)
-    #
-    #     if force_readme or 'README.md' in dirty:
-    #         modules_to_readme.append(module)
+    modules_to_push = []
+
+    for module in modules:
+        dirty = get_dirty_for_module(files, module)
+        if 'Chart.yaml' in dirty:
+            modules_to_push.append(module)
 
     # if modules_to_push:
     #     run_push(modules)
