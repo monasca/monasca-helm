@@ -1,0 +1,13 @@
+sudo: required
+services:
+  - docker
+language: python
+
+before_install:
+  - wget https://storage.googleapis.com/kubernetes-helm/helm-v2.4.1-linux-amd64.tar.gz
+  - tar -zxvf helm-v2.4.1-linux-amd64.tgz
+  - mv linux-amd64/helm /usr/local/bin/helm
+
+
+script:
+  - python ci.py
