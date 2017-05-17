@@ -115,10 +115,6 @@ def run_push(modules):
 
 
 def handle_pull_request(files, modules):
-    if os.environ.get('TRAVIS_BRANCH', None) != 'master':
-        print('Not master branch, skipping tests.')
-        return
-
     if modules:
         run_verify(modules)
     else:
@@ -141,10 +137,6 @@ def check_version_change(module):
 
 
 def handle_push(files, modules):
-    if os.environ.get('TRAVIS_BRANCH', None) != 'master':
-        print('Not master branch, skipping tests.')
-        return
-
     if modules:
         run_verify(modules)
     else:
@@ -185,6 +177,10 @@ def main():
           os.environ.get('TRAVIS_PULL_REQUEST_BRANCH'))
     print('TRAVIS_TAG=', os.environ.get('TRAVIS_TAG'))
     print('TRAVIS_COMMIT_MESSAGE=', os.environ.get('TRAVIS_COMMIT_MESSAGE'))
+
+    if os.environ.get('TRAVIS_BRANCH', None) != 'master':
+        print('Not master branch, skipping tests.')
+        return
 
     files = get_changed_files()
     modules = get_dirty_modules(files)
