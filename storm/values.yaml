@@ -8,7 +8,7 @@ persistence:
   storageClass: default
   enabled: false
   accessMode: ReadWriteOnce
-  size: 5Gi
+  size: 4Gi
 service:
   type: ClusterIP
   port: 6627
