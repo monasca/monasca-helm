@@ -1,3 +1,12 @@
 apiVersion: v1
-entries: {}
-generated: 2017-05-17T12:49:41.829592851-06:00
+entries:
+  storm:
+  - apiVersion: v1
+    created: 2017-05-17T12:50:42.001608774-06:00
+    description: Apache Storm configured for Monasca
+    digest: 32b73b230bfabc81d13ebf2d9d3efeacd33085b2729bc39b27a847c682d81412
+    name: storm
+    urls:
+    - http://monasca.io/monasca-helm/storm-0.4.0.tgz
+    version: 0.4.0
+generated: 2017-05-17T12:50:42.001167229-06:00
