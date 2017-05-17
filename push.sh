@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 REPO=$(git config remote.origin.url)
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 
@@ -16,8 +15,17 @@ do
  helm package "$chart"
 done
 
-# Checkout gh-pages and update index file
+# clone repo to make changes in
+git clone $REPO out
+cd out
 git checkout gh-pages
+cd ..
+
+# copy over packages
+cp *.tgz out/.
+
+# Update index file
+cd out
 helm repo index . --url http://monasca.io/monasca-helm/
 
 # Commit changes
@@ -31,5 +39,10 @@ eval "$(ssh-agent -s)"
 ssh-add deploy-key
 git push "$SSH_REPO" gh-pages
 
+# Remove out directory
+cd ..
+rm -rf out
+git checkout -- .
+
 # check out master branch again to create pull requests
-git checkout master
+git status
