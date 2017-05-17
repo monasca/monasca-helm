@@ -1,10 +1,10 @@
 sudo: required
 language: python
-
 before_install:
-  - wget https://storage.googleapis.com/kubernetes-helm/helm-v2.4.1-linux-amd64.tar.gz
-  - tar -zxvf helm-v2.4.1-linux-amd64.tar.gz
-  - sudo mv linux-amd64/helm /usr/local/bin/helm
-
+- openssl aes-256-cbc -K $encrypted_c04b32b34bc7_key -iv $encrypted_c04b32b34bc7_iv
+  -in deploy-key.enc -out ~\/deploy-key -d
+- wget https://storage.googleapis.com/kubernetes-helm/helm-v2.4.1-linux-amd64.tar.gz
+- tar -zxvf helm-v2.4.1-linux-amd64.tar.gz
+- sudo mv linux-amd64/helm /usr/local/bin/helm
 script:
-  - python ci.py
+- python ci.py

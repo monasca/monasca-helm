@@ -59,7 +59,6 @@ def get_dirty_modules(dirty_files):
 
 def get_dirty_for_module(files, module=None):
     ret = []
-    print(files)
     for f in files:
         if os.path.sep in f:
             mod, rel_path = f.split(os.path.sep, 1)
@@ -92,40 +91,28 @@ def run_verify(modules):
         sys.exit(p.returncode)
 
 
-# def run_push(modules):
-#     if os.environ.get('TRAVIS_SECURE_ENV_VARS', None) != "true":
-#         print('No push permissions in this context, skipping!')
-#         print('Not pushing: %r' % modules)
-#         return
-#
-#     username = os.environ.get('DOCKER_HUB_USERNAME', None)
-#     password = os.environ.get('DOCKER_HUB_PASSWORD', None)
-#     if username and password:
-#         print('Logging into docker registry...')
-#         r = subprocess.call([
-#             'docker', 'login',
-#             '-u', username,
-#             '-p', password
-#         ])
-#         if r != 0:
-#             print('Docker registry login failed, cannot push!')
-#             sys.exit(1)
-#
-#     push_args = ['dbuild', '-sd', 'build', 'push', 'all'] + modules
-#     print('push command:', push_args)
-#
-#     p = subprocess.Popen(push_args, stdin=subprocess.PIPE)
-#
-#     def kill(signal, frame):
-#         p.kill()
-#         print()
-#         print('killed!')
-#         sys.exit(1)
-#
-#     signal.signal(signal.SIGINT, kill)
-#     if p.wait() != 0:
-#         print('build failed, exiting!')
-#         sys.exit(p.returncode)
+def run_push(modules):
+    if os.environ.get('TRAVIS_SECURE_ENV_VARS', None) != "true":
+        print('No push permissions in this context, skipping!')
+        print('Not pushing: %r' % modules)
+        return
+
+    push_args = ['./push.sh'] + modules
+    print('push command:', push_args)
+
+    p = subprocess.Popen(push_args, stdin=subprocess.PIPE)
+
+    def kill(signal, frame):
+        p.kill()
+        print()
+        print('killed!')
+        sys.exit(1)
+
+    signal.signal(signal.SIGINT, kill)
+    if p.wait() != 0:
+        print('push failed, exiting!')
+        sys.exit(p.returncode)
+
 
 def handle_pull_request(files, modules):
     if os.environ.get('TRAVIS_BRANCH', None) != 'master':
@@ -137,8 +124,21 @@ def handle_pull_request(files, modules):
     else:
         print('No modules to verify.')
 
-    for module in modules:
-        print (get_dirty_for_module(files, module))
+
+def check_version_change(module):
+    chart_path = module + "/Chart.yaml"
+    commit_range = os.environ.get('TRAVIS_COMMIT_RANGE', None)
+
+    p = subprocess.Popen([
+        'git', 'diff', '-G', 'version', '--', commit_range, chart_path
+    ], stdout=subprocess.PIPE)
+
+    stdout, _ = p.communicate()
+    if p.returncode != 0:
+        raise SubprocessException('git returned non-zero exit code')
+
+    return True if len(stdout) > 0 else False
+
 
 def handle_push(files, modules):
     if os.environ.get('TRAVIS_BRANCH', None) != 'master':
@@ -156,19 +156,13 @@ def handle_push(files, modules):
     for module in modules:
         dirty = get_dirty_for_module(files, module)
 
-        if 'Chart.yaml' in dirty:
+        if 'Chart.yaml' in dirty and check_version_change(module):
             modules_to_push.append(module)
 
-    # if modules_to_push:
-    #     run_push(modules)
-    # else:
-    #     print('No modules to push.')
-    #
-    # if modules_to_readme:
-    #     run_readme(modules)
-    # else:
-    #     print('No READMEs to update.')
-
+    if modules_to_push:
+        run_push(modules_to_push)
+    else:
+        print('No modules to push.')
 
 def handle_other(files, modules, tags):
     print('Unsupported event type "%s", nothing to do.' % (
@@ -194,14 +188,6 @@ def main():
 
     files = get_changed_files()
     modules = get_dirty_modules(files)
-    # tags = get_message_tags()
-
-    # if tags:
-    #     print('Tags detected:')
-    #     for tag in tags:
-    #         print('  ', tag)
-    # else:
-    #     print('No tags detected.')
 
     func = {
         'pull_request': handle_pull_request,
