@@ -1,3 +1,4 @@
 **/charts/*.tgz
 .idea/
 *.tgz
+deploy-key
