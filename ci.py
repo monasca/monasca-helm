@@ -117,6 +117,7 @@ def run_push(modules):
 def handle_pull_request(files, modules):
     if modules:
         run_verify(modules)
+        check_version_change(modules)
     else:
         print('No modules to verify.')
 
@@ -132,6 +133,7 @@ def check_version_change(module):
     stdout, _ = p.communicate()
     if p.returncode != 0:
         raise SubprocessException('git returned non-zero exit code')
+    print(stdout)
 
     return True if len(stdout) > 0 else False
 
