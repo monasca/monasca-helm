@@ -54,6 +54,8 @@ spec:
               value: {{ .Values.log_level | quote }}
             - name: INSECURE
               value: {{ .Values.insecure | quote }}
+            - name: HOSTNAME_FROM_KUBERNETES
+              value: "true"
             {{- if .Values.namespace_annotations }}
             - name: KUBERNETES_NAMESPACE_ANNOTATIONS
               value: {{ .Values.namespace_annotations | quote}}
