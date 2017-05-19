@@ -22,10 +22,14 @@ import signal
 import subprocess
 import sys
 
+import yaml
+
 
 class SubprocessException(Exception):
     pass
 
+class FileReadException(Exception):
+    pass
 
 def get_changed_files():
     commit_range = os.environ.get('TRAVIS_COMMIT_RANGE', None)
@@ -133,7 +137,37 @@ def check_version_change(module):
     if p.returncode != 0:
         raise SubprocessException('git returned non-zero exit code')
 
-    return True if len(stdout) > 0 else False
+    if len(stdout) == 0:
+        return None
+
+    try:
+        with open(chart_path) as chart:
+            chart_dict = yaml.load(chart_path)
+    except:
+        raise FileReadException('Error reading chart yaml for changed chart')
+
+    return chart_dict['version']
+
+
+def build_requirements_dictionary(updated_modules):
+    return_requirements = {}
+    for module in next(os.walk('.'))[1]:
+        if not os.path.exists(os.path.join(module, 'requirements.yaml')):
+            continue
+        try:
+            with open(module + "/requirements.yaml") as requirements:
+                requirement_dict = yaml.load(requirements)
+        except:
+            raise Exception('Error reading requirements yaml for changed chart')
+        if not requirement_dict or "dependencies" not in requirement_dict:
+            continue
+        for dependency in requirement_dict['dependencies']:
+            dependency_name = dependency['name']
+            if dependency_name in updated_modules:
+                dependency['version'] = updated_modules[dependency_name]
+                if module not in return_requirements:
+                    return_requirements[module] = requirement_dict
+    return return_requirements
 
 
 def handle_push(files, modules):
@@ -143,16 +177,20 @@ def handle_push(files, modules):
         print('No modules to verify.')
         return
 
-    modules_to_push = []
-
+    modules_updated = {}
     for module in modules:
         dirty = get_dirty_for_module(files, module)
 
-        if 'Chart.yaml' in dirty and check_version_change(module):
-            modules_to_push.append(module)
+        if 'Chart.yaml' in dirty:
+            version = check_version_change(module)
+            if version != None:
+                modules_updated[module] = version
 
-    if modules_to_push:
-        run_push(modules_to_push)
+    if modules_updated:
+        run_push(modules_updated.keys())
+        pr_dictionary = build_requirements_dictionary(modules_updated)
+        print('Module requirements to update')
+        print(pr_dictionary)
     else:
         print('No modules to push.')
 
