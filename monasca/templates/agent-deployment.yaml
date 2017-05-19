@@ -23,6 +23,14 @@ spec:
           resources:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
+            - name: AGENT_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: AGENT_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
             - name: KUBERNETES_API
               value: "true"
             - name: KUBERNETES_API_TIMEOUT
