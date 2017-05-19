@@ -34,9 +34,9 @@ git add index.yaml
 git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
 
 # Push Changes
-chmod 600 deploy-key
+chmod 600 ../deploy-key
 eval "$(ssh-agent -s)"
-ssh-add deploy-key
+ssh-add ../deploy-key
 git push "$SSH_REPO" gh-pages
 
 # Remove out directory

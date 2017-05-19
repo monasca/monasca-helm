@@ -126,7 +126,7 @@ def check_version_change(module):
     commit_range = os.environ.get('TRAVIS_COMMIT_RANGE', None)
 
     p = subprocess.Popen([
-        'git', 'diff', '-G', 'version', '--', commit_range, chart_path
+        'git', 'diff', '-G', 'version', commit_range, chart_path
     ], stdout=subprocess.PIPE)
 
     stdout, _ = p.communicate()
