@@ -6,6 +6,9 @@ SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 git config --global user.email "monasca@lists.launchpad.net"
 git config --global user.name "Monasca CI"
 
+# Initialize Helm
+./helm init -c
+
 # Build Helm Charts
 ./helm repo add monasca http://monasca.io/monasca-helm/
 
@@ -34,11 +37,7 @@ git add index.yaml
 git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
 
 # Set up key to push
-ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
-ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
-ENCRYPTED_KEY=${!ENCRYPTED_KEY_VAR}
-ENCRYPTED_IV=${!ENCRYPTED_IV_VAR}
-openssl aes-256-cbc -K $ENCRYPTED_KEY -iv $ENCRYPTED_IV -in ../deploy_key.enc -out ../deploy_key -d
+openssl aes-256-cbc -K $encrypted_c04b32b34bc7_key -iv $encrypted_c04b32b34bc7_iv -in ../deploy-key.enc -out ../deploy-key -d
 chmod 600 ../deploy-key
 eval "$(ssh-agent -s)"
 ssh-add ../deploy-key

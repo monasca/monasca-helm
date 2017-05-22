@@ -1,7 +1,7 @@
 apiVersion: v1
 description: Transform provides aggregation for monasca metrics
 name: transform
-version: 0.1.2
+version: 0.2.0
 sources:
   - https://github.com/openstack/monasca-transform
 maintainers: 
