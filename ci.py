@@ -77,7 +77,7 @@ def get_dirty_for_module(files, module=None):
 
 
 def run_verify(modules):
-    build_args = ['helm', 'lint'] + modules
+    build_args = ['./helm', 'lint'] + modules
 
     print('verify command:', build_args)
 
