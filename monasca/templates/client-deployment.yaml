@@ -20,7 +20,10 @@ spec:
         - name: {{ template "name" . }}-{{ .Values.client.name }}-deployment
           image: "{{ .Values.client.image.repository }}:{{ .Values.client.image.tag }}"
           imagePullPolicy: {{ .Values.client.image.pullPolicy }}
-          command: ["sleep", "infinity"]
+          command:
+            - "sh"
+            - "-c"
+            - "while true; do sleep 86400; done"
           env:
             - name: OS_AUTH_URL
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
