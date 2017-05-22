@@ -1,8 +1,17 @@
 apiVersion: v1
 entries:
+  kafka:
+  - apiVersion: v1
+    created: 2017-05-22T13:41:04.501420572-06:00
+    description: A Helm chart for Kafka
+    digest: 46df9e44a164ecc0d6f8a86fc5d8a5d4496268f6ad4e7c1f2d52426a0580c944
+    name: kafka
+    urls:
+    - http://monasca.io/monasca-helm/kafka-0.2.0.tgz
+    version: 0.2.0
   monasca-agent:
   - apiVersion: v1
-    created: 2017-05-22T19:23:07.450041941Z
+    created: 2017-05-22T13:41:04.502664968-06:00
     description: A Helm chart for Monasca-agent
     digest: 064a2c0acbcbde659451fee619b159b485c4b96fbd43b353abbe8518bf76718f
     maintainers:
@@ -15,7 +24,7 @@ entries:
     - http://monasca.io/monasca-helm/monasca-agent-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v1
-    created: 2017-05-22T19:23:07.449694133Z
+    created: 2017-05-22T13:41:04.502073691-06:00
     description: A Helm chart for Monasca-agent
     digest: 73b73e6f2f0af9c78bb606ec2e66810b6e855b1fd96e14910499614f541456b2
     maintainers:
@@ -29,7 +38,7 @@ entries:
     version: 0.2.0
   spark:
   - apiVersion: v1
-    created: 2017-05-22T19:23:07.450901219Z
+    created: 2017-05-22T13:41:04.505208339-06:00
     description: Spark cluster chart
     digest: f37be224094292c11e471af9ddad9431a9b5bab5bb4d7941255162dc01ed3bb2
     maintainers:
@@ -40,7 +49,7 @@ entries:
     - http://monasca.io/monasca-helm/spark-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v1
-    created: 2017-05-22T19:23:07.450467402Z
+    created: 2017-05-22T13:41:04.50453938-06:00
     description: Spark cluster chart
     digest: 111919c66bbfd8444e219c1d7927d2d11387df7001982853722b3d1601b3814a
     maintainers:
@@ -52,20 +61,34 @@ entries:
     version: 0.2.0
   storm:
   - apiVersion: v1
-    created: 2017-05-22T19:23:07.451236584Z
+    created: 2017-05-22T13:41:04.506729906-06:00
     description: Apache Storm configured for Monasca
     digest: d3d0579d263de239cf75df6fa385e1c690133f268547971334f59e7ed419cfa5
     name: storm
     urls:
     - http://monasca.io/monasca-helm/storm-0.5.0.tgz
     version: 0.5.0
+  transform:
+  - apiVersion: v1
+    created: 2017-05-22T13:41:04.508470429-06:00
+    description: Transform provides aggregation for monasca metrics
+    digest: 0b520e404ee899b62296e61a33b16ebe46c06d9bd885ee43efe023c1d6c07020
+    maintainers:
+    - email: david.c.kennedy@hpe.com
+      name: David C Kennedy
+    name: transform
+    sources:
+    - https://github.com/openstack/monasca-transform
+    urls:
+    - http://monasca.io/monasca-helm/transform-0.2.0.tgz
+    version: 0.2.0
   zookeeper:
   - apiVersion: v1
-    created: 2017-05-22T19:23:07.452597525Z
+    created: 2017-05-22T13:41:04.508937505-06:00
     description: A Helm chart for Zookeeper
     digest: 632852e02bb1a421023b68c2060b01e39524f3bb9e55f2be53d750acf9bcbced
     name: zookeeper
     urls:
     - http://monasca.io/monasca-helm/zookeeper-0.2.0.tgz
     version: 0.2.0
-generated: 2017-05-22T19:23:07.449041006Z
+generated: 2017-05-22T13:41:04.500018291-06:00
