@@ -7,12 +7,12 @@ git config --global user.email "monasca@lists.launchpad.net"
 git config --global user.name "Monasca CI"
 
 # Build Helm Charts
-helm repo add monasca http://monasca.io/monasca-helm/
+./helm repo add monasca http://monasca.io/monasca-helm/
 
 for chart in "$@"
 do
- helm dependency update "$chart"
- helm package "$chart"
+ ./helm dependency update "$chart"
+ ./helm package "$chart"
 done
 
 # clone repo to make changes in
@@ -26,7 +26,7 @@ cp *.tgz out/.
 
 # Update index file
 cd out
-helm repo index . --url http://monasca.io/monasca-helm/
+../helm repo index . --url http://monasca.io/monasca-helm/
 
 # Commit changes
 git add *.tgz
