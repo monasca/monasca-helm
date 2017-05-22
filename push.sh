@@ -6,6 +6,9 @@ SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 git config --global user.email "monasca@lists.launchpad.net"
 git config --global user.name "Monasca CI"
 
+# Initialize Helm
+./helm init -c
+
 # Build Helm Charts
 ./helm repo add monasca http://monasca.io/monasca-helm/
 
