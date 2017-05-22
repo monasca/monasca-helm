@@ -1,7 +1,7 @@
 apiVersion: v1
 description: Spark cluster chart
 name: spark
-version: 0.2.1
+version: 0.2.2
 maintainers:
   - name: David C Kennedy
     email: david.c.kennedy@hpe.com
