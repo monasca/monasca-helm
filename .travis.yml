@@ -7,5 +7,6 @@ before_install:
 - tar -zxvf helm-v2.4.1-linux-amd64.tar.gz
 - mv linux-amd64/helm .
 - rm -rf linux-amd64 helm-v2.4.1-linux-amd64.tar.gz
+- pip install pyyaml
 script:
 - python ci.py
