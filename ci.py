@@ -142,7 +142,7 @@ def check_version_change(module):
 
     try:
         with open(chart_path) as chart:
-            chart_dict = yaml.load(chart_path)
+            chart_dict = yaml.load(chart)
     except:
         raise FileReadException('Error reading chart yaml for changed chart')
 
