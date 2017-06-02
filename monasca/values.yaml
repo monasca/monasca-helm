@@ -489,6 +489,7 @@ client:
 
 rbac:
   enabled: false
+  apiVersion: rbac.authorization.k8s.io/v1beta1
 
 cleanup:
   name: cleanup
