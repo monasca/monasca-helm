@@ -1,6 +1,6 @@
 {{- if .Values.rbac.enabled }}
 kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1alpha1
+apiVersion: "{{ .Values.rbac.apiVersion }}"
 metadata:
   name: "{{ .Release.Name }}-role"
 rules:
@@ -18,7 +18,7 @@ rules:
       - storageclasses
 ---
 kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1alpha1
+apiVersion: "{{ .Values.rbac.apiVersion }}"
 metadata:
   name: "{{ .Release.Name }}-role-binding"
 subjects:
