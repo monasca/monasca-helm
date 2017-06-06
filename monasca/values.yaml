@@ -8,14 +8,14 @@ mysql_init:
 influx_init:
   image:
     repository: monasca/influxdb-init
-    tag: latest
+    tag: 1.0.0
     pullPolicy: IfNotPresent
 
 grafana_init:
   image:
     repository: monasca/grafana-init
     tag: 1.2.0
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   log_level: INFO
   username: mini-mon
   password: password
@@ -28,8 +28,6 @@ influxdb:
     repo: "influxdb"
     tag: "1.1"
     pullPolicy: IfNotPresent
-  service:
-    type: NodePort
   persistence:
     enabled: false
     storageClass: default # Set to storage being used
@@ -84,8 +82,8 @@ agent:
   enabled: true
   image:
     repository: monasca/agent
-    tag: latest
-    pullPolicy: Always
+    tag: master-20170504-184046
+    pullPolicy: IfNotPresent
   log_level: WARN
   insecure: False
   keystone:
@@ -124,8 +122,8 @@ api:
   name: api
   image:
     repository: monasca/api
-    tag: master-prometheus
-    pullPolicy: Always
+    tag: master-20170306-232527
+    pullPolicy: IfNotPresent
   replicaCount: 1
   keystone:
     admin_password: secretadmin
@@ -135,6 +133,11 @@ api:
     user: mon_api
     password: password
     database: mon
+  static_service:
+    enabled: false
+    type: ClusterIP
+    port: 8070
+    name: monasca-api
   service:
     port: 8070
     type: ClusterIP
@@ -147,7 +150,7 @@ api:
     image:
       repository: timothyb89/monasca-sidecar
       tag: 1.0.0
-      pullPolicy: Always
+      pullPolicy: IfNotPresent
     resources:
       requests:
         memory: 128Mi
@@ -168,8 +171,8 @@ forwarder:
   enabled: false
   image:
     repository: monasca/forwarder
-    tag: master
-    pullPolicy: Always
+    tag: 1.0.1
+    pullPolicy: IfNotPresent
   replicaCount: 1
   logging:
     debug: false
@@ -194,11 +197,12 @@ forwarder:
 
 grafana:
   name: grafana
+  simple_name: false
   enabled: true
   image:
     repository: monasca/grafana
     tag: 4.0.0-1.1.0
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   service:
     type: NodePort
     port: 3000
@@ -222,7 +226,7 @@ keystone:
     region: RegionOne
   database_backend: mysql
   image:
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
     tag: 1.1.0
     repository: monasca/keystone
   mysql:
@@ -232,6 +236,12 @@ keystone:
     type: ClusterIP
     port: 35357
     admin_port: 5000
+  static_service:
+    enabled: false
+    type: ClusterIP
+    port: 35357
+    admin_port: 5000
+    name: keystone
   users:
     mini_mon:
       password: password
@@ -255,8 +265,8 @@ notification:
   name: notification
   image:
     repository: monasca/notification
-    tag: master-20170504-225038
-    pullPolicy: Always
+    tag: master-20170505-220138
+    pullPolicy: IfNotPresent
   replicaCount: 1
   log_level: WARN
   plugins: pagerduty,webhook
@@ -281,8 +291,8 @@ persister:
   name: persister
   image:
     repository: monasca/persister
-    tag: master
-    pullPolicy: Always
+    tag: master-20170509-200349
+    pullPolicy: IfNotPresent
   replicaCount: 1
   influxdb:
     user: mon_persister
@@ -311,8 +321,8 @@ storm:
   enabled: true
   image:
     repository: monasca/storm
-    tag: 1.0.3
-    pullPolicy: Always
+    tag: 1.0.3.2
+    pullPolicy: IfNotPresent
   persistence:
     storageClass: default
     enabled: false
@@ -339,8 +349,8 @@ storm:
     name: thresh
     image:
       repository: monasca/thresh
-      tag: master
-      pullPolicy: Always
+      tag: master-20170512-171611
+      pullPolicy: IfNotPresent
     secretSuffix: mysql-thresh-secret
     spout:
       metricSpoutThreads: 2
@@ -368,7 +378,7 @@ alarms:
   enabled: true
   image:
     repository: monasca/alarms
-    tag: 1.1.0
+    tag: 1.1.1
     pullPolicy: IfNotPresent
   wait:
     enabled: true
@@ -477,9 +487,9 @@ client:
   name: client
   enabled: false
   image:
-    repository: rbrndt/python-monascaclient
-    tag: latest
-    pullPolicy: Always
+    repository: monasca/client
+    tag: 1.6.0
+    pullPolicy: IfNotPresent
   keystone:
     os_username: mini-mon
     os_user_domain_name: Default

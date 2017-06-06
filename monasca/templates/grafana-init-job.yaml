@@ -25,7 +25,11 @@ spec:
             - name: LOG_LEVEL
               value: {{ .Values.grafana_init.log_level }}
             - name: GRAFANA_URL
+  {{- if $.Values.grafana.simple_name }}
+              value: "http://{{ $.Values.grafana.name}}:{{ .Values.grafana.service.port }}"
+  {{- else }}
               value: "http://{{ template "grafana.fullname" . }}:{{ .Values.grafana.service.port }}"
+  {{- end }}
             - name: GRAFANA_USERNAME
               value: {{ .Values.grafana_init.username }}
             - name: GRAFANA_PASSWORD

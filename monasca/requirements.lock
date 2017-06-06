@@ -17,15 +17,15 @@ dependencies:
   enabled: false
   import-values: null
   name: kafka
-  repository: http://monasca.io/monasca-helm-repo/
+  repository: http://monasca.io/monasca-helm/
   tags: null
-  version: 0.1.0
+  version: 0.2.0
 - condition: ""
   enabled: false
   import-values: null
   name: storm
-  repository: http://monasca.io/monasca-helm-repo/
+  repository: http://monasca.io/monasca-helm/
   tags: null
-  version: 0.4.0
-digest: sha256:38029d40d676321aac2d0e63a24ea2364b7fa245eac37c59677f191a9b4ed953
-generated: 2017-05-11T13:59:15.611713991-06:00
+  version: 0.5.0
+digest: sha256:a5dc391e15575a8abf03949d3d24b6ff17d5de861abe8188d286296f9165d2ef
+generated: 2017-05-22T14:12:07.669905799-06:00

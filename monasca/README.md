@@ -13,7 +13,7 @@ storing, alarming and notifications. The architecture can be viewed
 ## QuickStart
 
 ```bash
-$ helm repo add monasca http://monasca.io/monasca-helm-repo
+$ helm repo add monasca http://monasca.io/monasca-helm
 $ helm install monasca/monasca --name monasca --namespace monitoring
 ```
 
@@ -33,14 +33,14 @@ Monasca can either be install from the [monasca.io](https://monasca.io/) helm re
 ### Installing via Helm repo (recommended)
 
 ```bash
-$ helm repo add monasca http://monasca.io/monasca-helm-repo
+$ helm repo add monasca http://monasca.io/monasca-helm
 $ helm install monasca/monasca --name monasca --namespace monitoring
 ```
 
 ### Installing via source
 
 ```bash
-$ helm repo add monasca http://monasca.io/monasca-helm-repo
+$ helm repo add monasca http://monasca.io/monasca-helm
 $ helm dependency update monasca
 $ helm install monasca --name monasca --namespace monitoring
 ```
@@ -223,6 +223,7 @@ Parameter | Description | Default
 Parameter | Description | Default
 --------- | ----------- | -------
 `grafana.name` | Grafana container name | `grafana`
+`grafana.simple_name` | Whether to use `grafana.name` without prepending with `.Release.Name` | `false`
 `grafana.image.repository` | Grafana container image repository | `monasca/grafana`
 `grafana.image.tag` | Grafana container image tag | `4.1.0-pre1-1.0.0`
 `grafana.image.pullPolicy` | Grafana container image pull policy | `Always`

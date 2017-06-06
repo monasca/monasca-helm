@@ -8,7 +8,7 @@ This repo contains Helm charts for Monasca and its dependencies. Each chart rele
 To install Monasca in Kubernetes you can follow the following steps:
 
 ```bash
-$ helm repo add monasca http://monasca.io/monasca-helm-repo
+$ helm repo add monasca http://monasca.io/monasca-helm
 $ helm install monasca/monasca --name monasca --namespace monitoring
 ```
 

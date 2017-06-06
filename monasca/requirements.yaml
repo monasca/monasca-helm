@@ -6,8 +6,8 @@ dependencies:
   version: 0.2.4
   repository: https://kubernetes-charts.storage.googleapis.com/
 - name: kafka
-  version: 0.1.0
-  repository: http://monasca.io/monasca-helm-repo/
+  version: 0.2.0
+  repository: http://monasca.io/monasca-helm/
 - name: storm
-  version: 0.4.0
-  repository: http://monasca.io/monasca-helm-repo/
+  version: 0.5.0
+  repository: http://monasca.io/monasca-helm/
