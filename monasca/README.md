@@ -97,6 +97,15 @@ $ helm install monasca --name my-release -f values.yaml
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
 
+## Tempest Tests
+
+Running the tempest tests is disabled by default. Set tempest_tests.enabled to True to
+enable the tests. The tempest tests will be run as a Kubernetes job. If the tests all
+succeed, the job container will exit 0, otherwise, it will exit 1.
+
+The tests are sensitive to name resolution problems so if your Kubernetes cluster has
+any problems resolving services, random tests will fail.
+
 ### Agent
 
 Parameter | Description | Default
@@ -133,17 +142,17 @@ Parameter | Description | Default
 `agent.resources.limits.memory` | Memory limit per agent pod | `512Mi`
 `agent.resources.limits.cpu` | Memory limit per agent pod | `500m`
 
-### Aggregation
+### Aggregator
 
 Parameter | Description | Default
 --------- | ----------- | -------
-`aggregation.name` | Aggregation container name | `aggregation`
-`aggregation.enabled` | Aggregation enabled | `true`
-`aggregation.image.repository` | Aggregation container image repository | `rbrndt/test-agg`
-`aggregation.image.tag` | Aggregation container image tag | `latest`
-`aggregation.image.pullPolicy` | Aggregation container image pull policy | `Always`
-`aggregation.window_size` | Window size in seconds of metrics to aggregate on. | `60`
-`aggregation.window_lag` | Lag in seconds outside the window to accept metrics into current aggregations | `2`
+`aggregator.name` | Aggregator container name | `aggregation`
+`aggregator.enabled` | Aggregator enabled | `true`
+`aggregator.image.repository` | Aggregator container image repository | `rbrndt/test-agg`
+`aggregator.image.tag` | Aggregator container image tag | `latest`
+`aggregator.image.pullPolicy` | Aggregator container image pull policy | `Always`
+`aggregator.window_size` | Window size in seconds of metrics to aggregate on. | `60`
+`aggregator.window_lag` | Lag in seconds outside the window to accept metrics into current aggregations | `2`
 
 ### API
 
@@ -358,10 +367,9 @@ Parameter | Description | Default
 Parameter | Description | Default
 --------- | ----------- | -------
 `thresh.name` | Thresh container name | `thresh`
-`thresh.image.storm.pullPolicy` | Storm container image pull policy | `Always`
 `thresh.image.repository` | Thresh container image repository | `monasca/thresh`
 `thresh.image.tag` | Thresh container image tag | `master`
-`thresh.image.pullPolicy` | Thresh container image pull policy | `Always`
+`thresh.image.pullPolicy` | Thresh container image pull policy | `IfNotPresent`
 `thresh.secretSuffix` | MySQL secret suffix | `mysql-thresh-secret`
 `thresh.spout.metricSpoutThreads` | Amount of metric spout threads | `2`
 `thresh.spout.metricSpoutTasks` | Amount of metric spout tasks | `2`
@@ -371,3 +379,33 @@ Parameter | Description | Default
 
 Storm-specific options are documented in the
 [Storm chart](https://github.com/hpcloud-mon/monasca-helm/tree/master/storm).
+
+### Tempest Tests
+
+Parameter | Description | Default
+--------- | ----------- | -------
+`tempest_test.name` | Tempest Test container name | `tempest-tests`
+`tempest_test.enabled` | If True, run Tempest Tests | `False`
+`tempest_tests.image.repository` | Tempest Test container image repository | `monasca/tempest-tests`
+`tempest_tests.image.tag` | Tempest Test container image tag | `1.0.0`
+`tempest_tests.image.pullPolicy` | Tempest Test container image pull policy | `IfNotPresent`
+`tempest_test.wait.enabled`| Enable Monasca API available checks | `True`
+`tempest_test.wait.retries`| Retries for Monasca API available checks | `24`
+`tempest_test.wait.delay` | Sleep time between Monasca API retries | `5`
+`tempest_test.keystone.os_password` Password for Keystone User | `password`
+`tempest_test.keystone.os_project_domain_name` | User Project Domain Name | `Default`
+`tempest_test.keystone.os_project_name` | User Project Name | `mini-mon`
+`tempest_test.keystone.os_username` | Keystone User Name | `mini-mon`
+`tempest_test.keystone.os_tenant_name` | Keystone User Tenant(Project) Name | `mini-mon`
+`tempest_test.keystone.os_domain_name` | Keystone User Domain Name | `Default`
+`tempest_test.keystone.alt_username` | Alternate User Name | `mini-mon`
+`tempest_test.keystone.alt_password` | Alternate User Password | `password`
+`tempest_test.keystone.auth_use_ssl` | Use https for keystone Auth URI | `False`
+`tempest_test.keystone.keystone_server` | Keystone Server Name | `keystone`
+`tempest_test.keystone.keystone_port` | Keystone Server Port | `35357`
+`tempest_test.keystone.use_dynamic_creds` | Whether to recreate creds for each test run | `True`
+`tempest_test.keystone.admin_username` | Keystone Admin Domain Name | `mini-mon`
+`tempest_test.keystone.admin_password` | Keystone Admin Domain Name | `password`
+`tempest_test.keystone.admin_domain_name` | Keystone Admin Domain Name | `Default`
+`tempest_test.keystone.ostestr_regex` | Selects which tests to run | `monasca_tempest_tests`
+`tempest_test.keystone.stay_alive_on_failure` | If true, container runs 2 hours after tests fail | False
