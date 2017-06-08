@@ -36,7 +36,7 @@ spark_master:
     daemon_java_opts: "\"$SPARK_DAEMON_JAVA_OPTS -Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=zookeeper:2181 -Dspark.deploy.zookeeper.dir=/var/run/spark -Dorg.xerial.snappy.tempdir=/var/run/spark/\""
 
 spark_worker:
-  replicaCount: 3
+  replicaCount: 4
   containerName: spark-worker
   pod_ip: status.podIP
   image:
