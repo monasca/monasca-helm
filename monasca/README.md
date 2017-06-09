@@ -103,12 +103,28 @@ The tempest tests are running using the helm test command. This creates a pod
 that runs the Monasca tempest tests. Monasca should be deployed or upgraded
 using helm and then once all pods have been created and all jobs have succeeded,
 the tests can be run. Due to the amount of time that it takes to run the tests,
-the timeout parameter must be specified. Use:
+the timeout parameter must be specified. The time required for the tests vary
+according to your hardware an how loaded your system. Test times as low as
+600 seconds but up to 3100 seconds have been seen. Use the command below, but
+replacing 900 with the timeout that works for your system:
 `
 ```console
 $ helm test monasca --timeout 900
 ```
+
+If your timeout is not long enough, then you will see a result like this:
+
+```console
+RUNNING: monasca-tempest-tests-test-pod
+UNKNOWN: monasca-tempest-tests-test-pod: timed out waiting for the condition
+```
+
+You must must then wait for the pod monasca-tempest-tests-test-pod to exit
+and check its logs and exit status.
+
 If the tests all succeed, the pod will exit 0, otherwise, it will exit 1.
+
+To run the tests again, the pod monasca-tempest-tests-test-pod must be deleted.
 
 The tests are very sensitive to name resolution problems so if your Kubernetes
 cluster has any problems resolving services, random tests will fail.
