@@ -13,7 +13,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "fullname" . }}
+        app: {{ template "fullname-invalid" . }}
         component: "{{ .Values.api.name }}"
       {{- if .Values.api.side_container.enabled }}
       annotations:
