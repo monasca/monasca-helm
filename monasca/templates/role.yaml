@@ -16,6 +16,11 @@ rules:
       - services
       - componentstatuses
       - storageclasses
+  - apiGroups: ["", "batch", "extensions", "storage.k8s.io"]
+    verbs: ["get", "list", "delete"]
+    resources:
+      - jobs
+      - pods
 ---
 kind: ClusterRoleBinding
 apiVersion: "{{ .Values.rbac.apiVersion }}"
