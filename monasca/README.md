@@ -97,17 +97,31 @@ $ helm install monasca --name my-release -f values.yaml
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
 
-## Tempest Tests
+## Helm Tests for Monasca
 
-The tempest tests are running using the helm test command. This creates a pod
-that runs the Monasca tempest tests. Monasca should be deployed or upgraded
-using helm and then once all pods have been created and all jobs have succeeded,
-the tests can be run. Due to the amount of time that it takes to run the tests,
-the timeout parameter must be specified. The time required for the tests vary
-according to your hardware an how loaded your system. Test times as low as
-600 seconds but up to 3100 seconds have been seen. Use the command below, but
-replacing 900 with the timeout that works for your system:
-`
+We have two test suites that can be run via Helm Test.
+
+These are Smoke Tests and Tempest Tests. By default only Smoke Tests are enabled.
+
+In both tests, Monasca must be deployed or upgraded using helm and then once all
+pods have been created and all jobs have succeeded the tests can be run.
+
+### Tempest Tests
+
+These tests run the [Monasca tempest tests](https://github.com/openstack/monasca-api/tree/master/monasca_tempest_tests)
+
+Prior to running helm tests you must enable the tempest tests by running:
+
+```console
+$ helm upgrade monasca monasca/monasca --set tempest_tests.enabled=true
+```
+
+Due to the amount of time that it takes to run the tests, the timeout parameter
+must be specified. The time required for the tests vary according to your hardware
+and how loaded your system is. Test times as low as 600 seconds but up to 3100 seconds
+have been seen. Use the command below, but replacing 900 with the timeout that
+works for your system:
+
 ```console
 $ helm test monasca --timeout 900
 ```
@@ -119,7 +133,7 @@ RUNNING: monasca-tempest-tests-test-pod
 UNKNOWN: monasca-tempest-tests-test-pod: timed out waiting for the condition
 ```
 
-You must must then wait for the pod monasca-tempest-tests-test-pod to exit
+You must then wait for the pod monasca-tempest-tests-test-pod to exit
 and check its logs and exit status.
 
 If the tests all succeed, the pod will exit 0, otherwise, it will exit 1.
@@ -128,6 +142,24 @@ To run the tests again, the pod monasca-tempest-tests-test-pod must be deleted.
 
 The tests are very sensitive to name resolution problems so if your Kubernetes
 cluster has any problems resolving services, random tests will fail.
+
+### Smoke Tests
+
+These tests run the [Monasca smoke tests](https://github.com/monasca/smoke-test)
+
+Since they are enabled by default you do not have to take an extra step to
+enable them and can run:
+
+```console
+$ helm test monasca
+```
+
+You must then wait for the pod monasca-smoke-tests-test-pod to exit
+and check its logs and exit status.
+
+If the tests all succeed, the pod will exit 0, otherwise, it will exit 1.
+
+To run the tests again, the pod monasca-smoke-tests-test-pod must be deleted.
 
 ### Agent
 
@@ -432,3 +464,17 @@ Parameter | Description | Default
 `tempest_test.keystone.admin_domain_name` | Keystone Admin Domain Name | `Default`
 `tempest_test.keystone.ostestr_regex` | Selects which tests to run | `monasca_tempest_tests`
 `tempest_test.keystone.stay_alive_on_failure` | If true, container runs 2 hours after tests fail | False
+
+
+### Smoke Tests
+
+Parameter | Description | Default
+--------- | ----------- | -------
+`smoke_tests.name` | Smoke Test container name | `smoke-tests`
+`smoke_tests.enabled` | If True, run Smoke Test when using helm test | `True`
+`smoke_tests.image.repository` | Smoke Test container image repository | `monasca/smoke-tests`
+`smoke_tests.image.tag` | Smoke Test container image tag | `1.0.0`
+`smoke_tests.image.pullPolicy` | Smoke Test container image pull policy | `IfNotPresent`
+`smoke_tests.keystone.os_username`| Keystone User Name | `mini-mon`
+`smoke_tests.keystone.os_password`| Keystone User Tenant Name | `mini-mon`
+`smoke_tests.keystone.os_tenant_name` | Keystone Domain name | `Default`
