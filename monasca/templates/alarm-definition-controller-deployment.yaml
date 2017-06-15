@@ -1,0 +1,24 @@
+{{- if .Values.alarm_definition_controller.enabled }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "alarm_definition_controller.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.alarm_definition_controller.name }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.alarm_definition_controller.name }}"
+    spec:
+      containers:
+      - name: {{ template "name" . }}-{{ .Values.alarm_definition_controller.name }}
+        image: "{{ .Values.alarm_definition_controller.image.repository }}:{{ .Values.alarm_definition_controller.image.tag }}"
+        imagePullPolicy: {{ .Values.alarm_definition_controller.image.pullPolicy }}
+{{- end }}

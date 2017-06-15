@@ -478,3 +478,13 @@ Parameter | Description | Default
 `smoke_tests.keystone.os_username`| Keystone User Name | `mini-mon`
 `smoke_tests.keystone.os_password`| Keystone User Tenant Name | `mini-mon`
 `smoke_tests.keystone.os_tenant_name` | Keystone Domain name | `Default`
+
+### Alarm Definition Controller
+
+Parameter | Description | Default
+--------- | ----------- | -------
+`alarm_definition_controller.name` | Alarm Definition Controller container name | `alarm-definition-controller`
+`alarm_definition_controller.enabled` | If True, create Alarm Definition Controller and Alarm Definition third party resource | `True`
+`alarm_definition_controller.image.repository` | Alarm Definition Controller container image repository | `monasca/alarm-definition-controller`
+`alarm_definition_controller.image.tag` | Alarm Definition Controller container image tag | `1.0.0`
+`alarm_definition_controller.image.pullPolicy` | Alarm Definition Controller container image pull policy | `IfNotPresent`
