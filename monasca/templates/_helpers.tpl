@@ -126,10 +126,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- define "alarms.fullname" -}}
 {{- printf "%s-%s" .Release.Name "alarms" | trunc 63 -}}
 {{- end -}}
+
 {{/*
 Create a fully qualified tempest test name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
 {{- define "tempest_tests.fullname" -}}
 {{- printf "%s-%s" .Release.Name "tempest-tests" | trunc 63 -}}
+{{- end -}}
+
+{{/*
+Create a fully qualified smoke tests name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "smoke_tests.fullname" -}}
+{{- printf "%s-%s" .Release.Name "smoke-tests" | trunc 63 -}}
 {{- end -}}

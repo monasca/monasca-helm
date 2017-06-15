@@ -1374,7 +1374,7 @@ aggregator:
 
 tempest_tests:
   name: tempest-tests
-  enabled: True
+  enabled: False
   image:
     repository: monasca/tempest-tests
     tag: 1.0.0
@@ -1401,3 +1401,16 @@ tempest_tests:
     admin_domain_name: Default
   ostestr_regex: monasca_tempest_tests
   stay_alive_on_failure: False
+
+smoke_tests:
+  name: smoke-tests
+  enabled: True
+  image:
+    repository: monasca/smoke-tests
+    tag: 1.0.0
+    pullPolicy: IfNotPresent
+  keystone:
+    os_username: mini-mon
+    os_password: password
+    os_tenant_name: mini-mon
+    os_domain_name: Default
