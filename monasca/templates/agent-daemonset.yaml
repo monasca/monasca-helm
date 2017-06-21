@@ -61,12 +61,8 @@ spec:
               value: {{ .Values.agent.keystone.os_project_name | quote }}
             - name: OS_PROJECT_DOMAIN_NAME
               value: {{ .Values.agent.keystone.os_project_domain_name | quote }}
-            - name: MONASCA_URL
-              value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
             - name: LOG_LEVEL
               value: {{ .Values.agent.log_level | quote }}
-            - name: INSECURE
-              value: {{ .Values.agent.insecure | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
             {{- if .Values.agent.namespace_annotations }}
@@ -111,12 +107,4 @@ spec:
               value: {{ .Values.agent.insecure | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
-            {{- if .Values.agent.namespace_annotations }}
-            - name: KUBERNETES_NAMESPACE_ANNOTATIONS
-              value: {{ .Values.agent.namespace_annotations | quote}}
-            {{- end}}
-            {{- if .Values.agent.dimensions }}
-            - name: DIMENSIONS
-              value: {{ .Values.agent.dimensions | quote}}
-            {{- end}}
 {{- end}}

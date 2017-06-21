@@ -61,8 +61,6 @@ spec:
               value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
             - name: LOG_LEVEL
               value: {{ .Values.agent.log_level | quote }}
-            - name: INSECURE
-              value: {{ .Values.agent.insecure | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
             {{- if .Values.agent.namespace_annotations }}
