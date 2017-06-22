@@ -80,10 +80,16 @@ mysql:
 agent:
   name: agent
   enabled: true
-  image:
-    repository: monasca/agent
-    tag: master-20170504-184046
-    pullPolicy: IfNotPresent
+  collector:
+    image:
+      repository: monasca/agent-collector
+      tag: master-20170615-204444
+      pullPolicy: IfNotPresent
+  forwarder:
+    image:
+      repository: monasca/agent-forwarder
+      tag: master-20170615-204444
+      pullPolicy: IfNotPresent
   log_level: WARN
   insecure: False
   keystone:

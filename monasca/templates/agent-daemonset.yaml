@@ -17,9 +17,9 @@ spec:
         app: {{ template "fullname" . }}
     spec:
       containers:
-        - name: {{ template "name" . }}-{{ .Values.agent.name }}-daemonset
-          image: "{{ .Values.agent.image.repository }}:{{ .Values.agent.image.tag }}"
-          imagePullPolicy: {{ .Values.agent.image.pullPolicy }}
+        - name: {{ template "name" . }}-{{ .Values.agent.name }}-collector-daemonset
+          image: "{{ .Values.agent.collector.image.repository }}:{{ .Values.agent.collector.image.tag }}"
+          imagePullPolicy: {{ .Values.agent.collector.image.pullPolicy }}
           resources:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
@@ -61,12 +61,8 @@ spec:
               value: {{ .Values.agent.keystone.os_project_name | quote }}
             - name: OS_PROJECT_DOMAIN_NAME
               value: {{ .Values.agent.keystone.os_project_domain_name | quote }}
-            - name: MONASCA_URL
-              value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
             - name: LOG_LEVEL
               value: {{ .Values.agent.log_level | quote }}
-            - name: INSECURE
-              value: {{ .Values.agent.insecure | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
             {{- if .Values.agent.namespace_annotations }}
@@ -77,4 +73,38 @@ spec:
             - name: DIMENSIONS
               value: {{ .Values.agent.dimensions | quote}}
             {{- end}}
+        - name: {{ template "name" . }}-{{ .Values.agent.name }}-forwarder-daemonset
+          image: "{{ .Values.agent.forwarder.image.repository }}:{{ .Values.agent.forwarder.image.tag }}"
+          imagePullPolicy: {{ .Values.agent.forwarder.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.agent.resources | indent 12 }}
+          env:
+            - name: AGENT_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: AGENT_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: OS_AUTH_URL
+              value:  "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            - name: OS_USERNAME
+              value: {{ .Values.agent.keystone.os_username | quote }}
+            - name: OS_USER_DOMAIN_NAME
+              value: {{ .Values.agent.keystone.os_user_domain_name | quote }}
+            - name: OS_PASSWORD
+              value: {{ .Values.agent.keystone.os_password | quote }}
+            - name: OS_PROJECT_NAME
+              value: {{ .Values.agent.keystone.os_project_name | quote }}
+            - name: OS_PROJECT_DOMAIN_NAME
+              value: {{ .Values.agent.keystone.os_project_domain_name | quote }}
+            - name: MONASCA_URL
+              value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
+            - name: LOG_LEVEL
+              value: {{ .Values.agent.log_level | quote }}
+            - name: INSECURE
+              value: {{ .Values.agent.insecure | quote }}
+            - name: HOSTNAME_FROM_KUBERNETES
+              value: "true"
 {{- end}}
