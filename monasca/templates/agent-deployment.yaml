@@ -21,7 +21,7 @@ spec:
           image: "{{ .Values.agent.collector.image.repository }}:{{ .Values.agent.collector.image.tag }}"
           imagePullPolicy: {{ .Values.agent.collector.image.pullPolicy }}
           resources:
-{{ toYaml .Values.agent.collector.resources | indent 12 }}
+{{ toYaml .Values.agent.resources | indent 12 }}
           env:
             - name: AGENT_POD_NAME
               valueFrom:
@@ -86,7 +86,7 @@ spec:
           image: "{{ .Values.agent.forwarder.image.repository }}:{{ .Values.agent.forwarder.image.tag }}"
           imagePullPolicy: {{ .Values.agent.forwarder.image.pullPolicy }}
           resources:
-{{ toYaml .Values.agent.forwarder.resources | indent 12 }}
+{{ toYaml .Values.agent.resources | indent 12 }}
           env:
             - name: AGENT_POD_NAME
               valueFrom:
