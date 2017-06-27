@@ -1,3 +1,4 @@
+{{- if .Values.notification.enabled }}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -110,3 +111,4 @@ spec:
               - key: hipchat-template.yml.j2
                 path: hipchat-template.yml.j2
       {{- end }}
+{{- end}}

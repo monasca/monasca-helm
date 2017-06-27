@@ -269,6 +269,7 @@ keystone:
 
 notification:
   name: notification
+  enabled: true
   image:
     repository: monasca/notification
     tag: master-20170505-220138
