@@ -307,7 +307,7 @@ Parameter | Description | Default
 `keystone.override.public.url` | Keystone external url for public endpoint | `http://keystone`
 `keystone.override.public.port` | Keystone external port for public endpoint | `35357`
 `keystone.override.admin.url` | Keystone external url for admin endpoint | `http://keystone`
-`keystone.override.admin.url` | Keystone external port for admin endpoint | `5000`
+`keystone.override.admin.port` | Keystone external port for admin endpoint | `5000`
 `keystone.image.repository` | Keystone container image repository | `monasca/keystone`
 `keystone.image.tag` | Keystone container image tag | `1.0.7`
 `keystone.image.pullPolicy` | Keystone container image pull policy | `Always`
