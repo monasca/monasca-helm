@@ -26,7 +26,11 @@ spec:
         - name: OS_USERNAME
           value: "{{ .Values.smoke_tests.keystone.os_username }}"
         - name: OS_AUTH_URL
+        {{- if .Values.keystone.enabled }}
           value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}/v3"
+        {{- else }}
+          value: "{{ .Values.keystone.override.admin.url }}:{{ .Values.keystone.override.admin.port }}/v3"
+        {{- end }}
         - name: OS_TENANT_NAME
           value: "{{ .Values.smoke_tests.keystone.os_tenant_name }}"
         - name: OS_DOMAIN_NAME

@@ -29,9 +29,17 @@ spec:
         - name: OS_USERNAME
           value: "{{ .Values.tempest_tests.keystone.os_username }}"
         - name: KEYSTONE_SERVER
+        {{- if .Values.keystone.enabled }}
           value: {{ template "keystone.fullname" . }}
+        {{- else }}
+          value: "{{ .Values.keystone.override.public.url }}
+        {{- end }}
         - name: KEYSTONE_PORT
+        {{- if .Values.keystone.enabled }}
           value: "{{ .Values.keystone.service.port }}"
+        {{- else }}
+          value: "{{ .Values.keystone.override.public.port }}"
+        {{- end }}
         - name: OS_TENANT_NAME
           value: "{{ .Values.tempest_tests.keystone.os_tenant_name }}"
         - name: OS_DOMAIN_NAME

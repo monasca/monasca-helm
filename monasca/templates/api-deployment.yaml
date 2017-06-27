@@ -63,9 +63,17 @@ spec:
             - name: MYSQL_DB
               value: "mon"
             - name: KEYSTONE_IDENTITY_URI
+            {{- if .Values.keystone.enabled }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}"
+            {{- else }}
+              value: "{{ .Values.keystone.override.public.url }}:{{ .Values.keystone.override.public.port }}"
+            {{- end }}
             - name: KEYSTONE_AUTH_URI
+            {{- if .Values.keystone.enabled }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}"
+            {{- else }}
+              value: "{{ .Values.keystone.override.admin.url }}:{{ .Values.keystone.override.admin.port }}"
+            {{- end }}
             - name: KEYSTONE_ADMIN_USER
               value: {{ .Values.api.keystone.admin_user | quote }}
             - name: KEYSTONE_ADMIN_PASSWORD

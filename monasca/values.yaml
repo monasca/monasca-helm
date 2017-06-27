@@ -223,6 +223,13 @@ grafana:
 keystone:
   name: keystone
   enabled: true
+  override:
+    public:
+      url: http://keystone
+      port: 35357
+    admin:
+      url: http://keystone
+      port: 5000
   bootstrap:
     user: admin
     password: secretadmin
