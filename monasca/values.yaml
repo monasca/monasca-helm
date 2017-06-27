@@ -271,7 +271,7 @@ notification:
   name: notification
   image:
     repository: monasca/notification
-    tag: master-20170505-220138
+    tag: bad-version-does-not-exist-do-not-merge-plz
     pullPolicy: IfNotPresent
   replicaCount: 1
   log_level: WARN
