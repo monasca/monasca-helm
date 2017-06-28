@@ -72,7 +72,7 @@ spec:
             {{- if .Values.keystone.enabled }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}"
             {{- else }}
-              value: "{{ .Values.keystone.override.admin.url }}:{{ .Values.keystone.override.admin.port }}"
+              value: "{{ .Values.keystone.override.admin_url }}"
             {{- end }}
             - name: KEYSTONE_ADMIN_USER
               value: {{ .Values.api.keystone.admin_user | quote }}
