@@ -1,3 +1,4 @@
+{{- if .Values.keystone.enabled }}
 {{- if .Values.keystone.static_service.enabled }}
 apiVersion: v1
 kind: Service
@@ -27,4 +28,5 @@ spec:
   selector:
     app: {{ template "fullname" . }}
     component: "{{ .Values.keystone.name }}"
+{{- end }}
 {{- end }}
