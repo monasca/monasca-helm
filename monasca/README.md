@@ -375,6 +375,7 @@ Parameter | Description | Default
 Parameter | Description | Default
 --------- | ----------- | -------
 `notification.name` | Notification container name | `notification`
+`notification.enabled` | Notification engine enabled flag | `true`
 `notification.image.repository` | Notification container image repository | `monasca/notification`
 `notification.image.tag` | Notification container image tag | `master`
 `notification.image.pullPolicy` | Notification container image pull policy | `Always`
