@@ -42,7 +42,7 @@ spec:
             {{- if .Values.keystone.enabled }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
             {{- else }}
-              value: "{{ .Values.keystone.override.public.url }}:{{ .Values.keystone.override.public.port }}/v3"
+              value: "{{ .Values.keystone.override.public_url }}/v3"
             {{- end }}
             {{- if .Values.alarms.notification_name }}
             - name: NOTIFICATION_NAME

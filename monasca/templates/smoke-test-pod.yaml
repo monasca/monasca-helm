@@ -29,7 +29,7 @@ spec:
         {{- if .Values.keystone.enabled }}
           value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}/v3"
         {{- else }}
-          value: "{{ .Values.keystone.override.admin.url }}:{{ .Values.keystone.override.admin.port }}/v3"
+          value: "{{ .Values.keystone.override.admin_url }}/v3"
         {{- end }}
         - name: OS_TENANT_NAME
           value: "{{ .Values.smoke_tests.keystone.os_tenant_name }}"
