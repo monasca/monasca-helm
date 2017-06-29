@@ -39,7 +39,11 @@ spec:
             - name: OS_PROJECT_DOMAIN_NAME
               value: "{{ .Values.alarms.keystone.os_project_domain_name }}"
             - name: OS_AUTH_URL
+            {{- if .Values.keystone.enabled }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            {{- else }}
+              value: "{{ .Values.keystone.override.public_url }}/v3"
+            {{- end }}
             {{- if .Values.alarms.notification_name }}
             - name: NOTIFICATION_NAME
               value: "{{ .Values.alarms.notification_name }}"

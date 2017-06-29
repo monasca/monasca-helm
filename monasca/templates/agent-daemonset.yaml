@@ -50,7 +50,11 @@ spec:
             - name: CADVISOR_TIMEOUT
               value: {{ .Values.agent.cadvisor.timeout | quote }}
             - name: OS_AUTH_URL
-              value:  "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            {{- if .Values.keystone.enabled }}
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            {{- else }}
+              value: "{{ .Values.keystone.override.public_url }}/v3"
+            {{- end }}
             - name: OS_USERNAME
               value: {{ .Values.agent.keystone.os_username | quote }}
             - name: OS_USER_DOMAIN_NAME
@@ -88,7 +92,11 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: OS_AUTH_URL
-              value:  "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            {{- if .Values.keystone.enabled }}
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            {{- else }}
+              value: "{{ .Values.keystone.override.public_url }}/v3"
+            {{- end }}
             - name: OS_USERNAME
               value: {{ .Values.agent.keystone.os_username | quote }}
             - name: OS_USER_DOMAIN_NAME

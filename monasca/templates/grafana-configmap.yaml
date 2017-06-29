@@ -23,7 +23,11 @@ data:
 
     [auth.keystone]
     enabled = true
+    {{- if .Values.keystone.enabled }}
     auth_url = http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}
+    {{- else }}
+    auth_url = {{ .Values.keystone.override.admin_url }}
+    {{- end }}
     verify_ssl_cert = false
     v3 = true
     default_domain = Default
