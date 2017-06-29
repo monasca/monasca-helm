@@ -207,7 +207,7 @@ grafana:
   enabled: true
   image:
     repository: monasca/grafana
-    tag: 4.0.0-1.1.0
+    tag: 4.0.0-1.1.1
     pullPolicy: IfNotPresent
   service:
     type: NodePort
@@ -301,7 +301,7 @@ persister:
   name: persister
   image:
     repository: monasca/persister
-    tag: master-20170509-200349
+    tag: master-20170626-213856
     pullPolicy: IfNotPresent
   replicaCount: 1
   influxdb:
