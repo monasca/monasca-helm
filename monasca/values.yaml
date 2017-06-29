@@ -1414,7 +1414,7 @@ smoke_tests:
   enabled: True
   image:
     repository: monasca/smoke-tests
-    tag: 1.0.0
+    tag: 1.0.2
     pullPolicy: IfNotPresent
   keystone:
     os_username: mini-mon
