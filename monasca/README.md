@@ -303,6 +303,9 @@ Parameter | Description | Default
 Parameter | Description | Default
 --------- | ----------- | -------
 `keystone.name` | Keystone container name | `keystone`
+`keystone.enabled` | Keystone enable flag. If false each micro service using keystone will use the override keystone variables | `true`
+`keystone.override.public_url` | Keystone external url for public endpoint | `http://keystone:35357`
+`keystone.override.admin_url` | Keystone external url for admin endpoint | `http://keystone:5000`
 `keystone.image.repository` | Keystone container image repository | `monasca/keystone`
 `keystone.image.tag` | Keystone container image tag | `1.0.7`
 `keystone.image.pullPolicy` | Keystone container image pull policy | `Always`

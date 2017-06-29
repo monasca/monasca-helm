@@ -223,6 +223,9 @@ grafana:
 keystone:
   name: keystone
   enabled: true
+  override:
+    public_url: http://keystone:35357
+    admin_url: http://keystone:5000
   bootstrap:
     user: admin
     password: secretadmin
