@@ -21,6 +21,8 @@ spec:
         - name: {{ template "name" . }}-{{ .Values.alarms.name }}-init-job
           image: "{{ .Values.alarms.image.repository }}:{{ .Values.alarms.image.tag }}"
           imagePullPolicy: {{ .Values.alarms.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.alarms.resources | indent 12 }}
           env:
             - name: MONASCA_WAIT_FOR_API
               value: "{{ .Values.alarms.wait.enabled }}"

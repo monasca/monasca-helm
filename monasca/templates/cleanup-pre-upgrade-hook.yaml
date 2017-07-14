@@ -31,6 +31,8 @@ spec:
         - name: {{ template "name" . }}-{{ .Values.cleanup.name }}-job
           image: "{{ .Values.cleanup.image.repository }}:{{ .Values.cleanup.image.tag }}"
           imagePullPolicy: {{ .Values.cleanup.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.cleanup.resources | indent 12 }}
           env:
             - name: "WAIT_RETRIES"
               value: "{{ .Values.cleanup.wait.retries }}"

@@ -18,6 +18,8 @@ spec:
         - name: mysql-init-job
           image: "{{ .Values.mysql_init.image.repository }}:{{ .Values.mysql_init.image.tag }}"
           imagePullPolicy: {{ .Values.mysql_init.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.mysql_init.resources | indent 12 }}
           env:
             - name: MYSQL_INIT_DISABLE_REMOTE_ROOT
               value: {{ .Values.mysql_init.disable_remote_root | quote }}
