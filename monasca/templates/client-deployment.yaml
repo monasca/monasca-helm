@@ -35,8 +35,16 @@ spec:
               value: {{ .Values.client.keystone.os_username | quote }}
             - name: OS_USER_DOMAIN_NAME
               value: {{ .Values.client.keystone.os_user_domain_name | quote }}
+            {{- if .Values.client.keystone.os_password_secret }}
+            - name: OS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.client.keystone.os_password_secret }}"
+                  key: "{{ .Values.client.keystone.os_password_secret_key | default .Values.client.keystone.os_password_secret }}"
+            {{- else if .Values.client.keystone.os_password }}
             - name: OS_PASSWORD
               value: {{ .Values.client.keystone.os_password | quote }}
+            {{- end }}
             - name: OS_PROJECT_NAME
               value: {{ .Values.client.keystone.os_project_name | quote }}
             - name: OS_PROJECT_DOMAIN_NAME

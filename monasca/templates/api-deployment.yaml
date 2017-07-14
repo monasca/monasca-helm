@@ -76,8 +76,16 @@ spec:
             {{- end }}
             - name: KEYSTONE_ADMIN_USER
               value: {{ .Values.api.keystone.admin_user | quote }}
+            {{- if .Values.api.keystone.admin_password_secret }}
+            - name: KEYSTONE_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.api.keystone.admin_password_secret }}"
+                  key: "{{ .Values.api.keystone.admin_password_secret_key | default .Values.api.keystone.admin_password_secret }}"
+            {{- else if .Values.api.keystone.admin_password }}
             - name: KEYSTONE_ADMIN_PASSWORD
               value: {{ .Values.api.keystone.admin_password | quote }}
+            {{- end }}
             - name: KEYSTONE_ADMIN_TENANT
               value: {{ .Values.api.keystone.admin_tenant | quote }}
             {{- if .Values.api.auth_disabled }}
