@@ -2,7 +2,7 @@ name: agent
 collector:
   image:
     repository: monasca/agent-collector
-    tag: master-20170615-204444
+    tag: master-20170707-154334
     pullPolicy: IfNotPresent
 forwarder:
   image:
