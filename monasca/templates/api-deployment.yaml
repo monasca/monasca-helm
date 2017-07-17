@@ -100,6 +100,8 @@ spec:
             - name: SIDECAR_URL
               value: http://localhost:4888/v1/ingest
             {{- end }}
+            - name: GUNICORN_WORKERS
+              value: {{ .Values.api.gunicorn_workers | quote }}
       {{- if .Values.api.side_container.enabled }}
       - name: {{ template "name" . }}-{{ .Values.api.name }}-side-container
         image: "{{ .Values.api.side_container.image.repository }}:{{ .Values.api.side_container.image.tag }}"
