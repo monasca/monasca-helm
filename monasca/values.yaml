@@ -192,6 +192,7 @@ api:
     limits:
       memory: 1Gi
       cpu: 2000m
+  gunicorn_workers: 1
 
 forwarder:
   name: forwarder

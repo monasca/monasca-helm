@@ -228,6 +228,7 @@ Parameter | Description | Default
 `api.influxdb.user` | The influx username | `mon_api`
 `api.influxdb.password` | The influx password | `password`
 `api.influxdb.database` | The influx database | `mon`
+`api.gunicorn_workers` | Number of gunicorn api workers | `1`
 `api.service.port` | API service port | `8070`
 `api.service.type` | API service type | `ClusterIP`
 `api.service.node_port` | API node port if service type is set to NodePort | ``
@@ -243,7 +244,6 @@ Parameter | Description | Default
 `api.side_container.resources.requests.cpu` | CPU request per API side container | `50m`
 `api.side_container.resources.limits.memory` | Memory limit per API side container | `256Mi`
 `api.side_container.resources.limits.cpu` | Memory limit per API side container | `100m`
-
 
 ### Client
 
