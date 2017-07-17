@@ -21,6 +21,8 @@ spec:
         - name: {{ template "name" . }}-{{ .Values.storm.thresh.name }}-init-job
           image: "{{ .Values.storm.thresh.image.repository }}:{{ .Values.storm.thresh.image.tag }}"
           imagePullPolicy: {{ .Values.storm.thresh.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.storm.thresh.resources | indent 12 }}
           env:
             - name: STORM_HOSTNAME_FROM_IP
               value: "true"

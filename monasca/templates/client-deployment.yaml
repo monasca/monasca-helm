@@ -24,6 +24,8 @@ spec:
             - "sh"
             - "-c"
             - "while true; do sleep 86400; done"
+          resources:
+{{ toYaml .Values.client.resources | indent 12 }}
           env:
             - name: OS_AUTH_URL
             {{- if .Values.keystone.enabled }}
