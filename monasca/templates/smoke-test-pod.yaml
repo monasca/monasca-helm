@@ -18,7 +18,7 @@ spec:
       image: "{{ .Values.smoke_tests.image.repository }}:{{ .Values.smoke_tests.image.tag }}"
       imagePullPolicy: {{ .Values.smoke_tests.image.pullPolicy }}
       resources:
-{{ toYaml .Values.client.resources | indent 8 }}
+{{ toYaml .Values.smoke_tests.resources | indent 8 }}
       ports:
         - containerPort: 8080
           name: smoke-tests
