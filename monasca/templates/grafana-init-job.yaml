@@ -21,6 +21,8 @@ spec:
         - name: {{ template "name" . }}-{{ .Values.grafana.name }}-init-job
           image: "{{ .Values.grafana_init.image.repository }}:{{ .Values.grafana_init.image.tag }}"
           imagePullPolicy: {{ .Values.grafana_init.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.grafana_init.resources | indent 12 }}
           env:
             - name: LOG_LEVEL
               value: {{ .Values.grafana_init.log_level }}

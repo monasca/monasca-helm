@@ -3,6 +3,13 @@ mysql_init:
     repository: monasca/mysql-init
     tag: 1.5.2
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 200m
+    limits:
+      memory: 256Mi
+      cpu: 500m
   disable_remote_root: false
 
 influx_init:
@@ -10,12 +17,26 @@ influx_init:
     repository: monasca/influxdb-init
     tag: 1.0.0
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 200m
+    limits:
+      memory: 256Mi
+      cpu: 500m
 
 grafana_init:
   image:
     repository: monasca/grafana-init
     tag: 1.2.0
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 200m
+    limits:
+      memory: 256Mi
+      cpu: 500m
   log_level: INFO
   username: mini-mon
   password: password
@@ -361,6 +382,13 @@ storm:
       repository: monasca/thresh
       tag: master-20170512-171611
       pullPolicy: IfNotPresent
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 256m
+      limits:
+        memory: 512Mi
+        cpu: 1000m
     secretSuffix: mysql-thresh-secret
     spout:
       metricSpoutThreads: 2
@@ -390,6 +418,13 @@ alarms:
     repository: monasca/alarms
     tag: 1.1.1
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 200m
+    limits:
+      memory: 256Mi
+      cpu: 500m
   wait:
     enabled: true
     retries: 24
@@ -500,6 +535,13 @@ client:
     repository: monasca/client
     tag: 1.6.0
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 64Mi
+      cpu: 200m
+    limits:
+      memory: 128Mi
+      cpu: 500m
   keystone:
     os_username: mini-mon
     os_user_domain_name: Default
@@ -517,6 +559,13 @@ cleanup:
     repository: monasca/job-cleanup
     tag: 1.1.2
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 200m
+    limits:
+      memory: 256Mi
+      cpu: 500m
   wait:
     retries: "24"
     delay: "5.0"
@@ -1419,6 +1468,13 @@ smoke_tests:
     repository: monasca/smoke-tests
     tag: 1.0.2
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 64Mi
+      cpu: 100m
+    limits:
+      memory: 128Mi
+      cpu: 500m
   keystone:
     os_username: mini-mon
     os_password: password
