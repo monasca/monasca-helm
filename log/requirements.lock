@@ -4,16 +4,8 @@ dependencies:
   enabled: false
   import-values: null
   name: kafka
-  repository: file://../kafka/
+  repository: http://monasca.io/monasca-helm/
   tags: null
   version: 0.2.2
-- alias: ""
-  condition: ""
-  enabled: false
-  import-values: null
-  name: zookeeper
-  repository: file://../zookeeper/
-  tags: null
-  version: 0.2.1
-digest: sha256:50e5975c0233eaf72668978efdcb9e028579a21713f5d589355c8d6074b5f8d1
-generated: 2017-07-20T11:36:53.973738311+02:00
+digest: sha256:1f991bb3d53e612c39da09f716ab7a61f67955144470f82a845a55bfbb26d5bb
+generated: 2017-07-20T12:49:57.420106123+02:00

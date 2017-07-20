@@ -1,7 +1,4 @@
 dependencies:
   - name: kafka
     version: 0.2.2
-    repository: file://../kafka/
-  - name: zookeeper
-    version: 0.2.1
-    repository: file://../zookeeper/
+    repository: 'http://monasca.io/monasca-helm/'
