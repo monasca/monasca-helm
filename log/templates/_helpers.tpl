@@ -24,9 +24,33 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
+Create a fully qualified log-metrics name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "log_metrics.fullname" -}}
+{{- printf "%s-%s" .Release.Name "metrics" | trunc 63 -}}
+{{- end -}}
+
+{{/*
+Create a fully qualified log-transformer name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "log_transformer.fullname" -}}
+{{- printf "%s-%s" .Release.Name "transformer" | trunc 63 -}}
+{{- end -}}
+
+{{/*
 Create a fully qualified kafka name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
 {{- define "kafka.fullname" -}}
 {{- printf "%s-%s" .Release.Name "kafka" | trunc 63 -}}
+{{- end -}}
+
+{{/*
+Create a fully qualified zookeeper name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "zookeeper.fullname" -}}
+{{- printf "%s-%s" .Release.Name "zookeeper" | trunc 63 -}}
 {{- end -}}
