@@ -2,3 +2,7 @@ dependencies:
   - name: kafka
     version: 0.2.2
     repository: 'http://monasca.io/monasca-helm/'
+    conditition: kafka.enabled
+    tags:
+      - kafka
+      - queue

@@ -1,4 +1,11 @@
 
+tags:
+  kafka: false
+  queue: true
+
+kafka:
+  enabled: False
+
 log_api:
   name: api
   image:

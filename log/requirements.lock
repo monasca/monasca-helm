@@ -7,5 +7,5 @@ dependencies:
   repository: http://monasca.io/monasca-helm/
   tags: null
   version: 0.2.2
-digest: sha256:1f991bb3d53e612c39da09f716ab7a61f67955144470f82a845a55bfbb26d5bb
-generated: 2017-07-20T12:49:57.420106123+02:00
+digest: sha256:477c41e00c2972c3f7346dfa631ef75bb178b201deca0098c0955409c07192f3
+generated: 2017-07-20T13:14:49.256277974+02:00
