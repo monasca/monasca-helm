@@ -1,0 +1,25 @@
+
+log_api:
+  name: api
+  image:
+    repository: kornicameister/log-api
+    tag: master
+    pullPolicy: IfNotPresent
+  service:
+    port: 5607
+    type: ClusterIP
+  replicaCount: 10
+  keystone:
+    admin_password: secretadmin
+    admin_user: admin
+    admin_tenant: admin
+  logging:
+    log_level_root: WARN
+    log_level_console: WARN
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 1Gi
+      cpu: 2000m

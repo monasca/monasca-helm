@@ -1,0 +1,11 @@
+name: log
+description: A Helm chart for deploying log pipeline extensions for monasca
+version: 0.0.1
+sources:
+    - https://github.com/openstack/monasca-log-api
+    - https://github.com/openstack/monasca-helm
+    - https://wiki.openstack.org/wiki/Monasca
+    - https://docs.openstack.org/monasca-log-api/latest/
+maintainers:
+    - name: Tomasz Trębski
+      email: kornicameister@gmail.com

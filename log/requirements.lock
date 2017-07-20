@@ -1,0 +1,11 @@
+dependencies:
+- alias: ""
+  condition: ""
+  enabled: false
+  import-values: null
+  name: kafka
+  repository: file://../kafka
+  tags: null
+  version: 0.2.1
+digest: sha256:f5a1118da2b07c7b64506f03b24b99431692e6e339bc25709c17602022115dc2
+generated: 2017-07-20T10:08:30.485281943+02:00

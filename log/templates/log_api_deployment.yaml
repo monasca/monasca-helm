@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "log_api.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.log_api.name }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.log_api.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.log_api.name }}"
+    spec:
+      containers:
+        - name: {{ template "name" . }}-{{ .Values.log_api.name }}
+          securityContext:
+            privileged: false
+          image: "{{ .Values.log_api.image.repository }}:{{ .Values.log_api.image.tag }}"
+          imagePullPolicy: {{ .Values.log_api.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.log_api.resources | indent 12 }}
+          ports:
+            - containerPort: 5607
+              name: client
+              protocol: TCP
+          env:
+            - name: LOG_LEVEL_ROOT
+              value: {{ .Values.log_api.logging.log_level_root | quote }}
+            - name: LOG_LEVEL_CONSOLE
+              value: {{ .Values.log_api.logging.log_level_console | quote }}
+            - name: KAFKA_URI
+              value: "{{ template "kafka.fullname" . }}:9092"
