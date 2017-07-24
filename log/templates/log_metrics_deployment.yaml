@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "log_metrics.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.log_metrics.name }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.log_metrics.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.log_metrics.name }}"
+    spec:
+      containers:
+        - name: {{ template "name" . }}-{{ .Values.log_metrics.name }}
+          securityContext:
+            privileged: false
+          image: "{{ .Values.log_metrics.image.repository }}:{{ .Values.log_metrics.image.tag }}"
+          imagePullPolicy: {{ .Values.log_metrics.image.pullPolicy }}
+          env:
+            - name: KAFKA_URI
+              value: "{{ template "kafka.fullname" . }}:9092"
+            - name: ZOOKEEPER_URI
+              value: "{{ template "zookeeper.fullname" . }}:2181"

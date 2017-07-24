@@ -1,0 +1,56 @@
+
+tags:
+  kafka: false
+  queue: true
+
+kafka:
+  enabled: False
+
+log_api:
+  name: api
+  image:
+    repository: kornicameister/log-api
+    tag: master
+    pullPolicy: IfNotPresent
+  service:
+    port: 5607
+    type: ClusterIP
+  replicaCount: 1
+  keystone:
+    admin_password: secretadmin
+    admin_user: admin
+    admin_tenant: admin
+  logging:
+    log_level_root: WARN
+    log_level_console: WARN
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 1Gi
+      cpu: 2000m
+
+log_metrics:
+  name: metrics
+  image:
+    repository: kornicameister/log-metrics
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+
+log_transformer:
+  name: transformer
+  image:
+    repository: kornicameister/log-transformer
+    tag: latest
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+ # NOTE(kornicameister) there is no elasticsearch in place now
+ # log_persister:
+ #   name: persister
+ #   image:
+ #     repository: kornicameister/log-persister
+ #     tag: latest
+ #     pullPolicy: IfNotPresent
+ #   replicaCount: 1

@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "log_transformer.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "{{ .Values.log_transformer.name }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  replicas: {{ .Values.log_transformer.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        component: "{{ .Values.log_transformer.name }}"
+    spec:
+      containers:
+        - name: {{ template "name" . }}-{{ .Values.log_transformer.name }}
+          securityContext:
+            privileged: false
+          image: "{{ .Values.log_transformer.image.repository }}:{{ .Values.log_transformer.image.tag }}"
+          imagePullPolicy: {{ .Values.log_transformer.image.pullPolicy }}
+          env:
+            - name: KAFKA_URI
+              value: "{{ template "kafka.fullname" . }}:9092"
+            - name: ZOOKEEPER_URI
+              value: "{{ template "zookeeper.fullname" . }}:2181"
