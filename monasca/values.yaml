@@ -258,7 +258,7 @@ keystone:
   database_backend: mysql
   image:
     pullPolicy: IfNotPresent
-    tag: 1.1.0
+    tag: 1.1.1
     repository: monasca/keystone
   mysql:
     database: keystone
