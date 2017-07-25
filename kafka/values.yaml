@@ -25,6 +25,3 @@ persistence:
   enabled: false
   accessMode: ReadWriteOnce
   size: 10Gi
-zookeeper:
-  service:
-    port: 2181

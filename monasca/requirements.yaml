@@ -11,3 +11,6 @@ dependencies:
   - name: storm
     version: 0.5.1
     repository: 'http://monasca.io/monasca-helm/'
+  - name: zookeeper
+    version: 0.2.1
+    repository: 'http://monasca.io/monasca-helm/'
