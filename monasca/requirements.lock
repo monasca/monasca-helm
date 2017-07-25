@@ -19,13 +19,20 @@ dependencies:
   name: kafka
   repository: http://monasca.io/monasca-helm/
   tags: null
-  version: 0.2.0
+  version: 0.2.3
 - condition: ""
   enabled: false
   import-values: null
   name: storm
   repository: http://monasca.io/monasca-helm/
   tags: null
-  version: 0.5.0
-digest: sha256:a5dc391e15575a8abf03949d3d24b6ff17d5de861abe8188d286296f9165d2ef
-generated: 2017-05-22T14:12:07.669905799-06:00
+  version: 0.5.1
+- condition: ""
+  enabled: false
+  import-values: null
+  name: zookeeper
+  repository: http://monasca.io/monasca-helm/
+  tags: null
+  version: 0.2.1
+digest: sha256:a4287cc0f01f4a682f0c766f7b649284f88ef09690b1bd54d9db8822b569029b
+generated: 2017-07-25T15:59:15.417401404-06:00
