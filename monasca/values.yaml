@@ -64,6 +64,8 @@ influxdb:
   config:
     http:
       bind_address: 8086
+    data:
+      cache_max_memory_size: "1073741824"
 
 mysql:
   imageTag: "5.6"
