@@ -383,7 +383,7 @@ storm:
     name: thresh
     image:
       repository: monasca/thresh
-      tag: master-20170512-171611
+      tag: master-20170726-195714
       pullPolicy: IfNotPresent
     resources:
       requests:
