@@ -1,4 +1,5 @@
 mysql_init:
+  enabled: true
   image:
     repository: monasca/mysql-init
     tag: 1.5.2
@@ -13,6 +14,7 @@ mysql_init:
   disable_remote_root: false
 
 influx_init:
+  enabled: true
   image:
     repository: monasca/influxdb-init
     tag: 1.0.0
@@ -45,6 +47,7 @@ grafana_init:
     access_mode: proxy
 
 influxdb:
+  enabled: true
   image:
     repo: "influxdb"
     tag: "1.1"
@@ -68,6 +71,7 @@ influxdb:
       cache_max_memory_size: "1073741824"
 
 mysql:
+  enabled: true
   imageTag: "5.6"
   imagePullPolicy: IfNotPresent
   persistence:
