@@ -439,6 +439,9 @@ Parameter | Description | Default
 Storm-specific options are documented in the
 [Storm chart](https://github.com/hpcloud-mon/monasca-helm/tree/master/storm).
 
+Storm is disabled and the Threshold Engine is run without Storm by default. To run the Threshold
+Engine with Storm, set storm.enabled to true and thresh.enabled to false.
+
 ### Tempest Tests
 
 Parameter | Description | Default
