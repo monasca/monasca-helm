@@ -155,7 +155,7 @@ api:
   name: api
   image:
     repository: monasca/api
-    tag: master-20170718-163541
+    tag: master-20170727-195857
     pullPolicy: IfNotPresent
   replicaCount: 1
   keystone:
@@ -199,6 +199,7 @@ api:
       memory: 1Gi
       cpu: 2000m
   gunicorn_workers: 1
+  mysql_disabled: false
 
 forwarder:
   name: forwarder

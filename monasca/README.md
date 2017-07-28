@@ -256,6 +256,7 @@ Parameter | Description | Default
 `api.service.node_port` | API node port if service type is set to NodePort | ``
 `api.logging.log_level_root` | The level of the root logger | `WARN`
 `api.logging.log_level_console` | Minimum level for console output | `WARN`
+`api.mysql_disabled` | Disable requirement on mysql for API | `false`
 `api.auth_disabled` | Disable Keystone authentication | `false`
 `api.authorized_roles` | Roles for admin Users | `user, domainuser, domainadmin, monasca-user`
 `api.side_container.enabled` | Enable API side container that collects metrics from the API and exposes as a Prometheus endpoint | `true`
