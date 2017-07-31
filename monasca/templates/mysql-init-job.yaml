@@ -1,3 +1,4 @@
+{{- if .Values.mysql_init.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -73,3 +74,4 @@ spec:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-mysql-thresh-secret"
                   key: password
+{{- end }}
