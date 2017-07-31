@@ -166,9 +166,13 @@ To run the tests again, the pod monasca-smoke-tests-test-pod must be deleted.
 Parameter | Description | Default
 --------- | ----------- | -------
 `agent.name` | Agent container name | `agent`
-`agent.image.repository` | Agent container image repository | `monasca/agent`
-`agent.image.tag` | Agent container image tag | `latest`
-`agent.image.pullPolicy` | Agent container image pull policy | `Always`
+`agent.enabled` | Agent enabled | `true`
+`agent.collector.image.repository` | Agent Collector container image repository | `monasca/agent-collector`
+`agent.collector.image.tag` | Agent Collector container image tag | `master-20170707-154334`
+`agent.collector.image.pullPolicy` | Agent Collector container image pull policy | `IfNotPresent`
+`agent.forwarder.image.repository` | Agent Forwarder container image repository | `monasca/agent-forwarder`
+`agent.forwarder.image.tag` | Agent Forwarder container image tag | `master-20170615-204444`
+`agent.forwarder.image.pullPolicy` | Agent Forwarder container image pull policy | `IfNotPresent`
 `agent.dimensions` | Default dimensions to attach to every metric being sent | ``
 `agent.plugins.enabled` | Enable passing in agent plugins | `False`
 `agent.plugins.config_files` | List of plugin yamls to be used with the agent | ``
@@ -204,10 +208,28 @@ Parameter | Description | Default
 `aggregator.name` | Aggregator container name | `aggregation`
 `aggregator.enabled` | Aggregator enabled | `true`
 `aggregator.image.repository` | Aggregator container image repository | `rbrndt/test-agg`
-`aggregator.image.tag` | Aggregator container image tag | `latest`
-`aggregator.image.pullPolicy` | Aggregator container image pull policy | `Always`
+`aggregator.image.tag` | Aggregator container image tag | `.0.1.1`
+`aggregator.image.pullPolicy` | Aggregator container image pull policy | `IfNotPresent`
 `aggregator.window_size` | Window size in seconds of metrics to aggregate on. | `60`
 `aggregator.window_lag` | Lag in seconds outside the window to accept metrics into current aggregations | `2`
+
+### Alarms Init Job
+
+Parameter | Description | Default
+--------- | ----------- | -------
+`alarms.name` | Alarms container name | `alarms`
+`alarms.enabled` | Alarms init job enabled | `true`
+`alarms.image.repository` | Alarms init job container image repository | `rbrndt/test-agg`
+`alarms.image.tag` | Alarms init job container image tag | `1.1.1`
+`alarms.image.pullPolicy` | Alarms init job container image pull policy | `IfNotPresent`
+`alarms.wait.retries` | Number of attempts to create alarms before giving up | `24`
+`alarms.wait.delay` | Seconds to wait between retries | `5`
+`alarms.wait.timeout` | Attempt connection timeout in seconds | `10`
+`alarms.keystone.os_username` | Monasca Keystone user | `mini-mon`
+`alarms.keystone.os_user_domain_name` | Monasca Keystone user domain | `Default`
+`alarms.keystone.os_password` | Monasca Keystone password | `password`
+`alarms.keystone.os_project_name` | Monasca Keystone project name | `mini-mon`
+`alarms.keystone.os_project_domain_name` | Monasca Keystone project domain | `Default`
 
 ### API
 
@@ -216,7 +238,7 @@ Parameter | Description | Default
 `api.name` | API container name | `api`
 `api.image.repository` | API container image repository | `monasca/api`
 `api.image.tag` | API container image tag | `master-prometheus`
-`api.image.pullPolicy` | API container image pull policy | `Always`
+`api.image.pullPolicy` | API container image pull policy | `IfNotPresent`
 `api.resources.requests.memory` | Memory request per API pod | `256Mi`
 `api.resources.requests.cpu` | CPU request per API pod | `250m`
 `api.resources.limits.memory` | Memory limit per API pod | `1Gi`
@@ -234,12 +256,13 @@ Parameter | Description | Default
 `api.service.node_port` | API node port if service type is set to NodePort | ``
 `api.logging.log_level_root` | The level of the root logger | `WARN`
 `api.logging.log_level_console` | Minimum level for console output | `WARN`
+`api.mysql_disabled` | Disable requirement on mysql for API | `false`
 `api.auth_disabled` | Disable Keystone authentication | `false`
 `api.authorized_roles` | Roles for admin Users | `user, domainuser, domainadmin, monasca-user`
 `api.side_container.enabled` | Enable API side container that collects metrics from the API and exposes as a Prometheus endpoint | `true`
 `api.side_container.image.repository` | API side container image repository | `timothyb89/monasca-sidecar`
 `api.side_container.image.tag` | API side container image tag | `1.0.0`
-`api.side_container.image.pullPolicy` | API side container image pull policy | `Always`
+`api.side_container.image.pullPolicy` | API side container image pull policy | `IfNotPresent`
 `api.side_container.resources.requests.memory` | Memory request per API side container | `128Mi`
 `api.side_container.resources.requests.cpu` | CPU request per API side container | `50m`
 `api.side_container.resources.limits.memory` | Memory limit per API side container | `256Mi`
@@ -252,8 +275,8 @@ Parameter | Description | Default
 `client.name` | Client container name | `client`
 `client.enabled` | Enable deploying client | `false`
 `client.image.repository` | Client container image repository | `rbrndt/python-monascaclient`
-`client.image.tag` | Client container image tag | `latest`
-`client.image.pullPolicy` | Client container image pull policy | `Always`
+`client.image.tag` | Client container image tag | `1.6.0`
+`client.image.pullPolicy` | Client container image pull policy | `IfNotPresent`
 `client.keystone.os_username` | Keystone user | `mini-mon`
 `client.keystone.os_user_domain_name` | Keystone user domain | `Default`
 `client.keystone.os_password` | Keystone password | `password`
@@ -267,7 +290,7 @@ Parameter | Description | Default
 `forwarder.name` | Forwarder container name | `forwarder`
 `forwarder.image.repository` | Forwarder container image repository | `monasca/forwarder`
 `forwarder.image.tag` | Forwarder container image tag | `master`
-`forwarder.image.pullPolicy` | Forwarder container image pull policy | `Always`
+`forwarder.image.pullPolicy` | Forwarder container image pull policy | `IfNotPresent`
 `forwarder.insecure` | Insecure connection to Monasca API | `False`
 `forwarder.enabled` | Enable deploying the forwarder | `false`
 `forwarder.replicaCount` | Replica count of Forwarder pods | `1`
@@ -287,10 +310,11 @@ Parameter | Description | Default
 Parameter | Description | Default
 --------- | ----------- | -------
 `grafana.name` | Grafana container name | `grafana`
+`granfa.enabled` | Grafana enabled | `true`
 `grafana.simple_name` | Whether to use `grafana.name` without prepending with `.Release.Name` | `false`
 `grafana.image.repository` | Grafana container image repository | `monasca/grafana`
 `grafana.image.tag` | Grafana container image tag | `4.1.0-pre1-1.0.0`
-`grafana.image.pullPolicy` | Grafana container image pull policy | `Always`
+`grafana.image.pullPolicy` | Grafana container image pull policy | `IfNotPresent`
 `grafana.service.port` | Grafana service port | `3000`
 `grafana.service.type` | Grafana service type | `NodePort`
 `grafana.resources.requests.memory` | Memory request per grafana pod | `64Mi`
@@ -308,7 +332,7 @@ Parameter | Description | Default
 `keystone.override.admin_url` | Keystone external url for admin endpoint | `http://keystone:5000`
 `keystone.image.repository` | Keystone container image repository | `monasca/keystone`
 `keystone.image.tag` | Keystone container image tag | `1.0.7`
-`keystone.image.pullPolicy` | Keystone container image pull policy | `Always`
+`keystone.image.pullPolicy` | Keystone container image pull policy | `IfNotPresent`
 `keystone.bootstrap.user` | Keystone bootstrap username | `admin`
 `keystone.bootstrap.password` | Keystone bootstrap password | `secretadmin`
 `keystone.bootstrap.project` | Keystone bootstrap project | `admin`
@@ -334,10 +358,40 @@ Parameter | Description | Default
 `keystone.resources.limits.cpu` | Memory limit per keystone pod | `500m`
 
 
+### Influxdb
+
+Parameter | Description | Default
+----------|-------------|--------
+`influxdb.enabled` | Influxdb enabled | `true`
+`influxdb.imageTag` | Tag to use from `library/mysql` | `5.6`
+`influxdb.image.repository` | docker repository for influxdb | `influxdb`
+`influxdb.imagePullPolicy` | K8s pull policy for influxdb image | `IfNotPresent`
+`influxdb.persistence.enabled` | If `true`, enable persistent storage | `false`
+`influxdb.persistence.storageClass` | K8s storage class to use for persistence | `default`
+`influxdb.persistence.accessMode` | PVC access mode | `ReadWriteOnce`
+`influxdb.persistence.size` | PVC request size | `100Gi`
+`influxdb.resources.requests.memory` | Memory request | `256Mi`
+`influxdb.resources.requests.cpu` | CPU request | `100m`
+`influxdb.resources.limits.memory` | Memory limit | `16Gi`
+`influxdb.resources.limits.cpu` | CPU limit | `500m`
+`influxdb.config.http.bind_address` | API Port| `8086`
+`influxdb.config.data.cache_max_memory_size` | CPU limit | `1073741824`
+
+
+### Influxdb Init Job
+
+Parameter | Description | Default
+--------- | ----------- | -------
+`influx_init.enabled` | Influxdb initialization job enabled | `true`
+`influx_init.image.repository` | docker repository for influx init | `monasca/influxdb-init`
+`influx_init.image.tag` | Docker image tag | `1.0.0`
+`influx_init.image.pullPolicy` | Kubernetes pull polify for image | `IfNotPresent`
+
 ### MySQL
 
 Parameter | Description | Default
 ----------|-------------|--------
+`mysql.enabled` | MySQL enabled | `true`
 `mysql.imageTag` | Tag to use from `library/mysql` | `5.6`
 `mysql.imagePullPolicy` | K8s pull policy for mysql image | `IfNotPresent`
 `mysql.persistence.enabled` | If `true`, enable persistent storage | `false`
@@ -359,16 +413,15 @@ Parameter | Description | Default
 `mysql.users.grafana.username` | Grafana MySQL username | `grafana`
 `mysql.users.grafana.password` | Grafana MySQL password | `password`
 
-
-### MySQL Init
+### MySQL Init Job
 
 Parameter | Description | Default
 --------- | ----------- | -------
+`mysql_init.enabled` | MySQL initialization job enabled | `true`
 `mysql_init.image.repository` | docker repository for mysql-init | `monasca/mysql-init`
 `mysql_init.image.tag` | Docker image tag | `1.2.0`
 `mysql_init.image.pullPolicy` | Kubernetes pull polify for image | `IfNotPresent`
 `mysql_init.disable_remote_root` | If `true`, disable root account after init finishes successfully | `true`
-
 
 ### Notification
 
@@ -378,7 +431,7 @@ Parameter | Description | Default
 `notification.enabled` | Notification engine enabled flag | `true`
 `notification.image.repository` | Notification container image repository | `monasca/notification`
 `notification.image.tag` | Notification container image tag | `master`
-`notification.image.pullPolicy` | Notification container image pull policy | `Always`
+`notification.image.pullPolicy` | Notification container image pull policy | `IfNotPresent`
 `notification.replicaCount` | Notification pod replica count | `1`
 `notification.log_level` | Notification log level | `WARN`
 `notification.plugins` | Notification plugins enabled | `pagerduty,webhook`
@@ -409,7 +462,7 @@ Parameter | Description | Default
 `persister.name` | Persister container name | `persister`
 `persister.image.repository` | Persister container image repository | `monasca/persister`
 `persister.image.tag` | Persister container image tag | `master`
-`persister.image.pullPolicy` | Persister container image pull policy | `Always`
+`persister.image.pullPolicy` | Persister container image pull policy | `IfNotPresent`
 `persister.replicaCount` | Persister pod replica count | `1`
 `persister.influxdb.user` | Persister influx username | `mon_persister`
 `persister.influxdb.password` | Persister influx password  | `password`
@@ -471,7 +524,6 @@ Parameter | Description | Default
 `tempest_test.keystone.admin_domain_name` | Keystone Admin Domain Name | `Default`
 `tempest_test.keystone.ostestr_regex` | Selects which tests to run | `monasca_tempest_tests`
 `tempest_test.keystone.stay_alive_on_failure` | If true, container runs 2 hours after tests fail | False
-
 
 ### Smoke Tests
 
