@@ -357,7 +357,7 @@ persister:
 
 storm:
   name: storm
-  enabled: true
+  enabled: false
   image:
     repository: monasca/storm
     tag: 1.0.3-1.0.4
@@ -388,7 +388,7 @@ storm:
     name: thresh
     image:
       repository: monasca/thresh
-      tag: master-20170512-171611
+      tag: master-20170726-195714
       pullPolicy: IfNotPresent
     resources:
       requests:
@@ -418,6 +418,42 @@ storm:
       retries: 24
       delay: 5
       timeout: 10
+
+thresh:
+  name: thresh
+  enabled: true
+  image:
+    repository: monasca/thresh
+    tag: master-20170726-195714
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 256m
+    limits:
+      memory: 512Mi
+      cpu: 1000m
+  secretSuffix: mysql-thresh-secret
+  spout:
+    metricSpoutThreads: 2
+    metricSpoutTasks: 2
+    eventSpoutThreads: 2
+    eventSpoutTasks: 2
+  bolt:
+    eventBoltThreads: 2
+    eventBoltTasks: 2
+    filteringBoltThreads: 2
+    filteringBoltTasks: 2
+    alarmCreationBoltThreads: 2
+    alarmCreationBoltTasks: 2
+    aggregationBoltThreads: 2
+    aggregationBoltTasks: 2
+    thresholdingBoltThreads: 2
+    thresholdingBoltTasks: 2
+  wait:
+    retries: 24
+    delay: 5
+    timeout: 10
 
 alarms:
   name: alarms
