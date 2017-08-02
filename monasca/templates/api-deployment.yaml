@@ -52,6 +52,10 @@ spec:
             - name: API_MYSQL_DISABLED
               value: {{ .Values.api.mysql_disabled | quote }}
             {{- end}}
+            {{- if .Values.api.mysql_disabled }}
+            - name: MYSQL_WAIT_RETRIES
+              value: {{ .Values.api.mysql_wait_retries | quote }}
+            {{- end}}
             - name: MYSQL_HOST
               value: "{{ .Release.Name }}-mysql"
             - name: MYSQL_USER

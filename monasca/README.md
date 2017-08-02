@@ -257,6 +257,7 @@ Parameter | Description | Default
 `api.logging.log_level_root` | The level of the root logger | `WARN`
 `api.logging.log_level_console` | Minimum level for console output | `WARN`
 `api.mysql_disabled` | Disable requirement on mysql for API | `false`
+`api.mysql_wait_retries` | Retries for mysql available checks |
 `api.auth_disabled` | Disable Keystone authentication | `false`
 `api.authorized_roles` | Roles for admin Users | `user, domainuser, domainadmin, monasca-user`
 `api.side_container.enabled` | Enable API side container that collects metrics from the API and exposes as a Prometheus endpoint | `true`
