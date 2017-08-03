@@ -201,6 +201,25 @@ api:
   gunicorn_workers: 1
   mysql_disabled: false
 
+memcached:
+  name: memcached
+  enabled: true
+  image:
+    repository: memcached
+    tag: 1.5.0-alpine
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 11211
+  resources:
+    requests:
+      memory: 32Mi
+      cpu: 50m
+    limits:
+      memory: 64Mi
+      cpu: 100m
+
 forwarder:
   name: forwarder
   enabled: false
