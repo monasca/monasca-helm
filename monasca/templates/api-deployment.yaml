@@ -71,8 +71,8 @@ spec:
             - name: MYSQL_DB
               value: "mon"
             - name: MEMCACHED_URI
-            {{- if .Values.api.memcachedUril }}
-              value: "{{ .Values.api.memcachedUril }}"
+            {{- if .Values.api.memcachedUri }}
+              value: "{{ .Values.api.memcachedUri }}"
             {{- else if .Values.memcached.enabled }}
               value: "{{ template "memcached.fullname" . }}:{{ .Values.memcached.service.port | default "11211" }}"
             {{- else }}
