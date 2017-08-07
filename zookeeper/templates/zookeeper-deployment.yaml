@@ -31,15 +31,15 @@ spec:
             - name: leader-election
               containerPort: 3888
           volumeMounts:
-            - name: data
-              mountPath: /data
+            - name: data-volume
+              mountPath: /zkData
             - name: config-volume
               mountPath: /conf
       volumes:
         - name: config-volume
           configMap:
             name: {{ template "fullname" . }}
-        - name: data
+        - name: data-volume
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ template "fullname" . }}
