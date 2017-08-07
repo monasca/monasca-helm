@@ -32,7 +32,7 @@ spec:
               containerPort: 3888
           volumeMounts:
             - name: data-volume
-              mountPath: /zkData
+              mountPath: /data
             - name: config-volume
               mountPath: /conf
       volumes:

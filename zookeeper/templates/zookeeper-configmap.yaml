@@ -10,8 +10,8 @@ metadata:
 data:
   zoo.cfg: |
     clientPort=2181
-    dataDir=/zkData/data
-    dataLogDir=/zkData/datalog
+    dataDir=/data
+    dataLogDir=/data
     tickTime=2000
     initLimit=5
     syncLimit=2
