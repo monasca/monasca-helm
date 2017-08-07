@@ -52,6 +52,10 @@ spec:
             - name: API_MYSQL_DISABLED
               value: {{ .Values.api.mysql_disabled | quote }}
             {{- end}}
+            {{- if .Values.api.mysql_disabled }}
+            - name: MYSQL_WAIT_RETRIES
+              value: {{ .Values.api.mysql_wait_retries | quote }}
+            {{- end}}
             - name: MYSQL_HOST
               value: "{{ .Release.Name }}-mysql"
             - name: MYSQL_USER
@@ -66,6 +70,14 @@ spec:
                   key: password
             - name: MYSQL_DB
               value: "mon"
+            - name: MEMCACHED_URI
+            {{- if .Values.api.memcachedUri }}
+              value: "{{ .Values.api.memcachedUri }}"
+            {{- else if .Values.memcached.enabled }}
+              value: "{{ template "memcached.fullname" . }}:{{ .Values.memcached.service.port | default "11211" }}"
+            {{- else }}
+              value: ""
+            {{- end }}
             - name: KEYSTONE_IDENTITY_URI
             {{- if .Values.keystone.enabled }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}"

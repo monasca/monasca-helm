@@ -142,3 +142,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- define "smoke_tests.fullname" -}}
 {{- printf "%s-%s" .Release.Name "smoke-tests" | trunc 63 -}}
 {{- end -}}
+
+{{/*
+Create a fully qualified memcached name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "memcached.fullname" -}}
+{{- printf "%s-%s" .Release.Name "memcached" | trunc 63 -}}
+{{- end -}}
