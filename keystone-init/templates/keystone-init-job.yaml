@@ -9,13 +9,14 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+  activeDeadlineSections: {{ .Values.keystone_init.deadline }}
   template:
     metadata:
       labels:
         app: {{ template "fullname" . }}
         component: "{{ .Values.keystone_init.name }}"
     spec:
-      restartPolicy: Never
+      restartPolicy: OnFailure
       volumes:
         - name: preload-config
           configMap:
