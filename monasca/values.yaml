@@ -255,7 +255,7 @@ grafana:
   enabled: true
   image:
     repository: monasca/grafana
-    tag: 4.0.0-1.1.1
+    tag: 4.0.0-1.2.0-app
     pullPolicy: IfNotPresent
   service:
     type: NodePort
