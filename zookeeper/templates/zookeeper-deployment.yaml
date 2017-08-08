@@ -22,7 +22,7 @@ spec:
 {{ toYaml .Values.resources | indent 12 }}
           env:
             - name: SERVER_JVMFLAGS
-              value: "-Xmx{{ .Values.jvm_max_heap }}m"
+              value: "-XX:MaxRAMFraction={{ .Values.java.max_ram_fraction }} -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XshowSettings:vm"
           ports:
             - name: client
               containerPort: 2181

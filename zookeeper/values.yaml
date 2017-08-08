@@ -17,4 +17,5 @@ resources:
   limits:
     cpu: 1000m
     memory: 512Mi
-jvm_max_heap: 256
+java:
+  max_ram_fraction: 2
