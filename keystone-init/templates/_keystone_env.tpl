@@ -9,6 +9,10 @@
 {{- else }}
   value: "{{ .url }}"
 {{- end }}
+{{- if .api_version }}
+- name: OS_IDENTITY_API_VERSION
+  value: "{{ .api_version }}"
+{{- end }}
 - name: OS_USERNAME
 {{- if eq (kindOf .username) "map" }}
   valueFrom:
