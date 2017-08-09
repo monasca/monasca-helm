@@ -6,7 +6,7 @@ keystone_init:
 
   image:
     repository: monasca/keystone-init
-    tag: 1.0.1
+    tag: 1.0.2
     pullPolicy: IfNotPresent
 
   # job completion deadline in seconds
