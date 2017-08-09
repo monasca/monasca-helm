@@ -11,7 +11,7 @@ data:
   zoo.cfg: |
     clientPort=2181
     dataDir=/data
-    dataLogDir=/datalog
+    dataLogDir=/data
     tickTime=2000
     initLimit=5
     syncLimit=2

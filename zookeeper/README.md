@@ -14,4 +14,4 @@ Parameter | Description | Default
 `resources.requests.cpu` | CPU request per zookeeper pod | `100m`
 `resources.limits.cpu` | Memory limit per zookeeper pod | `1000m`
 `resources.limits.memory` | Memory limit per zookeeper pod | `512Mi`
-`jvm_max_heap` | JVM limit in mb | `256`
+`java.max_ram_fraction` | Fraction of Ram to deveote to Heap (1/n) | `2`
