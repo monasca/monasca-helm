@@ -178,11 +178,11 @@ Parameter | Description | Default
 `agent.plugins.config_files` | List of plugin yamls to be used with the agent | ``
 `agent.insecure` | Insecure connection to Keystone and Monasca API | `False`
 `agent.log_level` | Log level of agent log files | `WARN`
-`agent.keystone.os_username` | Agent Keystone username | `mini-mon`
-`agent.keystone.os_user_domain_name` | Agent Keystone user domain | `Default`
-`agent.keystone.os_password` | Agent Keystone password | `password`
-`agent.keystone.os_project_name` | Agent Keystone project name | `mini-mon`
-`agent.keystone.os_project_domain_name` | Agent Keystone project domain | `Default`
+`agent.keystone.username` | Agent Keystone username | `mini-mon`
+`agent.keystone.user_domain_name` | Agent Keystone user domain | `Default`
+`agent.keystone.password` | Agent Keystone password | `password`
+`agent.keystone.project_name` | Agent Keystone project name | `mini-mon`
+`agent.keystone.project_domain_name` | Agent Keystone project domain | `Default`
 `agent.namespace_annotations` | Namespace annotations to set as metrics dimensions | ``
 `agent.prometheus.auto_detect_pod_endpoints` | Autodetect Prometheus endpoints for scraping by pods | `true`
 `agent.prometheus.auto_detect_service_endpoints` | Autodetect Prometheus endpoints for scraping by services | `true`
@@ -225,11 +225,11 @@ Parameter | Description | Default
 `alarms.wait.retries` | Number of attempts to create alarms before giving up | `24`
 `alarms.wait.delay` | Seconds to wait between retries | `5`
 `alarms.wait.timeout` | Attempt connection timeout in seconds | `10`
-`alarms.keystone.os_username` | Monasca Keystone user | `mini-mon`
-`alarms.keystone.os_user_domain_name` | Monasca Keystone user domain | `Default`
-`alarms.keystone.os_password` | Monasca Keystone password | `password`
-`alarms.keystone.os_project_name` | Monasca Keystone project name | `mini-mon`
-`alarms.keystone.os_project_domain_name` | Monasca Keystone project domain | `Default`
+`alarms.keystone.username` | Monasca Keystone user | `mini-mon`
+`alarms.keystone.user_domain_name` | Monasca Keystone user domain | `Default`
+`alarms.keystone.password` | Monasca Keystone password | `password`
+`alarms.keystone.project_name` | Monasca Keystone project name | `mini-mon`
+`alarms.keystone.project_domain_name` | Monasca Keystone project domain | `Default`
 
 ### API
 
@@ -278,11 +278,11 @@ Parameter | Description | Default
 `client.image.repository` | Client container image repository | `rbrndt/python-monascaclient`
 `client.image.tag` | Client container image tag | `1.6.0`
 `client.image.pullPolicy` | Client container image pull policy | `IfNotPresent`
-`client.keystone.os_username` | Keystone user | `mini-mon`
-`client.keystone.os_user_domain_name` | Keystone user domain | `Default`
-`client.keystone.os_password` | Keystone password | `password`
-`client.keystone.os_project_name` | Keystone project name | `mini-mon`
-`client.keystone.os_project_domain_name` | Keystone project domain | `Default`
+`client.keystone.username` | Keystone user | `mini-mon`
+`client.keystone.user_domain_name` | Keystone user domain | `Default`
+`client.keystone.password` | Keystone password | `password`
+`client.keystone.project_name` | Keystone project name | `mini-mon`
+`client.keystone.project_domain_name` | Keystone project domain | `Default`
 
 ### Forwarder
 
@@ -535,6 +535,6 @@ Parameter | Description | Default
 `smoke_tests.image.repository` | Smoke Test container image repository | `monasca/smoke-tests`
 `smoke_tests.image.tag` | Smoke Test container image tag | `1.0.0`
 `smoke_tests.image.pullPolicy` | Smoke Test container image pull policy | `IfNotPresent`
-`smoke_tests.keystone.os_username`| Keystone User Name | `mini-mon`
-`smoke_tests.keystone.os_password`| Keystone User Tenant Name | `mini-mon`
-`smoke_tests.keystone.os_tenant_name` | Keystone Domain name | `Default`
+`smoke_tests.keystone.username`| Keystone User Name | `mini-mon`
+`smoke_tests.keystone.password`| Keystone User Tenant Name | `mini-mon`
+`smoke_tests.keystone.tenant_name` | Keystone Domain name | `Default`
