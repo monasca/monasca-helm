@@ -79,31 +79,27 @@ spec:
               value: ""
             {{- end }}
             - name: KEYSTONE_IDENTITY_URI
-            {{- if .Values.keystone.enabled }}
-              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}"
-            {{- else }}
+            {{- if .Values.api.keystone.identity_url }}
+{{- include "monasca_secret_env" .Values.api.keystone.identity_url | indent 14 }}
+            {{- else if .Values.keystone.override.public_url }}
               value: "{{ .Values.keystone.override.public_url }}"
+            {{- else }}
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}"
             {{- end }}
             - name: KEYSTONE_AUTH_URI
-            {{- if .Values.keystone.enabled }}
-              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}"
-            {{- else }}
+            {{- if .Values.api.keystone.auth_url }}
+{{- include "monasca_secret_env" .Values.api.keystone.auth_url | indent 14 }}
+            {{- else if .Values.keystone.override.admin_url }}
               value: "{{ .Values.keystone.override.admin_url }}"
+            {{- else }}
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}"
             {{- end }}
             - name: KEYSTONE_ADMIN_USER
-              value: {{ .Values.api.keystone.admin_user | quote }}
-            {{- if .Values.api.keystone.admin_password_secret }}
+{{- include "monasca_secret_env" .Values.api.keystone.username | indent 14 }}
             - name: KEYSTONE_ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Values.api.keystone.admin_password_secret }}"
-                  key: "{{ .Values.api.keystone.admin_password_secret_key | default .Values.api.keystone.admin_password_secret }}"
-            {{- else if .Values.api.keystone.admin_password }}
-            - name: KEYSTONE_ADMIN_PASSWORD
-              value: {{ .Values.api.keystone.admin_password | quote }}
-            {{- end }}
+{{- include "monasca_secret_env" .Values.api.keystone.password | indent 14 }}
             - name: KEYSTONE_ADMIN_TENANT
-              value: {{ .Values.api.keystone.admin_tenant | quote }}
+{{- include "monasca_secret_env" .Values.api.keystone.tenant_name | indent 14 }}
             {{- if .Values.api.auth_disabled }}
             - name: API_AUTH_DISABLED
               value: "true"
