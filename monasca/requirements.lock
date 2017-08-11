@@ -33,6 +33,6 @@ dependencies:
   name: zookeeper
   repository: http://monasca.io/monasca-helm/
   tags: null
-  version: 0.2.1
-digest: sha256:a4287cc0f01f4a682f0c766f7b649284f88ef09690b1bd54d9db8822b569029b
-generated: 2017-07-25T15:59:15.417401404-06:00
+  version: 0.2.2
+digest: sha256:6e67a56495d48ea37fe7f83f985ebfc259bf1314fa2e8f2ee656117c44974e34
+generated: 2017-08-11T13:09:11.612888038-06:00
