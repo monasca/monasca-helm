@@ -48,6 +48,17 @@ default key names.
 {{- else }}
   value: "{{ .url }}"
 {{- end }}
+{{- if .admin_url }}
+- name: OS_ADMIN_URL
+{{- if eq (kindOf .admin_url) "map" }}
+  valueFrom:
+    secretKeyRef:
+      name: "{{ .admin_url.secret_name }}"
+      key: "{{ .admin_url.secret_key | default "OS_ADMIN_URL" }}"
+{{- else }}
+  value: "{{ .admin_url }}"
+{{- end }}
+{{- end }}
 {{- if .api_version }}
 - name: OS_IDENTITY_API_VERSION
   value: "{{ .api_version }}"
