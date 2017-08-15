@@ -38,6 +38,7 @@ spec:
             value: {{ .Values.aggregator.window_lag | quote }}
           - name: KAFKA_URI
             value: "{{ template "kafka.fullname" . }}:9092"
+{{- if .Values.aggregator.metric_configuration }}
         volumeMounts:
           - name: aggregator-config
             mountPath: /aggregation-specifications.yaml
@@ -49,4 +50,5 @@ spec:
             items:
               - key: aggregation-specifications.yaml
                 path: aggregation-specifications.yaml
+{{- end }}
 {{- end }}
