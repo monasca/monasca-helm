@@ -39,7 +39,7 @@ spec:
               value: "{{ .Values.keystone_init.verify }}"
             - name: KEYSTONE_CERT
               value: "{{ .Values.keystone_init.cert }}"
-{{ include "keystone_env" .Values.keystone_init.auth | indent 12 }}
+{{ include "keystone_init_keystone_env" .Values.keystone_init.auth | indent 12 }}
           volumeMounts:
             - name: preload-config
               mountPath: /preload.yml

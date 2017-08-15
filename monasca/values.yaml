@@ -120,11 +120,11 @@ agent:
   log_level: WARN
   insecure: False
   keystone:
-    os_username: mini-mon
-    os_user_domain_name: Default
-    os_password: password
-    os_project_name: mini-mon
-    os_project_domain_name: Default
+    username: mini-mon
+    user_domain_name: Default
+    password: password
+    project_name: mini-mon
+    project_domain_name: Default
   prometheus:
     auto_detect_pod_endpoints: true
     auto_detect_service_endpoints: true
@@ -159,9 +159,11 @@ api:
     pullPolicy: IfNotPresent
   replicaCount: 1
   keystone:
-    admin_password: secretadmin
-    admin_user: admin
-    admin_tenant: admin
+    username: admin
+    password: secretadmin
+    tenant_name: admin
+    identity_url: ''
+    auth_url: ''
   influxdb:
     user: mon_api
     password: password
@@ -272,8 +274,8 @@ keystone:
   name: keystone
   enabled: true
   override:
-    public_url: http://keystone:35357
-    admin_url: http://keystone:5000
+    public_url: ''
+    admin_url: ''
   bootstrap:
     user: admin
     password: secretadmin
@@ -493,11 +495,11 @@ alarms:
     retries: 24
     delay: 5
   keystone:
-    os_username: mini-mon
-    os_user_domain_name: Default
-    os_password: password
-    os_project_name: mini-mon
-    os_project_domain_name: Default
+    username: mini-mon
+    user_domain_name: Default
+    password: password
+    project_name: mini-mon
+    project_domain_name: Default
   definitions_configuration:
      definitions.yml.j2: |
       notifications:
@@ -606,11 +608,11 @@ client:
       memory: 128Mi
       cpu: 500m
   keystone:
-    os_username: mini-mon
-    os_user_domain_name: Default
-    os_password: password
-    os_project_name: mini-mon
-    os_project_domain_name: Default
+    username: mini-mon
+    user_domain_name: Default
+    password: password
+    project_name: mini-mon
+    project_domain_name: Default
 
 rbac:
   enabled: false
@@ -697,7 +699,7 @@ smoke_tests:
       memory: 128Mi
       cpu: 500m
   keystone:
-    os_username: mini-mon
-    os_password: password
-    os_tenant_name: mini-mon
-    os_domain_name: Default
+    username: mini-mon
+    password: password
+    tenant_name: mini-mon
+    domain_name: Default

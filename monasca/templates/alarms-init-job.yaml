@@ -24,28 +24,28 @@ spec:
           resources:
 {{ toYaml .Values.alarms.resources | indent 12 }}
           env:
+            - name: OS_AUTH_URL
+            {{- if .Values.client.keystone.url }}
+            {{- if eq (kindOf .Values.client.keystone.url) "map" }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.client.keystone.url.secret_name }}"
+                  key: "{{ .Values.client.keystone.url.secret_key | default "OS_AUTH_URL" }}"
+            {{- else }}
+              value: "{{ .Values.client.keystone.url }}"
+            {{- end }}
+            {{- else if .Values.keystone.override.public_url }}
+              value: "{{ .Values.keystone.override.public_url }}/v3"
+            {{- else }}
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            {{- end }}
+{{ include "monasca_keystone_env" .Values.client.keystone | indent 12 }}
             - name: MONASCA_WAIT_FOR_API
               value: "{{ .Values.alarms.wait.enabled }}"
             - name: MONASCA_API_WAIT_RETRIES
               value: "{{ .Values.alarms.wait.retries }}"
             - name: MONASCA_API_WAIT_DELAY
               value: "{{ .Values.alarms.wait.delay }}"
-            - name: OS_PASSWORD
-              value: "{{ .Values.alarms.keystone.os_password }}"
-            - name: OS_USERNAME
-              value: "{{ .Values.alarms.keystone.os_username }}"
-            - name: OS_PROJECT_NAME
-              value: "{{ .Values.alarms.keystone.os_project_name }}"
-            - name: OS_USER_DOMAIN_NAME
-              value: "{{ .Values.alarms.keystone.os_user_domain_name }}"
-            - name: OS_PROJECT_DOMAIN_NAME
-              value: "{{ .Values.alarms.keystone.os_project_domain_name }}"
-            - name: OS_AUTH_URL
-            {{- if .Values.keystone.enabled }}
-              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
-            {{- else }}
-              value: "{{ .Values.keystone.override.public_url }}/v3"
-            {{- end }}
             {{- if .Values.alarms.notification_name }}
             - name: NOTIFICATION_NAME
               value: "{{ .Values.alarms.notification_name }}"

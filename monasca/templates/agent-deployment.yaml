@@ -23,6 +23,22 @@ spec:
           resources:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
+            - name: OS_AUTH_URL
+            {{- if .Values.agent.keystone.url }}
+            {{- if eq (kindOf .Values.agent.keystone.url) "map" }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.agent.keystone.url.secret_name }}"
+                  key: "{{ .Values.agent.keystone.url.secret_key | default "OS_AUTH_URL" }}"
+            {{- else }}
+              value: "{{ .Values.agent.keystone.url }}"
+            {{- end }}
+            {{- else if .Values.keystone.override.public_url }}
+              value: "{{ .Values.keystone.override.public_url }}/v3"
+            {{- else }}
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            {{- end }}
+{{ include "monasca_keystone_env" .Values.agent.keystone | indent 12 }}
             - name: AGENT_POD_NAME
               valueFrom:
                 fieldRef:
@@ -45,22 +61,6 @@ spec:
               value: service
             - name: PROMETHEUS_KUBERNETES_LABELS
               value: {{ .Values.agent.prometheus.kubernetes_labels | quote }}
-            - name: OS_AUTH_URL
-            {{- if .Values.keystone.enabled }}
-              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
-            {{- else }}
-              value: "{{ .Values.keystone.override.public_url }}/v3"
-            {{- end }}
-            - name: OS_USERNAME
-              value: {{ .Values.agent.keystone.os_username | quote }}
-            - name: OS_USER_DOMAIN_NAME
-              value: {{ .Values.agent.keystone.os_user_domain_name | quote }}
-            - name: OS_PASSWORD
-              value: {{ .Values.agent.keystone.os_password | quote }}
-            - name: OS_PROJECT_NAME
-              value: {{ .Values.agent.keystone.os_project_name | quote }}
-            - name: OS_PROJECT_DOMAIN_NAME
-              value: {{ .Values.agent.keystone.os_project_domain_name | quote }}
             - name: MONASCA_URL
               value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
             - name: LOG_LEVEL
@@ -101,21 +101,21 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: OS_AUTH_URL
-            {{- if .Values.keystone.enabled }}
-              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            {{- if .Values.agent.keystone.url }}
+            {{- if eq (kindOf .Values.agent.keystone.url) "map" }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.agent.keystone.url.secret_name }}"
+                  key: "{{ .Values.agent.keystone.url.secret_key | default "OS_AUTH_URL" }}"
             {{- else }}
-              value: "{{ .Values.keystone.override.public_url }}/v3"
+              value: "{{ .Values.agent.keystone.url }}"
             {{- end }}
-            - name: OS_USERNAME
-              value: {{ .Values.agent.keystone.os_username | quote }}
-            - name: OS_USER_DOMAIN_NAME
-              value: {{ .Values.agent.keystone.os_user_domain_name | quote }}
-            - name: OS_PASSWORD
-              value: {{ .Values.agent.keystone.os_password | quote }}
-            - name: OS_PROJECT_NAME
-              value: {{ .Values.agent.keystone.os_project_name | quote }}
-            - name: OS_PROJECT_DOMAIN_NAME
-              value: {{ .Values.agent.keystone.os_project_domain_name | quote }}
+            {{- else if .Values.keystone.override.public_url }}
+              value: "{{ .Values.keystone.override.public_url }}/v3"
+            {{- else }}
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+            {{- end }}
+{{ include "monasca_keystone_env" .Values.agent.keystone | indent 12 }}
             - name: MONASCA_URL
               value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
             - name: LOG_LEVEL

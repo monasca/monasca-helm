@@ -1,14 +1,3 @@
-{{- /* Generate a list of environment vars for Keystone Auth */}}
-{{- define "keystone_env" -}}
-- name: OS_AUTH_URL
-{{- if eq (kindOf .url) "map" }}
-  valueFrom:
-    secretKeyRef:
-      name: "{{ .url.secret_name }}"
-      key: "{{ .url.secret_key | default "OS_AUTH_URL" }}"
-{{- else }}
-  value: "{{ .url }}"
-{{- end }}
 {{- if .api_version }}
 - name: OS_IDENTITY_API_VERSION
   value: "{{ .api_version }}"
