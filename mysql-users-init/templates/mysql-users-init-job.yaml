@@ -9,7 +9,9 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+{{- if .Values.mysql_users_init.deadline }}
   activeDeadlineSeconds: {{ .Values.mysql_users_init.deadline }}
+{{- end }}
   template:
     metadata:
       labels:
