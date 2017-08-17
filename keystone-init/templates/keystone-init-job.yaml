@@ -9,7 +9,9 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+{{- if .Values.keystone_init.deadline }}
   activeDeadlineSeconds: {{ .Values.keystone_init.deadline }}
+{{- end }}
   template:
     metadata:
       labels:
