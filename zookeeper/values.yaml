@@ -1,7 +1,7 @@
 name: zookeeper
 image:
   repository: zookeeper
-  tag: 3.3
+  tag: 3.3.6
   pullPolicy: IfNotPresent
 service:
   type: ClusterIP
