@@ -9,9 +9,6 @@ keystone_init:
     tag: 1.0.3
     pullPolicy: IfNotPresent
 
-  # job completion deadline in seconds
-  deadline: 300
-
   # general options for the init job
   log_level: INFO # python logging level
   timeout: "10" # timeout in seconds
