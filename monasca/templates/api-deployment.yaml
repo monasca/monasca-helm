@@ -109,21 +109,21 @@ spec:
               value: {{ .Values.api.authorized_roles | quote }}
             {{- end}}
             {{- if .Values.api.http_proxy }}
-            - name: http_proxy:
+            - name: http_proxy
               value: {{ .Values.api.http_proxy | quote }}
-            - name: HTTP_PROXY:
+            - name: HTTP_PROXY
               value: {{ .Values.api.http_proxy | quote }}
             {{- end }}
             {{- if .Values.api.https_proxy }}
-            - name: https_proxy:
+            - name: https_proxy
               value: {{ .Values.api.https_proxy | quote }}
-            - name: HTTPS_PROXY:
+            - name: HTTPS_PROXY
               value: {{ .Values.api.https_proxy | quote }}
             {{- end }}
             {{- if .Values.api.no_proxy }}
-            - name: no_proxy:
+            - name: no_proxy
               value: {{ .Values.api.no_proxy | quote }}
-            - name: NO_PROXY:
+            - name: NO_PROXY
               value: {{ .Values.api.no_proxy | quote }}
             {{- end }}
             {{- if .Values.api.side_container.enabled }}
