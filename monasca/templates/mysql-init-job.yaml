@@ -31,20 +31,10 @@ spec:
             - name: MYSQL_INIT_PORT
               value: {{ .Values.mysql_init.port | quote }}
             - name: MYSQL_INIT_USERNAME
-              {{- if .Values.mysql_init.admin_user_secret }}
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Values.mysql_init.admin_user_secret }}"
-                  key: "{{ .Values.mysql_init.admin_user_secret_key | default .Values.mysql_init.admin_user_secret }}"
-              {{- else }}
-              value: "root"
-              {{- end }}
+{{- include "monasca_secret_env" .Values.mysql_init.admin_user | indent 14 }}
             - name: MYSQL_INIT_PASSWORD
-              {{- if .Values.mysql_init.admin_password_secret }}
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Values.mysql_init.admin_password_secret }}"
-                  key: "{{ .Values.mysql_init.admin_password_secret_key | default .Values.mysql_init.admin_password_secret }}"
+              {{- if .Values.mysql_init.admin_password }}
+{{- include "monasca_secret_env" .Values.mysql_init.admin_password | indent 14 }}
               {{- else }}
               value: "{{ .Values.mysql.mysqlRootPassword }}"
               {{- end }}

@@ -423,6 +423,8 @@ Parameter | Description | Default
 `mysql_init.image.tag` | Docker image tag | `1.2.0`
 `mysql_init.image.pullPolicy` | Kubernetes pull polify for image | `IfNotPresent`
 `mysql_init.disable_remote_root` | If `true`, disable root account after init finishes successfully | `true`
+`mysql_init.admin_user` | MySQL Admin User | `root`
+`mysql_init.admin_password` | MySQL Admin User password | mysql.mysqlRootPassword
 
 ### Notification
 
