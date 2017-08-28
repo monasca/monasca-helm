@@ -14,7 +14,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
   annotations:
-    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook": pre-upgrade,post-delete
     "helm.sh/hook-weight": "-5"
 spec:
   template:
