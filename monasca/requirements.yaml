@@ -1,6 +1,6 @@
 dependencies:
   - name: influxdb
-    version: 0.2.1
+    version: 0.4.3
     condition: influxdb.enabled, global.influxdb.enabled
     repository: 'https://kubernetes-charts.storage.googleapis.com/'
   - name: mysql
