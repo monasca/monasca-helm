@@ -50,7 +50,7 @@ influxdb:
   enabled: true
   image:
     repo: "influxdb"
-    tag: "1.1"
+    tag: "1.3.5-alpine"
     pullPolicy: IfNotPresent
   persistence:
     enabled: false
