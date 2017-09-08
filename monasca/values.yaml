@@ -325,7 +325,7 @@ notification:
   enabled: true
   image:
     repository: monasca/notification
-    tag: master-20170505-220138
+    tag: master-20170908-065949
     pullPolicy: IfNotPresent
   replicaCount: 1
   log_level: WARN
