@@ -423,6 +423,9 @@ Parameter | Description | Default
 `mysql_init.image.tag` | Docker image tag | `1.2.0`
 `mysql_init.image.pullPolicy` | Kubernetes pull polify for image | `IfNotPresent`
 `mysql_init.disable_remote_root` | If `true`, disable root account after init finishes successfully | `true`
+`mysql_init.keystone_db_enabled` | Setup Keystone Database. Use `false` with an external Keystone | `true`
+`mysql_init.create_mon_users` | Create the Database users for Monasca | `true`
+`mysql_init.grafana_db_enabled` | Setup Grafana Database | `true`
 
 ### Notification
 
