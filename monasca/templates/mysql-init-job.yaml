@@ -31,9 +31,13 @@ spec:
             - name: MYSQL_INIT_PORT
               value: {{ .Values.mysql_init.port | quote }}
             - name: MYSQL_INIT_USERNAME
-              value: "root"
+{{- include "monasca_secret_env" .Values.mysql_init.admin_user | indent 14 }}
             - name: MYSQL_INIT_PASSWORD
+              {{- if .Values.mysql_init.admin_password }}
+{{- include "monasca_secret_env" .Values.mysql_init.admin_password | indent 14 }}
+              {{- else }}
               value: "{{ .Values.mysql.mysqlRootPassword }}"
+              {{- end }}
             - name: KEYSTONE_USERNAME
               valueFrom:
                 secretKeyRef:
