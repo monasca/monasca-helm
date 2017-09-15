@@ -641,7 +641,7 @@ aggregator:
   name: aggregator
   image:
     repository: monasca/aggregator
-    tag: 0.1.1
+    tag: 0.1.2
     pullPolicy: IfNotPresent
   window_size: 60
   window_lag: 2
