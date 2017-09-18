@@ -12,6 +12,9 @@ mysql_init:
       memory: 256Mi
       cpu: 500m
   disable_remote_root: false
+  keystone_db_enabled: true
+  create_mon_users: true
+  grafana_db_enabled: true
 
 influx_init:
   enabled: true
