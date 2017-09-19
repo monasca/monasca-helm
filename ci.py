@@ -202,8 +202,8 @@ def check_requirements_version_changes(files, modules):
         It is not be allowed to have a chart depend on another
         chart that has had it's version bumped. The PR bot will
         automatically update any dependencies when their versions
-        get updated and their images get uploaded. Therefor, any
-        dependencies should not be updated in the same patch.
+        get updated. Therefor, any dependencies should not be
+        updated in the same patch.
     """
 
     # Look for charts with version bumps
@@ -223,8 +223,8 @@ def check_requirements_version_changes(files, modules):
     pr_dictionary = build_requirements_dictionary(modules_updated)
     master_dictionary = build_old_requirements_dictionary(modules_updated)
 
-    pr_dependencies = reduce(lambda x,y, x+y, pr_dictionary.values())
-    master_dependencies = reduce(lambda x,y, x+y, master_dictionary.values()['dependencies'])
+    pr_dependencies = reduce(lambda x,y: x+y, pr_dictionary.values())
+    master_dependencies = reduce(lambda x,y: x+y, master_dictionary.values())
     for pr_dep in pr_dependencies['dependencies']:
         for master_dep in master_deps['dependencies']:
             if pr_dep['name'] == master_dep['name']:
