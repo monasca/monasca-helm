@@ -219,18 +219,19 @@ def check_requirements_version_changes(files, modules):
     # Look for requirements that depend on those version bumps
     if modules_updated == {}:
         return
+
     pr_dictionary = build_requirements_dictionary(modules_updated)
     master_dictionary = build_old_requirements_dictionary(modules_updated)
-    modules = []
-    for changed_module, pr_dependencies in pr_dictionary.iteritems():
-        for pr_dep in pr_dependencies['dependencies']:
-            for master_module, master_dependencies in master_dictionary.iteritems():
-                for master_dep in master_dependencies['dependencies']:
-                    if pr_dep['name'] == master_dep['name']:
-                        if pr_dep['version'] != master_dep['version']:
-                            raise Exception('Invalid dependency: {}. Let the PR '
-                                            'bot update requirements.yaml'
-                                            .format(pr_dep['name']))
+
+    pr_dependencies = reduce(lambda x,y, x+y, pr_dictionary.values())
+    master_dependencies = reduce(lambda x,y, x+y, master_dictionary.values()['dependencies'])
+    for pr_dep in pr_dependencies['dependencies']:
+        for master_dep in master_deps['dependencies']:
+            if pr_dep['name'] == master_dep['name']:
+                if pr_dep['version'] != master_dep['version']:
+                    raise Exception('Invalid dependency: {}. Let the PR '
+                                    'bot update requirements.yaml'
+                                    .format(pr_dep['name']))
 
 
 def handle_push(files, modules):
