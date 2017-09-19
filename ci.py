@@ -149,6 +149,16 @@ def check_version_change(module):
     return chart_dict['version']
 
 
+def parse_requirements(module, requirement_dict, updated_modules):
+    return_requirements = {}
+    for dependency in requirement_dict['dependencies']:
+        dependency_name = dependency['name']
+        if dependency_name in updated_modules:
+            if module not in return_requirements:
+                return_requirements[module] = requirement_dict
+    return return_requirements
+
+
 def build_requirements_dictionary(updated_modules):
     return_requirements = {}
     for module in next(os.walk('.'))[1]:
@@ -161,13 +171,66 @@ def build_requirements_dictionary(updated_modules):
             raise Exception('Error reading requirements yaml for changed chart')
         if not requirement_dict or "dependencies" not in requirement_dict:
             continue
-        for dependency in requirement_dict['dependencies']:
-            dependency_name = dependency['name']
-            if dependency_name in updated_modules:
-                dependency['version'] = updated_modules[dependency_name]
-                if module not in return_requirements:
-                    return_requirements[module] = requirement_dict
+        return_requirements.update(parse_requirements(module,
+                                                      requirement_dict,
+                                                      updated_modules))
     return return_requirements
+
+
+def build_old_requirements_dictionary(updated_modules):
+    return_reqs = {}
+    for module in next(os.walk('.'))[1]:
+        if not os.path.exists(os.path.join(module, 'requirements.yaml')):
+            continue
+        p = subprocess.Popen([
+            'git', 'show', 'master:' + module + '/requirements.yaml'
+        ], stdout=subprocess.PIPE)
+
+        stdout, _ = p.communicate()
+        if p.returncode != 0 or len(stdout) == 0:
+            continue
+
+        requirement_dict = yaml.load(stdout)
+        return_reqs.update(parse_requirements(module,
+                                              requirement_dict,
+                                              updated_modules))
+    return return_reqs
+
+
+def check_requirements_version_changes(files, modules):
+    """
+        It is not be allowed to have a chart depend on another
+        chart that has had it's version bumped. The PR bot will
+        automatically update any dependencies when their versions
+        get updated and their images get uploaded. Therefor, any
+        dependencies should not be updated in the same patch.
+    """
+
+    # Look for charts with version bumps
+    modules_updated = {}
+    for module in modules:
+        dirty = get_dirty_for_module(files, module)
+
+        if 'Chart.yaml' in dirty:
+            version = check_version_change(module)
+            if version != None:
+                modules_updated[module] = version
+
+    # Look for requirements that depend on those version bumps
+    if modules_updated == {}:
+        return
+    pr_dictionary = build_requirements_dictionary(modules_updated)
+    master_dictionary = build_old_requirements_dictionary(modules_updated)
+    modules = []
+    for changed_module, pr_dependencies in pr_dictionary.iteritems():
+        for pr_dep in pr_dependencies['dependencies']:
+            for master_module, master_dependencies in master_dictionary.iteritems():
+                for master_dep in master_dependencies['dependencies']:
+                    if pr_dep['name'] == master_dep['name']:
+                        if pr_dep['version'] != master_dep['version']:
+                            raise Exception('Invalid dependency: {}. Let the PR '
+                                            'bot update requirements.yaml'
+                                            .format(pr_dep['name']))
 
 
 def handle_push(files, modules):
@@ -189,12 +252,13 @@ def handle_push(files, modules):
     if modules_updated:
         run_push(modules_updated.keys())
         pr_dictionary = build_requirements_dictionary(modules_updated)
+        # NOTE: This does not contain updated versions
         print('Module requirements to update')
         print(pr_dictionary)
     else:
         print('No modules to push.')
 
-def handle_other(files, modules, tags):
+def handle_other(files, modules):
     print('Unsupported event type "%s", nothing to do.' % (
         os.environ.get('TRAVS_EVENT_TYPE')))
 
@@ -222,6 +286,8 @@ def main():
 
     files = get_changed_files()
     modules = get_dirty_modules(files)
+
+    check_requirements_version_changes(files, modules)
 
     func = {
         'pull_request': handle_pull_request,
