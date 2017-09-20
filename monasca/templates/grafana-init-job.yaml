@@ -33,9 +33,9 @@ spec:
               value: "http://{{ template "grafana.fullname" . }}:{{ .Values.grafana.service.port }}"
   {{- end }}
             - name: GRAFANA_USERNAME
-              value: {{ .Values.grafana_init.username }}
+{{- include "monasca_secret_env" .Values.grafana_init.username | indent 14 }}
             - name: GRAFANA_PASSWORD
-              value: {{ .Values.grafana_init.password }}
+{{- include "monasca_secret_env" .Values.grafana_init.password | indent 14 }}
             - name: DATASOURCE_URL
               value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}"
 {{- end}}

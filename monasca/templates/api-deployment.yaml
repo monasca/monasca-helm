@@ -56,41 +56,18 @@ spec:
             - name: MYSQL_WAIT_RETRIES
               value: {{ .Values.api.mysql_wait_retries | quote }}
             {{- end}}
-            {{- if .Values.api.secretDB_enabled }}
             - name: MYSQL_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-mon-api
-                  key: host
-            - name: MYSQL_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-mon-api
-                  key: port
+{{- include "mysql_secret_env" .Values.api.mysql.host | indent 14 }}
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: mysql-mon-api
+                  name: {{ .Values.api.secretDB_name | quote}}
                   key: username
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-mon-api
+                  name: {{ .Values.api.secretDB_name | quote}}
                   key: password
-            {{- else }}
-            - name: MYSQL_HOST
-              value: "{{ .Release.Name }}-mysql"
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Release.Name }}-mysql-api-secret"
-                  key: username
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Release.Name }}-mysql-api-secret"
-                  key: password
-            {{- end}}
             - name: MYSQL_DB
               value: "mon"
             - name: MEMCACHED_URI
@@ -165,3 +142,4 @@ spec:
           - containerPort: 4888
             name: scrape
       {{- end }}
+

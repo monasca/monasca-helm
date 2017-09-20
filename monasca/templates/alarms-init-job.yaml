@@ -25,21 +25,23 @@ spec:
 {{ toYaml .Values.alarms.resources | indent 12 }}
           env:
             - name: OS_AUTH_URL
-            {{- if .Values.client.keystone.url }}
-            {{- if eq (kindOf .Values.client.keystone.url) "map" }}
+            {{- if .Values.alarms.keystone.url }}
+            {{- if eq (kindOf .Values.alarms.keystone.url) "map" }}
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.client.keystone.url.secret_name }}"
-                  key: "{{ .Values.client.keystone.url.secret_key | default "OS_AUTH_URL" }}"
+                  name: "{{ .Values.alarms.keystone.url.secret_name }}"
+                  key: "{{ .Values.alarms.keystone.url.secret_key | default "OS_AUTH_URL" }}"
             {{- else }}
-              value: "{{ .Values.client.keystone.url }}"
+              value: "{{ .Values.alarms.keystone.url }}"
             {{- end }}
             {{- else if .Values.keystone.override.public_url }}
               value: "{{ .Values.keystone.override.public_url }}/v3"
             {{- else }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
             {{- end }}
-{{ include "monasca_keystone_env" .Values.client.keystone | indent 12 }}
+{{ include "monasca_keystone_env" .Values.alarms.keystone | indent 12 }}
+            - name: MONASCA_API_URL
+              value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}"
             - name: MONASCA_WAIT_FOR_API
               value: "{{ .Values.alarms.wait.enabled }}"
             - name: MONASCA_API_WAIT_RETRIES

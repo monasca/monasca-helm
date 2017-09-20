@@ -68,45 +68,22 @@ spec:
               value: "{{ .Values.thresh.bolt.thresholdingBoltTasks }}"
             - name: KAFKA_URI
               value: "{{ .Release.Name }}-kafka:9092"
-            {{- if .Values.thresh.secretDB_enabled }}
             - name: MYSQL_DB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-mon-notification
-                  key: host
+{{- include "mysql_secret_env" .Values.thresh.mysql.host | indent 14 }}
             - name: MYSQL_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-mon-notification
-                  key: port
-            - name: MYSQL_DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-mon-notification
-                  key: username
-            - name: MYSQL_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-mon-notification
-                  key: password
-            {{- else }}
-            - name: MYSQL_DB_HOST
-              value: "{{ .Release.Name }}-mysql"
-            - name: MYSQL_DB_PORT
-              value: "3306"
-            - name: MYSQL_DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Release.Name }}-mysql-thresh-secret"
-                  key: username
-            - name: MYSQL_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Release.Name }}-mysql-thresh-secret"
-                  key: password
-            {{- end}}
+{{- include "monasca_secret_env" .Values.thresh.mysql.port | indent 14 }}
             - name: MYSQL_DB_DATABASE
               value: "mon"
+            - name: MYSQL_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{default "{{ .Release.Name }}-mysql-thresh-secret" .Values.thresh.secretDB_name}}
+                  key: username
+            - name: MYSQL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{default "{{ .Release.Name }}-mysql-thresh-secret" .Values.thresh.secretDB_name}}
+                  key: password
             - name: NO_STORM_CLUSTER
               value: "true"
             - name: WORKER_MAX_HEAP_MB
