@@ -205,6 +205,7 @@ api:
       cpu: 2000m
   gunicorn_workers: 1
   mysql_disabled: false
+  secretDB_enabled: false
 
 memcached:
   name: memcached
@@ -332,6 +333,7 @@ notification:
     pullPolicy: IfNotPresent
   replicaCount: 1
   log_level: WARN
+  secretDB_enabled: false
   plugins: pagerduty,webhook
   plugin_config:
     email:
@@ -422,6 +424,7 @@ storm:
         memory: 512Mi
         cpu: 1000m
     secretSuffix: mysql-thresh-secret
+    secretDB_enabled: false
     spout:
       metricSpoutThreads: 2
       metricSpoutTasks: 2

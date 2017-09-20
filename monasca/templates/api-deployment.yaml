@@ -56,6 +56,28 @@ spec:
             - name: MYSQL_WAIT_RETRIES
               value: {{ .Values.api.mysql_wait_retries | quote }}
             {{- end}}
+            {{- if .Values.api.secretDB_enabled }}
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-mon-api
+                  key: host
+            - name: MYSQL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-mon-api
+                  key: port
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-mon-api
+                  key: username
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-mon-api
+                  key: password
+            {{- else }}
             - name: MYSQL_HOST
               value: "{{ .Release.Name }}-mysql"
             - name: MYSQL_USER
@@ -68,6 +90,7 @@ spec:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-mysql-api-secret"
                   key: password
+            {{- end}}
             - name: MYSQL_DB
               value: "mon"
             - name: MEMCACHED_URI

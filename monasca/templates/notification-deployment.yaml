@@ -24,6 +24,28 @@ spec:
           resources:
 {{ toYaml .Values.notification.resources | indent 12 }}
           env:
+            {{- if .Values.notification.secretDB_enabled }}
+            - name: MYSQL_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-mon-notification
+                  key: host
+            - name: MYSQL_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-mon-notification
+                  key: port
+            - name: MYSQL_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-mon-notification
+                  key: username
+            - name: MYSQL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-mon-notification
+                  key: password
+            {{- else }}
             - name: MYSQL_DB_HOST
               value: "{{ .Release.Name }}-mysql"
             - name: MYSQL_DB_PORT
@@ -38,6 +60,7 @@ spec:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-mysql-notification-secret"
                   key: password
+            {{- end}}
             - name: MYSQL_DB_DATABASE
               value: "mon"
             - name: KAFKA_URI
