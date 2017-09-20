@@ -30,6 +30,18 @@ spec:
           - name: grafana-config
             mountPath: /etc/grafana
           env:
+            {{- if .Values.grafana.secretDB_enabled }}
+            - name: GF_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-mon-grafana
+                  key: password
+            - name: GF_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-mon-grafana
+                  key: username
+            {{- else }}
             - name: GF_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -40,6 +52,7 @@ spec:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-mysql-grafana-secret"
                   key: username
+            {{- end}}
       volumes:
         - name: grafana-config
           configMap:

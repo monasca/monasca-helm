@@ -259,6 +259,7 @@ grafana:
   name: grafana
   simple_name: false
   enabled: true
+  secretDB_enabled: false
   image:
     repository: monasca/grafana
     tag: 4.0.0-1.1.1
