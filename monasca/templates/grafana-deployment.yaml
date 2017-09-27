@@ -30,6 +30,33 @@ spec:
           - name: grafana-config
             mountPath: /etc/grafana
           env:
+            - name: GF_AUTH_KEYSTONE_AUTH_URL
+            {{- if .Values.api.keystone.auth_url }}
+{{- include "monasca_secret_env" .Values.grafana.keystone.auth_url | indent 14 }}
+            {{- else if .Values.keystone.override.admin_url }}
+              value: "{{ .Values.keystone.override.admin_url }}"
+            {{- else }}
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}"
+            {{- end }}
+{{ include "monasca_keystone_env" .Values.grafana.keystone | indent 12 }}
+            - name: GF_DATABASE_HOST
+{{- include "mysql_secret_env" .Values.grafana.mysql.host | indent 14 }}
+            - name: GF_DATABASE_PORT
+{{- include "monasca_secret_env" .Values.grafana.mysql.port | indent 14 }}
+            - name: GF_DATABASE_NAME
+              value: 'mon'
+            {{- if .Values.grafana.secretDB_enabled }}
+            - name: GF_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default "mysql-mon-grafana" .Values.grafana.secretDB_name }}
+                  key: password
+            - name: GF_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default "mysql-mon-grafana" .Values.grafana.secretDB_name }}
+                  key: username
+            {{- else }}
             - name: GF_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -40,6 +67,7 @@ spec:
                 secretKeyRef:
                   name: "{{ .Release.Name }}-mysql-grafana-secret"
                   key: username
+            {{- end}}
       volumes:
         - name: grafana-config
           configMap:

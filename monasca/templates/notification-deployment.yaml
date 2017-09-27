@@ -25,18 +25,18 @@ spec:
 {{ toYaml .Values.notification.resources | indent 12 }}
           env:
             - name: MYSQL_DB_HOST
-              value: "{{ .Release.Name }}-mysql"
+{{- include "mysql_secret_env" .Values.notification.mysql.host | indent 14 }}
             - name: MYSQL_DB_PORT
-              value: "3306"
+{{- include "monasca_secret_env" .Values.notification.mysql.port | indent 14 }}
             - name: MYSQL_DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Release.Name }}-mysql-notification-secret"
+                  name: {{default "{{ .Release.Name }}-mysql-notification-secret" .Values.notification.secretDB_name}}
                   key: username
             - name: MYSQL_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Release.Name }}-mysql-notification-secret"
+                  name: {{default "{{ .Release.Name }}-mysql-notification-secret" .Values.notification.secretDB_name}}
                   key: password
             - name: MYSQL_DB_DATABASE
               value: "mon"
