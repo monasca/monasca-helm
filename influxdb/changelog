@@ -1,0 +1,6 @@
+Added index-version config option to deployment template
+Added configurable readiness initial delay
+Added configurable readiness timeout
+Added configurable liveness initial delay
+Added configurable liveness timeout
+
