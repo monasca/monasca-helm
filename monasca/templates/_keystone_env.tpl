@@ -75,6 +75,28 @@ internal Keystone URL and Helm cannot pass more than one variable at once.
 {{- else }}
   value: "{{ .password }}"
 {{- end }}
+{{- if .tenant_name }}
+- name: OS_TENANT_NAME
+{{- if eq (kindOf .tenant_name) "map" }}
+  valueFrom:
+    secretKeyRef:
+      name: "{{ .tenant_name.secret_name }}"
+      key: "{{ .tenant_name.secret_key | default "OS_TENANT_NAME" }}"
+{{- else }}
+  value: "{{ .tenant_name }}"
+{{- end }}
+{{- if .tenant_id }}
+- name: OS_TENANT_ID
+{{- if eq (kindOf .tenant_id) "map" }}
+  valueFrom:
+    secretKeyRef:
+      name: "{{ .tenant_id.secret_name }}"
+      key: "{{ .tenant_id.secret_key | default "OS_TENANT_ID" }}"
+{{- else }}
+  value: "{{ .tenant_id }}"
+{{- end }}
+{{- end }}
+{{- else }}
 {{- if .user_domain_name }}
 - name: OS_USER_DOMAIN_NAME
 {{- if eq (kindOf .user_domain_name) "map" }}
@@ -108,27 +130,6 @@ internal Keystone URL and Helm cannot pass more than one variable at once.
   value: "{{ .project_domain_name }}"
 {{- end }}
 {{- end }}
-{{- if .tenant_name }}
-- name: OS_TENANT_NAME
-{{- if eq (kindOf .tenant_name) "map" }}
-  valueFrom:
-    secretKeyRef:
-      name: "{{ .tenant_name.secret_name }}"
-      key: "{{ .tenant_name.secret_key | default "OS_TENANT_NAME" }}"
-{{- else }}
-  value: "{{ .tenant_name }}"
-{{- end }}
-{{- end }}
-{{- if .tenant_id }}
-- name: OS_TENANT_ID
-{{- if eq (kindOf .tenant_id) "map" }}
-  valueFrom:
-    secretKeyRef:
-      name: "{{ .tenant_id.secret_name }}"
-      key: "{{ .tenant_id.secret_key | default "OS_TENANT_ID" }}"
-{{- else }}
-  value: "{{ .tenant_id }}"
-{{- end }}
 {{- end }}
 {{- if .region_name }}
 - name: OS_REGION_NAME
@@ -139,6 +140,17 @@ internal Keystone URL and Helm cannot pass more than one variable at once.
       key: "{{ .region_name.secret_key | default "OS_REGION_NAME" }}"
 {{- else }}
   value: "{{ .region_name }}"
+{{- end }}
+{{- end }}
+{{- if .auth_type }}
+- name: OS_AUTH_TYPE
+{{- if eq (kindOf .auth_type) "map" }}
+  valueFrom:
+    secretKeyRef:
+      name: "{{ .auth_type.secret_name }}"
+      key: "{{ .auth_type.secret_key | default "OS_AUTH_TYPE" }}"
+{{- else }}
+  value: "{{ .auth_type }}"
 {{- end }}
 {{- end }}
 {{- end -}}

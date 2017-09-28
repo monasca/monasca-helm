@@ -23,6 +23,8 @@ spec:
           resources:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
+            - name: KEYSTONE_DEFAULTS_ENABLED
+              value: "{{ .Values.alarms.keystone_defaults_enabled }}"
             - name: OS_AUTH_URL
             {{- if .Values.agent.keystone.url }}
             {{- if eq (kindOf .Values.agent.keystone.url) "map" }}
@@ -61,7 +63,7 @@ spec:
               value: service
             - name: PROMETHEUS_KUBERNETES_LABELS
               value: {{ .Values.agent.prometheus.kubernetes_labels | quote }}
-            - name: MONASCA_URL
+            - name: MONASCA_API_URL
               value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
             - name: LOG_LEVEL
               value: {{ .Values.agent.log_level | quote }}
@@ -92,6 +94,8 @@ spec:
           resources:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
+            - name: KEYSTONE_DEFAULTS_ENABLED
+              value: "{{ .Values.alarms.keystone_defaults_enabled }}"
             - name: AGENT_POD_NAME
               valueFrom:
                 fieldRef:

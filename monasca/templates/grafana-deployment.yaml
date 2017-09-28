@@ -31,10 +31,8 @@ spec:
             mountPath: /etc/grafana
           env:
             - name: GF_AUTH_KEYSTONE_AUTH_URL
-            {{- if .Values.api.keystone.auth_url }}
-{{- include "monasca_secret_env" .Values.grafana.keystone.auth_url | indent 14 }}
-            {{- else if .Values.keystone.override.admin_url }}
-              value: "{{ .Values.keystone.override.admin_url }}"
+            {{- if .Values.grafana.keystone.url }}
+{{- include "monasca_secret_env" .Values.grafana.keystone.url | indent 14 }}
             {{- else }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}"
             {{- end }}
