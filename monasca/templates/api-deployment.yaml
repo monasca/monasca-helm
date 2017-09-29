@@ -61,12 +61,12 @@ spec:
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.api.secretDB_name | quote}}
+                  name: {{default "{{ .Release.Name }}-mysql-api-secret" .Values.api.secretDB_name}}
                   key: username
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.api.secretDB_name | quote}}
+                  name: {{default "{{ .Release.Name }}-mysql-api-secret" .Values.api.secretDB_name}}
                   key: password
             - name: MYSQL_DB
               value: "mon"
@@ -142,4 +142,3 @@ spec:
           - containerPort: 4888
             name: scrape
       {{- end }}
-

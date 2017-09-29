@@ -205,7 +205,6 @@ api:
       cpu: 2000m
   gunicorn_workers: 1
   mysql_disabled: false
-  secretDB_enabled: false
 
 memcached:
   name: memcached
@@ -259,7 +258,6 @@ grafana:
   name: grafana
   simple_name: false
   enabled: true
-  secretDB_enabled: false
   image:
     repository: monasca/grafana
     tag: 4.0.0-1.1.1
@@ -295,6 +293,10 @@ keystone:
     repository: monasca/keystone
   mysql:
     database: keystone
+    username:
+      secret_key: username
+    password:
+      secret_key: password
   replicaCount: 1
   service:
     type: ClusterIP
@@ -333,8 +335,9 @@ notification:
     tag: master-20170505-220138
     pullPolicy: IfNotPresent
   replicaCount: 1
+  mysql:
+    port: "3306"
   log_level: WARN
-  secretDB_enabled: false
   plugins: pagerduty,webhook
   plugin_config:
     email:
@@ -417,6 +420,8 @@ storm:
       repository: monasca/thresh
       tag: master-20170726-195714
       pullPolicy: IfNotPresent
+    mysql:
+      port: "3306"
     resources:
       requests:
         memory: 256Mi
@@ -425,7 +430,6 @@ storm:
         memory: 512Mi
         cpu: 1000m
     secretSuffix: mysql-thresh-secret
-    secretDB_enabled: false
     spout:
       metricSpoutThreads: 2
       metricSpoutTasks: 2

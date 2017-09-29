@@ -43,29 +43,16 @@ spec:
 {{- include "monasca_secret_env" .Values.grafana.mysql.port | indent 14 }}
             - name: GF_DATABASE_NAME
               value: 'mon'
-            {{- if .Values.grafana.secretDB_enabled }}
             - name: GF_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ default "mysql-mon-grafana" .Values.grafana.secretDB_name }}
+                  name: {{ default "{{ .Release.Name }}-mysql" .Values.grafana.secretDB_name }}
                   key: password
             - name: GF_DATABASE_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ default "mysql-mon-grafana" .Values.grafana.secretDB_name }}
+                  name: {{ default "{{ .Release.Name}}-mysql" .Values.grafana.secretDB_name }}
                   key: username
-            {{- else }}
-            - name: GF_DATABASE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Release.Name }}-mysql-grafana-secret"
-                  key: password
-            - name: GF_DATABASE_USER
-              valueFrom:
-                secretKeyRef:
-                  name: "{{ .Release.Name }}-mysql-grafana-secret"
-                  key: username
-            {{- end}}
       volumes:
         - name: grafana-config
           configMap:
