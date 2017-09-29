@@ -75,28 +75,6 @@ internal Keystone URL and Helm cannot pass more than one variable at once.
 {{- else }}
   value: "{{ .password }}"
 {{- end }}
-{{- if .tenant_name }}
-- name: OS_TENANT_NAME
-{{- if eq (kindOf .tenant_name) "map" }}
-  valueFrom:
-    secretKeyRef:
-      name: "{{ .tenant_name.secret_name }}"
-      key: "{{ .tenant_name.secret_key | default "OS_TENANT_NAME" }}"
-{{- else }}
-  value: "{{ .tenant_name }}"
-{{- end }}
-{{- end }}
-{{- if .tenant_id }}
-- name: OS_TENANT_ID
-{{- if eq (kindOf .tenant_id) "map" }}
-  valueFrom:
-    secretKeyRef:
-      name: "{{ .tenant_id.secret_name }}"
-      key: "{{ .tenant_id.secret_key | default "OS_TENANT_ID" }}"
-{{- else }}
-  value: "{{ .tenant_id }}"
-{{- end }}
-{{- end }}
 {{- if .user_domain_name }}
 - name: OS_USER_DOMAIN_NAME
 {{- if eq (kindOf .user_domain_name) "map" }}
@@ -119,6 +97,7 @@ internal Keystone URL and Helm cannot pass more than one variable at once.
   value: "{{ .project_name }}"
 {{- end }}
 {{- end }}
+{{- if .tenant_name }}
 {{- if .project_domain_name }}
 - name: OS_PROJECT_DOMAIN_NAME
 {{- if eq (kindOf .project_domain_name) "map" }}
@@ -128,6 +107,28 @@ internal Keystone URL and Helm cannot pass more than one variable at once.
       key: "{{ .project_domain_name.secret_key | default "OS_PROJECT_DOMAIN_NAME" }}"
 {{- else }}
   value: "{{ .project_domain_name }}"
+{{- end }}
+{{- end }}
+
+- name: OS_TENANT_NAME
+{{- if eq (kindOf .tenant_name) "map" }}
+  valueFrom:
+    secretKeyRef:
+      name: "{{ .tenant_name.secret_name }}"
+      key: "{{ .tenant_name.secret_key | default "OS_TENANT_NAME" }}"
+{{- else }}
+  value: "{{ .tenant_name }}"
+{{- end }}
+{{- end }}
+{{- if .tenant_id }}
+- name: OS_TENANT_ID
+{{- if eq (kindOf .tenant_id) "map" }}
+  valueFrom:
+    secretKeyRef:
+      name: "{{ .tenant_id.secret_name }}"
+      key: "{{ .tenant_id.secret_key | default "OS_TENANT_ID" }}"
+{{- else }}
+  value: "{{ .tenant_id }}"
 {{- end }}
 {{- end }}
 {{- if .region_name }}
