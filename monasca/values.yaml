@@ -395,7 +395,6 @@ persister:
     limits:
       memory: 256Mi
       cpu: 100m
-
 storm:
   name: storm
   enabled: false
@@ -477,6 +476,8 @@ thresh:
       memory: 512Mi
       cpu: 1000m
   secretSuffix: mysql-thresh-secret
+  mysql:
+    port: 3306
   spout:
     metricSpoutThreads: 2
     metricSpoutTasks: 2
