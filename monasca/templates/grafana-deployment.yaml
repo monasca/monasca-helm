@@ -47,12 +47,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ default "{{ .Release.Name }}-mysql" .Values.grafana.secretDB_name }}
-                  key: password
+                  key: {{ default "password" .Values.grafana.mysql.password.secret_key }}
             - name: GF_DATABASE_USER
               valueFrom:
                 secretKeyRef:
                   name: {{ default "{{ .Release.Name}}-mysql" .Values.grafana.secretDB_name }}
-                  key: username
+                  key: {{ default "username" .Values.grafana.mysql.username.secret_key }}
       volumes:
         - name: grafana-config
           configMap:

@@ -271,6 +271,11 @@ grafana:
     password: password
     project_name: mini-mon
     project_domain_name: Default
+  mysql:
+    username:
+      secret_key: username
+    password:
+      secret_key: password
   resources:
     requests:
       memory: 64Mi
