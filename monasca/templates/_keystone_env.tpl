@@ -23,7 +23,7 @@ value: "{{ . }}"
 {{- end }}
 {{- end }}
 
-{{- define "mysql_secret_env" }}
+{{- define "monasca_mysql_secret_env" }}
 {{- if eq (kindOf .) "map" }}
 valueFrom:
   secretKeyRef:
@@ -85,6 +85,7 @@ internal Keystone URL and Helm cannot pass more than one variable at once.
 {{- else }}
   value: "{{ .tenant_name }}"
 {{- end }}
+{{- end }}
 {{- if .tenant_id }}
 - name: OS_TENANT_ID
 {{- if eq (kindOf .tenant_id) "map" }}
@@ -128,7 +129,6 @@ internal Keystone URL and Helm cannot pass more than one variable at once.
       key: "{{ .project_domain_name.secret_key | default "OS_PROJECT_DOMAIN_NAME" }}"
 {{- else }}
   value: "{{ .project_domain_name }}"
-{{- end }}
 {{- end }}
 {{- end }}
 {{- if .region_name }}
