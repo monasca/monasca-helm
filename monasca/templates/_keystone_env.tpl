@@ -109,7 +109,7 @@ internal Keystone URL and Helm cannot pass more than one variable at once.
   value: "{{ .project_domain_name }}"
 {{- end }}
 {{- end }}
-
+{{- if .tenant_name }}
 - name: OS_TENANT_NAME
 {{- if eq (kindOf .tenant_name) "map" }}
   valueFrom:
