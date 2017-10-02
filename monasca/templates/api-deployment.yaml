@@ -57,17 +57,17 @@ spec:
               value: {{ .Values.api.mysql_wait_retries | quote }}
             {{- end}}
             - name: MYSQL_HOST
-{{- include "mysql_secret_env" .Values.api.mysql.host | indent 14 }}
+{{- include "monasca_mysql_secret_env" .Values.api.mysql.host | indent 14 }}
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{default "{{ .Release.Name }}-mysql-api-secret" .Values.api.secretDB_name}}
-                  key: username
+                  name: "{{ .Values.api.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-api-secret" }}"
+                  key: "{{ .Values.api.mysql.username.secret_key }}"
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{default "{{ .Release.Name }}-mysql-api-secret" .Values.api.secretDB_name}}
-                  key: password
+                  name: "{{ .Values.api.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-api-secret" }}"
+                  key: "{{ .Values.api.mysql.password.secret_key }}"
             - name: MYSQL_DB
               value: "mon"
             - name: MEMCACHED_URI
