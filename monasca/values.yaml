@@ -112,13 +112,13 @@ agent:
   enabled: true
   collector:
     image:
-      repository: aadams/monasca-agent-collector
-      tag: configure_keystone.0.4
+      repository: monasca/agent-collector
+      tag: master-20170928-204010
       pullPolicy: IfNotPresent
   forwarder:
     image:
-      repository: aadams/monasca-agent-forwarder
-      tag: configure_keystone.0.4
+      repository: monasca/agent-forwarder
+      tag: master-20170928-204010
       pullPolicy: IfNotPresent
   log_level: WARN
   insecure: False
@@ -265,8 +265,8 @@ grafana:
   simple_name: false
   enabled: true
   image:
-    repository: aadams/monasca-grafana
-    tag: detect_port_0.1
+    repository: monasca/grafana
+    tag: 4.0.0-1.1.1
     pullPolicy: IfNotPresent
   service:
     type: NodePort
@@ -429,9 +429,6 @@ storm:
       memory: 4Gi
       cpu: 2000m
   thresh:
-    image:
-      repository: aadams/monasca-thresh
-      tag: configure_ssl.0.2
     name: thresh
     image:
       repository: monasca/thresh
