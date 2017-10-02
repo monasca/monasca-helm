@@ -31,12 +31,11 @@ spec:
             mountPath: /etc/grafana
           env:
             - name: GF_AUTH_KEYSTONE_AUTH_URL
-            {{- if .Values.grafana.keystone.url }}
-{{- include "monasca_secret_env" .Values.grafana.keystone.url | indent 14 }}
+            {{- if .Values.grafana.keystone_url }}
+{{- include "monasca_secret_env" .Values.grafana.keystone_url | indent 14 }}
             {{- else }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}"
             {{- end }}
-{{ include "monasca_keystone_env" .Values.grafana.keystone | indent 12 }}
             - name: GF_DATABASE_HOST
 {{- include "monasca_mysql_secret_env" .Values.grafana.mysql.host | indent 14 }}
             - name: GF_DATABASE_PORT

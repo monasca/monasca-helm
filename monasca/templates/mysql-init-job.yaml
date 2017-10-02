@@ -43,41 +43,41 @@ spec:
             - name: KEYSTONE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.keystone.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-keystone-secret" }}
-                  key: {{ .Values.keystone.mysql.username.secret_key }}
+                  name: "{{ .Values.keystone.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-keystone-secret" }}"
+                  key: "{{ .Values.keystone.mysql.username.secret_key }}"
             - name: KEYSTONE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.keystone.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-keystone-secret" }}
-                  key: {{ .Values.keystone.mysql.password.secret_key }}
+                  name: "{{ .Values.keystone.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-keystone-secret" }}"
+                  key: "{{ .Values.keystone.mysql.password.secret_key }}"
             - name: API_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.api.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-api-secret" }}
-                  key: {{ .Values.api.mysql.username.secret_key }}
+                  name: "{{ .Values.api.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-api-secret" }}"
+                  key: "{{ .Values.api.mysql.username.secret_key }}"
             - name: API_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.api.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-api-secret" }}
-                  key: {{ .Values.api.mysql.username.secret_key }}
+                  name: "{{ .Values.api.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-api-secret" }}"
+                  key: "{{ .Values.api.mysql.username.secret_key }}"
             - name: NOTIFICATION_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.notification.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-notification-secret" }}
-                  key: {{ .Values.notification.mysql.username.secret_key }}
+                  name: "{{ .Values.notification.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-notification-secret" }}"
+                  key: "{{ .Values.notification.mysql.username.secret_key }}"
             - name: NOTIFICATION_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.notification.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-notification-secret" }}
-                  key: {{ .Values.notification.mysql.password.secret_key }}
+                  name: "{{ .Values.notification.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-notification-secret" }}"
+                  key: "{{ .Values.notification.mysql.password.secret_key }}"
             - name: THRESH_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.thresh.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-thresh-secret" }}
-                  key: {{ .Values.thresh.mysql.username.secret_key }}
+                  name: "{{ .Values.thresh.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-thresh-secret" }}"
+                  key: "{{ .Values.thresh.mysql.username.secret_key }}"
             - name: THRESH_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.thresh.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-thresh-secret" }}
-                  key: {{ .Values.thresh.mysql.password.secret_key }}
+                  name: "{{ .Values.thresh.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-thresh-secret" }}"
+                  key: "{{ .Values.thresh.mysql.password.secret_key }}"
 {{- end }}
