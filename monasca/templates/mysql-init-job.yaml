@@ -34,12 +34,13 @@ spec:
 {{- include "monasca_secret_env" .Values.mysql_init.password | indent 14 }}
             - name: MYSQL_INIT_PORT
               value: {{ .Values.mysql_init.port | quote }}
-            - name: KEYSTONE_DB_ENABLED
-              value: {{ .Values.mysql_init.keystone_db_enabled | quote }}
             - name: CREATE_MON_USERS
               value: {{ .Values.mysql_init.create_mon_users | quote }}
             - name: GRAFANA_DB_ENABLED
               value: {{ .Values.mysql_init.grafana_db_enabled | quote }}
+            - name: KEYSTONE_DB_ENABLED
+              value: {{ .Values.mysql_init.keystone_db_enabled | quote }}
+            {{- if .Values.mysql_init.keystone_db_enabled }}
             - name: KEYSTONE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -50,6 +51,7 @@ spec:
                 secretKeyRef:
                   name: "{{ .Values.keystone.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-keystone-secret" }}"
                   key: "{{ .Values.keystone.mysql.password.secret_key }}"
+            {{- end}}
             - name: API_USERNAME
               valueFrom:
                 secretKeyRef:

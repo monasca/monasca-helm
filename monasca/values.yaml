@@ -271,6 +271,7 @@ grafana:
   service:
     type: NodePort
     port: 3000
+  local_mysql_enabled: true
   mysql:
     username:
       secret_key: username
