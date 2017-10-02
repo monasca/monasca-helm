@@ -40,8 +40,6 @@ spec:
 {{- include "monasca_mysql_secret_env" .Values.grafana.mysql.host | indent 14 }}
             - name: GF_DATABASE_PORT
 {{- include "monasca_secret_env" .Values.grafana.mysql.port | indent 14 }}
-            - name: GF_DATABASE_NAME
-              value: 'mon'
             - name: GF_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:

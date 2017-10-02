@@ -77,13 +77,13 @@ spec:
             - name: MYSQL_DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.thresh.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-thresh-secret"}}
-                  key: {{ .Values.thresh.mysql.username.secret_key }}
+                  name: "{{ .Values.thresh.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-thresh-secret"}}"
+                  key: "{{ .Values.thresh.mysql.username.secret_key }}"
             - name: MYSQL_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.thresh.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-thresh-secret"}}
-                  key: {{ .Values.thresh.mysql.password.secret_key }}
+                  name: "{{ .Values.thresh.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-thresh-secret"}}"
+                  key: "{{ .Values.thresh.mysql.password.secret_key }}"
             - name: NO_STORM_CLUSTER
               value: "true"
             - name: WORKER_MAX_HEAP_MB
