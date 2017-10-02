@@ -484,7 +484,7 @@ alarms:
   enabled: true
   image:
     repository: monasca/alarms
-    tag: 1.1.1
+    tag: 1.1.2
     pullPolicy: IfNotPresent
   resources:
     requests:
