@@ -275,6 +275,7 @@ grafana:
       secret_key: username
     password:
       secret_key: password
+    port: 3306
   resources:
     requests:
       memory: 64Mi
