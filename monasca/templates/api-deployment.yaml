@@ -60,8 +60,9 @@ spec:
             {{- if .Values.api.mysql.host }}
             {{- if eq (kindOf .Values.api.mysql.host) "map" }}
               valueFrom:
-                name: "{{ .Values.api.mysql.host.secret_name }}"
-                key: "{{ .Values.api.mysql.host.secret_key }}"
+                secretKeyRef:
+                  name: "{{ .Values.api.mysql.host.secret_name }}"
+                  key: "{{ .Values.api.mysql.host.secret_key | default "host" }}"
             {{- else }}
               value: "{{ .Values.api.mysql.host }}"
             {{- end}}
@@ -76,7 +77,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-api-secret"
                 {{- end}}
-                  key: "{{ .Values.api.mysql.username.secret_key }}"
+                  key: "{{ .Values.api.mysql.username.secret_key | default "username" }}"
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -85,7 +86,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-api-secret"
                 {{- end}}
-                  key: "{{ .Values.api.mysql.password.secret_key }}"
+                  key: "{{ .Values.api.mysql.password.secret_key | default "password" }}"
             - name: MYSQL_DB
               value: "mon"
             - name: MEMCACHED_URI

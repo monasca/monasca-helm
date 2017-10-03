@@ -72,8 +72,9 @@ spec:
             {{- if .Values.thresh.mysql.host }}
             {{- if eq (kindOf .Values.thresh.mysql.host) "map" }}
               valueFrom:
-                name: "{{ .Values.thresh.mysql.host.secret_name }}"
-                key: "{{ .Values.thresh.mysql.host.secret_key }}"
+                secretKeyRef:
+                  name: "{{ .Values.thresh.mysql.host.secret_name }}"
+                  key: "{{ .Values.thresh.mysql.host.secret_key | default "host" }}"
             {{- else }}
               value: "{{ .Values.thresh.mysql.host }}"
             {{- end}}
@@ -92,7 +93,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-thresh-secret"
                 {{- end}}
-                  key: "{{ .Values.thresh.mysql.username.secret_key }}"
+                  key: "{{ .Values.thresh.mysql.username.secret_key | default "username" }}"
             - name: MYSQL_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -101,7 +102,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-thresh-secret"
                 {{- end}}
-                  key: "{{ .Values.thresh.mysql.password.secret_key }}"
+                  key: "{{ .Values.thresh.mysql.password.secret_key | default "password" }}"
             - name: NO_STORM_CLUSTER
               value: "true"
             - name: WORKER_MAX_HEAP_MB

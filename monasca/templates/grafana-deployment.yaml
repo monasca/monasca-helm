@@ -40,8 +40,9 @@ spec:
             {{- if .Values.grafana.mysql.host }}
             {{- if eq (kindOf .Values.grafana.mysql.host) "map" }}
               valueFrom:
-                name: "{{ .Values.grafana.mysql.host.secret_name }}"
-                key: "{{ .Values.grafana.mysql.host.secret_key }}"
+                secretKeyRef:
+                  name: "{{ .Values.grafana.mysql.host.secret_name }}"
+                  key: "{{ .Values.grafana.mysql.host.secret_key | default "host" }}"
             {{- else }}
               value: "{{ .Values.grafana.mysql.host }}"
             {{- end}}
@@ -58,7 +59,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-grafana-secret"
                 {{- end}}
-                  key: "{{ .Values.grafana.mysql.password.secret_key }}"
+                  key: "{{ .Values.grafana.mysql.password.secret_key | default "password" }}"
             - name: GF_DATABASE_USER
               valueFrom:
                 secretKeyRef:
@@ -67,7 +68,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-grafana-secret"
                 {{- end}}
-                  key: "{{ .Values.grafana.mysql.username.secret_key }}"
+                  key: "{{ .Values.grafana.mysql.username.secret_key | default "username" }}"
       volumes:
         - name: grafana-config
           configMap:

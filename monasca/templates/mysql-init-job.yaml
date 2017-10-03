@@ -30,8 +30,9 @@ spec:
             {{- if .Values.mysql_init.host }}
             {{- if eq (kindOf .Values.mysql_init.host) "map" }}
               valueFrom:
-                name: "{{ .Values.mysql_init.host.secret_name }}"
-                key: "{{ .Values.mysql_init.host.secret_key }}"
+                secretKeyRef:
+                  name: "{{ .Values.mysql_init.host.secret_name }}"
+                  key: "{{ .Values.mysql_init.host.secret_key }}"
             {{- else }}
               value: "{{ .Values.mysql_init.host }}"
             {{- end}}
@@ -50,7 +51,7 @@ spec:
               value: {{ .Values.mysql_init.grafana_db_enabled | quote }}
             - name: KEYSTONE_DB_ENABLED
               value: {{ .Values.mysql_init.keystone_db_enabled | quote }}
-            {{- if .Values.mysql_init.keystone_db_enabled }}
+          {{- if .Values.mysql_init.keystone_db_enabled }}
             - name: KEYSTONE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -59,7 +60,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-keystone-secret"
                 {{- end}}
-                  key: "{{ .Values.keystone.mysql.username.secret_key }}"
+                  key: "{{ .Values.keystone.mysql.username.secret_key | default "username" }}"
             - name: KEYSTONE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -68,8 +69,8 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-keystone-secret"
                 {{- end}}
-                  key: "{{ .Values.keystone.mysql.password.secret_key }}"
-            {{- end}}
+                  key: "{{ .Values.keystone.mysql.password.secret_key | default "password" }}"
+           {{- end}}
             - name: API_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -78,7 +79,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-api-secret"
                 {{- end}}
-                  key: "{{ .Values.api.mysql.username.secret_key }}"
+                  key: "{{ .Values.api.mysql.username.secret_key | default "username" }}"
             - name: API_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -87,7 +88,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-api-secret"
                 {{- end}}
-                  key: "{{ .Values.api.mysql.password.secret_key }}"
+                  key: "{{ .Values.api.mysql.password.secret_key | default "password" }}"
             - name: NOTIFICATION_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -96,7 +97,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-notification-secret"
                 {{- end}}
-                  key: "{{ .Values.notification.mysql.username.secret_key }}"
+                  key: "{{ .Values.notification.mysql.username.secret_key | default "username" }}"
             - name: NOTIFICATION_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -105,7 +106,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-notification-secret"
                 {{- end}}
-                  key: "{{ .Values.notification.mysql.password.secret_key }}"
+                  key: "{{ .Values.notification.mysql.password.secret_key | default "password" }}"
             - name: THRESH_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -114,7 +115,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-thresh-secret"
                 {{- end}}
-                  key: "{{ .Values.thresh.mysql.username.secret_key }}"
+                  key: "{{ .Values.thresh.mysql.username.secret_key | default "username" }}"
             - name: THRESH_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -123,5 +124,5 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-thresh-secret"
                 {{- end}}
-                  key: "{{ .Values.thresh.mysql.password.secret_key }}"
+                  key: "{{ .Values.thresh.mysql.password.secret_key | default "password" }}"
 {{- end }}

@@ -28,8 +28,9 @@ spec:
             {{- if .Values.notification.mysql.host }}
             {{- if eq (kindOf .Values.notification.mysql.host) "map" }}
               valueFrom:
-                name: "{{ .Values.notification.mysql.host.secret_name }}"
-                key: "{{ .Values.notification.mysql.host.secret_key }}"
+                secretKeyRef:
+                  name: "{{ .Values.notification.mysql.host.secret_name }}"
+                  key: "{{ .Values.notification.mysql.host.secret_key | default "host" }}"
             {{- else }}
               value: "{{ .Values.notification.mysql.host }}"
             {{- end}}
@@ -46,7 +47,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-notification-secret"
                 {{- end}}
-                  key: "{{ .Values.notification.mysql.username.secret_key }}"
+                  key: "{{ .Values.notification.mysql.username.secret_key | default "username" }}"
             - name: MYSQL_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -55,7 +56,7 @@ spec:
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-notification-secret"
                 {{- end}}
-                  key: "{{ .Values.notification.mysql.password.secret_key }}"
+                  key: "{{ .Values.notification.mysql.password.secret_key | default "password" }}"
             - name: MYSQL_DB_DATABASE
               value: "mon"
             - name: KAFKA_URI
