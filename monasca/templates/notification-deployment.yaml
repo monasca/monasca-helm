@@ -25,18 +25,36 @@ spec:
 {{ toYaml .Values.notification.resources | indent 12 }}
           env:
             - name: MYSQL_DB_HOST
-{{- include "monasca_mysql_secret_env" .Values.notification.mysql.host | indent 14 }}
+            {{- if .Values.notification.mysql.host }}
+            {{- if eq (kindOf .Values.notification.mysql.host) "map" }}
+              valueFrom:
+                name: "{{ .Values.notification.mysql.host.secret_name }}"
+                key: "{{ .Values.notification.mysql.host.secret_key }}"
+            {{- else }}
+              value: "{{ .Values.notification.mysql.host }}"
+            {{- end}}
+            {{- else }}
+              value: "{{ .Release.Name }}-mysql"
+            {{- end}}
             - name: MYSQL_DB_PORT
 {{- include "monasca_secret_env" .Values.notification.mysql.port | indent 14 }}
             - name: MYSQL_DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.notification.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-notification-secret" }}"
+                {{- if .Values.notification.mysql.username.secret_name }}
+                  name: "{{ .Values.notification.mysql.username.secret_name }}"
+                {{- else }}
+                  name: "{{ .Release.Name }}-mysql-notification-secret"
+                {{- end}}
                   key: "{{ .Values.notification.mysql.username.secret_key }}"
             - name: MYSQL_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.notification.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-notification-secret"}}"
+                {{- if .Values.notification.mysql.password.secret_name }}
+                  name: "{{ .Values.notification.mysql.password.secret_name }}"
+                {{- else }}
+                  name: "{{ .Release.Name }}-mysql-notification-secret"
+                {{- end}}
                   key: "{{ .Values.notification.mysql.password.secret_key }}"
             - name: MYSQL_DB_DATABASE
               value: "mon"

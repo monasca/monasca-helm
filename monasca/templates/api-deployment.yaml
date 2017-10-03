@@ -57,16 +57,34 @@ spec:
               value: {{ .Values.api.mysql_wait_retries | quote }}
             {{- end}}
             - name: MYSQL_HOST
-{{- include "monasca_mysql_secret_env" .Values.api.mysql.host | indent 14 }}
+            {{- if .Values.api.mysql.host }}
+            {{- if eq (kindOf .Values.api.mysql.host) "map" }}
+              valueFrom:
+                name: "{{ .Values.api.mysql.host.secret_name }}"
+                key: "{{ .Values.api.mysql.host.secret_key }}"
+            {{- else }}
+              value: "{{ .Values.api.mysql.host }}"
+            {{- end}}
+            {{- else }}
+              value: "{{ .Release.Name }}-mysql"
+            {{- end}}
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.api.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-api-secret" }}"
+                {{- if .Values.api.mysql.username.secert_key }}
+                  name: "{{ .Values.api.mysql.username.secret_name }}"
+                {{- else }}
+                  name: "{{ .Release.Name }}-mysql-api-secret"
+                {{- end}}
                   key: "{{ .Values.api.mysql.username.secret_key }}"
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.api.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-api-secret" }}"
+                {{- if .Values.api.mysql.password.secert_key }}
+                  name: "{{ .Values.api.mysql.password.secret_name }}"
+                {{- else }}
+                  name: "{{ .Release.Name }}-mysql-api-secret"
+                {{- end}}
                   key: "{{ .Values.api.mysql.password.secret_key }}"
             - name: MYSQL_DB
               value: "mon"

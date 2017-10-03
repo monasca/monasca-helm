@@ -37,18 +37,36 @@ spec:
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}"
             {{- end }}
             - name: GF_DATABASE_HOST
-{{- include "monasca_mysql_secret_env" .Values.grafana.mysql.host | indent 14 }}
+            {{- if .Values.grafana.mysql.host }}
+            {{- if eq (kindOf .Values.grafana.mysql.host) "map" }}
+              valueFrom:
+                name: "{{ .Values.grafana.mysql.host.secret_name }}"
+                key: "{{ .Values.grafana.mysql.host.secret_key }}"
+            {{- else }}
+              value: "{{ .Values.grafana.mysql.host }}"
+            {{- end}}
+            {{- else }}
+              value: "{{ .Release.Name }}-mysql"
+            {{- end}}
             - name: GF_DATABASE_PORT
 {{- include "monasca_secret_env" .Values.grafana.mysql.port | indent 14 }}
             - name: GF_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.grafana.mysql.password.secret_name | default "{{ .Release.Name }}-mysql" }}"
+                {{- if .Values.grafana.mysql.password.secret_name}}
+                  name: "{{ .Values.grafana.mysql.password.secret_name }}"
+                {{- else }}
+                  name: "{{ .Release.Name }}-mysql-grafana-secret"
+                {{- end}}
                   key: "{{ .Values.grafana.mysql.password.secret_key }}"
             - name: GF_DATABASE_USER
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.grafana.mysql.username.secret_name | default "{{ .Release.Name }}-mysql" }}"
+                {{- if .Values.grafana.mysql.username.secret_name}}
+                  name: "{{ .Values.grafana.mysql.username.secret_name }}"
+                {{- else }}
+                  name: "{{ .Release.Name }}-mysql-grafana-secret"
+                {{- end}}
                   key: "{{ .Values.grafana.mysql.username.secret_key }}"
       volumes:
         - name: grafana-config

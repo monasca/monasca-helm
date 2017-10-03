@@ -69,7 +69,17 @@ spec:
             - name: KAFKA_URI
               value: "{{ .Release.Name }}-kafka:9092"
             - name: MYSQL_DB_HOST
-{{- include "monasca_mysql_secret_env" .Values.thresh.mysql.host | indent 14 }}
+            {{- if .Values.thresh.mysql.host }}
+            {{- if eq (kindOf .Values.thresh.mysql.host) "map" }}
+              valueFrom:
+                name: "{{ .Values.thresh.mysql.host.secret_name }}"
+                key: "{{ .Values.thresh.mysql.host.secret_key }}"
+            {{- else }}
+              value: "{{ .Values.thresh.mysql.host }}"
+            {{- end}}
+            {{- else }}
+              value: "{{ .Release.Name }}-mysql"
+            {{- end}}
             - name: MYSQL_DB_PORT
 {{- include "monasca_secret_env" .Values.thresh.mysql.port | indent 14 }}
             - name: MYSQL_DB_DATABASE
@@ -77,12 +87,20 @@ spec:
             - name: MYSQL_DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.thresh.mysql.username.secret_name | default "{{ .Release.Name }}-mysql-thresh-secret"}}"
+                {{- if .Values.thresh.mysql.username.secret_name }}
+                  name: "{{ .Values.thresh.mysql.username.secret_name }}"
+                {{- else }}
+                  name: "{{ .Release.Name }}-mysql-thresh-secret"
+                {{- end}}
                   key: "{{ .Values.thresh.mysql.username.secret_key }}"
             - name: MYSQL_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: "{{ .Values.thresh.mysql.password.secret_name | default "{{ .Release.Name }}-mysql-thresh-secret"}}"
+                {{- if .Values.thresh.mysql.password.secret_name }}
+                  name: "{{ .Values.thresh.mysql.password.secret_name }}"
+                {{- else }}
+                  name: "{{ .Release.Name }}-mysql-thresh-secret"
+                {{- end}}
                   key: "{{ .Values.thresh.mysql.password.secret_key }}"
             - name: NO_STORM_CLUSTER
               value: "true"

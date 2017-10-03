@@ -23,17 +23,6 @@ value: "{{ . }}"
 {{- end }}
 {{- end }}
 
-{{- define "monasca_mysql_secret_env" }}
-{{- if eq (kindOf .) "map" }}
-valueFrom:
-  secretKeyRef:
-    name: "{{ .secret_name }}"
-    key: "{{ .secret_key }}"
-{{- else }}
-value: "{{ .Release.Name }}-mysql"
-{{- end }}
-{{- end }}
-
 {{- /*
 Generate a list of environment vars for Keystone Auth
 

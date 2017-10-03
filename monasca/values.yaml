@@ -171,8 +171,6 @@ api:
     username:
       secret_key: username
     password:
-      secret_key: username
-    password:
       secret_key: password
   influxdb:
     user: mon_api
