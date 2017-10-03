@@ -118,7 +118,7 @@ agent:
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20170911-180246
+      tag: master-20171003-201944
       pullPolicy: IfNotPresent
   log_level: WARN
   insecure: False
