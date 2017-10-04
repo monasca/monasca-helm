@@ -72,7 +72,7 @@ spec:
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                {{- if .Values.api.mysql.username.secert_key }}
+                {{- if .Values.api.mysql.username.secret_name }}
                   name: "{{ .Values.api.mysql.username.secret_name }}"
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-api-secret"
@@ -81,7 +81,7 @@ spec:
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                {{- if .Values.api.mysql.password.secert_key }}
+                {{- if .Values.api.mysql.password.secret_name }}
                   name: "{{ .Values.api.mysql.password.secret_name }}"
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-api-secret"
