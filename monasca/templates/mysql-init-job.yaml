@@ -39,12 +39,12 @@ spec:
             {{- else }}
               value: "{{ .Release.Name }}-mysql"
             {{- end}}
-            - name: MYSQL_INIT_USER
-{{- include "monasca_secret_env" .Values.mysql_init.user | indent 14 }}
+            - name: MYSQL_INIT_USERNAME
+{{- include "monasca_secret_env" .Values.mysql_init.username | indent 14 }}
             - name: MYSQL_INIT_PASSWORD
 {{- include "monasca_secret_env" .Values.mysql_init.password | indent 14 }}
             - name: MYSQL_INIT_PORT
-              value: {{ .Values.mysql_init.port | quote }}
+{{- include "monasca_secret_env" .Values.mysql_init.port | indent 14 }}
             - name: CREATE_MON_USERS
               value: {{ .Values.mysql_init.create_mon_users | quote }}
             - name: GRAFANA_DB_ENABLED
