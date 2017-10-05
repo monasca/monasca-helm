@@ -123,11 +123,8 @@ agent:
   log_level: WARN
   insecure: False
   keystone:
+    defaults_enabled: true
     username: mini-mon
-    user_domain_name: Default
-    password: password
-    project_name: mini-mon
-    project_domain_name: Default
   prometheus:
     auto_detect_pod_endpoints: true
     auto_detect_service_endpoints: true
@@ -527,10 +524,7 @@ alarms:
     delay: 5
   keystone:
     username: mini-mon
-    user_domain_name: Default
     password: password
-    project_name: mini-mon
-    project_domain_name: Default
   definitions_configuration:
      definitions.yml.j2: |
       notifications:

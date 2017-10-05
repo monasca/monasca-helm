@@ -69,7 +69,7 @@ spec:
             - name: KAFKA_URI
               value: "{{ .Release.Name }}-kafka:9092"
             - name: USE_SSL_ENABLED
-              value: "{{ .Values.thresh.use_ssl_enabled | default "true" }}"
+              value: "{{ .Values.thresh.use_ssl_enabled | default "false" }}"
             - name: MYSQL_DB_HOST
             {{- if .Values.thresh.mysql.host }}
             {{- if eq (kindOf .Values.thresh.mysql.host) "map" }}

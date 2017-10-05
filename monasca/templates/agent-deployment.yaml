@@ -24,7 +24,7 @@ spec:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
             - name: KEYSTONE_DEFAULTS_ENABLED
-              value: "{{ .Values.agent.keystone_defaults_enabled }}"
+              value: "{{ .Values.agent.keystone.defaults_enabled }}"
             - name: OS_AUTH_URL
             {{- if .Values.agent.keystone.url }}
             {{- if eq (kindOf .Values.agent.keystone.url) "map" }}
@@ -95,7 +95,7 @@ spec:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
             - name: KEYSTONE_DEFAULTS_ENABLED
-              value: "{{ .Values.agent.keystone_defaults_enabled }}"
+              value: "{{ .Values.agent.keystone.defaults_enabled }}"
             - name: AGENT_POD_NAME
               valueFrom:
                 fieldRef:
