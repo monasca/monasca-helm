@@ -125,6 +125,7 @@ agent:
   keystone:
     defaults_enabled: true
     username: mini-mon
+    password: password
   prometheus:
     auto_detect_pod_endpoints: true
     auto_detect_service_endpoints: true
@@ -523,8 +524,7 @@ alarms:
     retries: 24
     delay: 5
   keystone:
-    username: mini-mon
-    password: password
+    use_defaults: true
   definitions_configuration:
      definitions.yml.j2: |
       notifications:

@@ -25,7 +25,7 @@ spec:
 {{ toYaml .Values.alarms.resources | indent 12 }}
           env:
             - name: KEYSTONE_DEFAULTS_ENABLED
-              value: "{{ .Values.alarms.keystone_defaults_enabled }}"
+              value: "{{ .Values.alarms.keystone.defaults_enabled }}"
             - name: OS_AUTH_URL
             {{- if .Values.alarms.keystone.url }}
             {{- if eq (kindOf .Values.alarms.keystone.url) "map" }}
