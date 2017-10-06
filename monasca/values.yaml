@@ -123,9 +123,9 @@ agent:
   log_level: WARN
   insecure: False
   keystone:
-    defaults_enabled: true
     username: mini-mon
     password: password
+    defaults_enabled: true
   prometheus:
     auto_detect_pod_endpoints: true
     auto_detect_service_endpoints: true
@@ -509,8 +509,8 @@ alarms:
   name: alarms
   enabled: true
   image:
-    repository: monasca/alarms
-    tag: 1.1.3
+    repository: aadams/monasca-alarms
+    tag: configure_keystone.0.46
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -524,7 +524,7 @@ alarms:
     retries: 24
     delay: 5
   keystone:
-    use_defaults: true
+    defaults_enabled: true
   definitions_configuration:
      definitions.yml.j2: |
       notifications:
@@ -634,8 +634,8 @@ client:
       cpu: 500m
   keystone:
     username: mini-mon
-    user_domain_name: Default
     password: password
+    user_domain_name: Default
     project_name: mini-mon
     project_domain_name: Default
 
