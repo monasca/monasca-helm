@@ -130,4 +130,15 @@ internal Keystone URL and Helm cannot pass more than one variable at once.
   value: "{{ .region_name }}"
 {{- end }}
 {{- end }}
+{{- if .auth_type }}
+- name: OS_AUTH_TYPE
+{{- if eq (kindOf .auth_type) "map" }}
+  valueFrom:
+    secretKeyRef:
+      name: "{{ .auth_type.secret_name }}"
+      key: "{{ .auth_type.secret_key | default "OS_AUTH_TYPE" }}"
+{{- else }}
+  value: "{{ .auth_type }}"
+{{- end }}
+{{- end }}
 {{- end -}}
