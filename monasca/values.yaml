@@ -470,7 +470,7 @@ thresh:
   enabled: true
   image:
     repository: monasca/thresh
-    tag: master-20170726-195714
+    tag: master-20171010-180141
     pullPolicy: IfNotPresent
   resources:
     requests:
