@@ -43,6 +43,6 @@ spec:
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
             {{- end }}
 {{ include "monasca_keystone_env" .Values.client.keystone | indent 12 }}
-            - name: MONASCA_URL
+            - name: MONASCA_API_URL
               value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
 {{- end }}
