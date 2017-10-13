@@ -343,7 +343,7 @@ notification:
   enabled: true
   image:
     repository: monasca/notification
-    tag: master-20170505-220138
+    tag: master-20171004-112434
     pullPolicy: IfNotPresent
   replicaCount: 1
   mysql:
