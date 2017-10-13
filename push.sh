@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -ex
+
 REPO=$(git config remote.origin.url)
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
 
@@ -37,6 +39,7 @@ git add index.yaml
 git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
 
 # Set up key to push
+set +x
 openssl aes-256-cbc -K $encrypted_c04b32b34bc7_key -iv $encrypted_c04b32b34bc7_iv -in ../deploy-key.enc -out ../deploy-key -d
 chmod 600 ../deploy-key
 eval "$(ssh-agent -s)"

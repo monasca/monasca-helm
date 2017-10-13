@@ -12,6 +12,9 @@ mysql_init:
       memory: 256Mi
       cpu: 500m
   disable_remote_root: false
+  keystone_db_enabled: true
+  create_mon_users: true
+  grafana_db_enabled: true
 
 influx_init:
   enabled: true
@@ -110,12 +113,12 @@ agent:
   collector:
     image:
       repository: monasca/agent-collector
-      tag: master-20170811-222309
+      tag: master-20170928-204010
       pullPolicy: IfNotPresent
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20170811-222309
+      tag: master-20170928-204010
       pullPolicy: IfNotPresent
   log_level: WARN
   insecure: False
@@ -164,6 +167,11 @@ api:
     tenant_name: admin
     identity_url: ''
     auth_url: ''
+  mysql:
+    username:
+      secret_key: username
+    password:
+      secret_key: password
   influxdb:
     user: mon_api
     password: password
@@ -213,7 +221,6 @@ memcached:
   replicaCount: 1
   service:
     type: ClusterIP
-    port: 11211
   resources:
     requests:
       memory: 32Mi
@@ -257,11 +264,18 @@ grafana:
   enabled: true
   image:
     repository: monasca/grafana
-    tag: 4.0.0-1.1.1
+    tag: 4.0.0-1.1.3
     pullPolicy: IfNotPresent
   service:
     type: NodePort
     port: 3000
+  local_mysql_enabled: true
+  mysql:
+    username:
+      secret_key: username
+    password:
+      secret_key: password
+    port: 3306
   resources:
     requests:
       memory: 64Mi
@@ -286,10 +300,14 @@ keystone:
   database_backend: mysql
   image:
     pullPolicy: IfNotPresent
-    tag: 1.1.1
+    tag: 1.1.2
     repository: monasca/keystone
   mysql:
     database: keystone
+    username:
+      secret_key: username
+    password:
+      secret_key: password
   replicaCount: 1
   service:
     type: ClusterIP
@@ -325,9 +343,15 @@ notification:
   enabled: true
   image:
     repository: monasca/notification
-    tag: master-20170505-220138
+    tag: master-20171004-112434
     pullPolicy: IfNotPresent
   replicaCount: 1
+  mysql:
+    username:
+      secret_key: username
+    password:
+      secret_key: password
+    port: "3306"
   log_level: WARN
   plugins: pagerduty,webhook
   plugin_config:
@@ -351,7 +375,7 @@ persister:
   name: persister
   image:
     repository: monasca/persister
-    tag: master-20170626-213856
+    tag: master-20171004-094109
     pullPolicy: IfNotPresent
   replicaCount: 1
   influxdb:
@@ -375,13 +399,12 @@ persister:
     limits:
       memory: 256Mi
       cpu: 100m
-
 storm:
   name: storm
   enabled: false
   image:
     repository: monasca/storm
-    tag: 1.0.3-1.0.4
+    tag: 1.0.3-1.0.6
     pullPolicy: IfNotPresent
   persistence:
     storageClass: default
@@ -409,8 +432,10 @@ storm:
     name: thresh
     image:
       repository: monasca/thresh
-      tag: master-20170726-195714
+      tag: master-20171010-180141
       pullPolicy: IfNotPresent
+    mysql:
+      port: "3306"
     resources:
       requests:
         memory: 256Mi
@@ -445,7 +470,7 @@ thresh:
   enabled: true
   image:
     repository: monasca/thresh
-    tag: master-20170726-195714
+    tag: master-20171010-180141
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -455,6 +480,12 @@ thresh:
       memory: 512Mi
       cpu: 1000m
   secretSuffix: mysql-thresh-secret
+  mysql:
+    username:
+      secret_key: username
+    password:
+      secret_key: password
+    port: 3306
   spout:
     metricSpoutThreads: 2
     metricSpoutTasks: 2
@@ -481,7 +512,7 @@ alarms:
   enabled: true
   image:
     repository: monasca/alarms
-    tag: 1.1.1
+    tag: 1.1.3
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -609,8 +640,8 @@ client:
       cpu: 500m
   keystone:
     username: mini-mon
-    user_domain_name: Default
     password: password
+    user_domain_name: Default
     project_name: mini-mon
     project_domain_name: Default
 
@@ -641,7 +672,7 @@ aggregator:
   name: aggregator
   image:
     repository: monasca/aggregator
-    tag: 0.1.1
+    tag: 0.1.2
     pullPolicy: IfNotPresent
   window_size: 60
   window_lag: 2
@@ -1531,7 +1562,7 @@ smoke_tests:
   enabled: True
   image:
     repository: monasca/smoke-tests
-    tag: 1.0.2
+    tag: 1.0.3
     pullPolicy: IfNotPresent
   resources:
     requests:
