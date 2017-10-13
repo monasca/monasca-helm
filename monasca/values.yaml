@@ -1,21 +1,47 @@
 mysql_init:
+  enabled: true
   image:
     repository: monasca/mysql-init
-    tag: 1.5.0
+    tag: 1.5.2
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 200m
+    limits:
+      memory: 256Mi
+      cpu: 500m
   disable_remote_root: false
+  keystone_db_enabled: true
+  create_mon_users: true
+  grafana_db_enabled: true
 
 influx_init:
+  enabled: true
   image:
     repository: monasca/influxdb-init
     tag: 1.0.0
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 200m
+    limits:
+      memory: 256Mi
+      cpu: 500m
 
 grafana_init:
   image:
     repository: monasca/grafana-init
     tag: 1.2.0
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 200m
+    limits:
+      memory: 256Mi
+      cpu: 500m
   log_level: INFO
   username: mini-mon
   password: password
@@ -24,9 +50,10 @@ grafana_init:
     access_mode: proxy
 
 influxdb:
+  enabled: true
   image:
     repo: "influxdb"
-    tag: "1.1"
+    tag: "1.3.5-alpine"
     pullPolicy: IfNotPresent
   persistence:
     enabled: false
@@ -43,8 +70,11 @@ influxdb:
   config:
     http:
       bind_address: 8086
+    data:
+      cache_max_memory_size: "1073741824"
 
 mysql:
+  enabled: true
   imageTag: "5.6"
   imagePullPolicy: IfNotPresent
   persistence:
@@ -80,18 +110,24 @@ mysql:
 agent:
   name: agent
   enabled: true
-  image:
-    repository: monasca/agent
-    tag: master-20170504-184046
-    pullPolicy: IfNotPresent
+  collector:
+    image:
+      repository: monasca/agent-collector
+      tag: master-20170928-204010
+      pullPolicy: IfNotPresent
+  forwarder:
+    image:
+      repository: monasca/agent-forwarder
+      tag: master-20170928-204010
+      pullPolicy: IfNotPresent
   log_level: WARN
   insecure: False
   keystone:
-    os_username: mini-mon
-    os_user_domain_name: Default
-    os_password: password
-    os_project_name: mini-mon
-    os_project_domain_name: Default
+    username: mini-mon
+    user_domain_name: Default
+    password: password
+    project_name: mini-mon
+    project_domain_name: Default
   prometheus:
     auto_detect_pod_endpoints: true
     auto_detect_service_endpoints: true
@@ -122,13 +158,20 @@ api:
   name: api
   image:
     repository: monasca/api
-    tag: master-20170524-151708
+    tag: master-20170803-134039
     pullPolicy: IfNotPresent
   replicaCount: 1
   keystone:
-    admin_password: secretadmin
-    admin_user: admin
-    admin_tenant: admin
+    username: admin
+    password: secretadmin
+    tenant_name: admin
+    identity_url: ''
+    auth_url: ''
+  mysql:
+    username:
+      secret_key: username
+    password:
+      secret_key: password
   influxdb:
     user: mon_api
     password: password
@@ -165,6 +208,26 @@ api:
     limits:
       memory: 1Gi
       cpu: 2000m
+  gunicorn_workers: 1
+  mysql_disabled: false
+
+memcached:
+  name: memcached
+  enabled: true
+  image:
+    repository: memcached
+    tag: 1.5.0-alpine
+    pullPolicy: IfNotPresent
+  replicaCount: 1
+  service:
+    type: ClusterIP
+  resources:
+    requests:
+      memory: 32Mi
+      cpu: 50m
+    limits:
+      memory: 64Mi
+      cpu: 100m
 
 forwarder:
   name: forwarder
@@ -201,11 +264,18 @@ grafana:
   enabled: true
   image:
     repository: monasca/grafana
-    tag: 4.0.0-1.1.0
+    tag: 4.0.0-1.1.3
     pullPolicy: IfNotPresent
   service:
     type: NodePort
     port: 3000
+  local_mysql_enabled: true
+  mysql:
+    username:
+      secret_key: username
+    password:
+      secret_key: password
+    port: 3306
   resources:
     requests:
       memory: 64Mi
@@ -217,6 +287,9 @@ grafana:
 keystone:
   name: keystone
   enabled: true
+  override:
+    public_url: ''
+    admin_url: ''
   bootstrap:
     user: admin
     password: secretadmin
@@ -227,10 +300,14 @@ keystone:
   database_backend: mysql
   image:
     pullPolicy: IfNotPresent
-    tag: 1.1.0
+    tag: 1.1.1
     repository: monasca/keystone
   mysql:
     database: keystone
+    username:
+      secret_key: username
+    password:
+      secret_key: password
   replicaCount: 1
   service:
     type: ClusterIP
@@ -263,11 +340,18 @@ keystone:
 
 notification:
   name: notification
+  enabled: true
   image:
     repository: monasca/notification
     tag: master-20170505-220138
     pullPolicy: IfNotPresent
   replicaCount: 1
+  mysql:
+    username:
+      secret_key: username
+    password:
+      secret_key: password
+    port: "3306"
   log_level: WARN
   plugins: pagerduty,webhook
   plugin_config:
@@ -291,7 +375,7 @@ persister:
   name: persister
   image:
     repository: monasca/persister
-    tag: master-20170509-200349
+    tag: master-20170626-213856
     pullPolicy: IfNotPresent
   replicaCount: 1
   influxdb:
@@ -315,13 +399,12 @@ persister:
     limits:
       memory: 256Mi
       cpu: 100m
-
 storm:
   name: storm
-  enabled: true
+  enabled: false
   image:
     repository: monasca/storm
-    tag: 1.0.3.2
+    tag: 1.0.3-1.0.4
     pullPolicy: IfNotPresent
   persistence:
     storageClass: default
@@ -349,8 +432,17 @@ storm:
     name: thresh
     image:
       repository: monasca/thresh
-      tag: master-20170512-171611
+      tag: master-20171010-180141
       pullPolicy: IfNotPresent
+    mysql:
+      port: "3306"
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 256m
+      limits:
+        memory: 512Mi
+        cpu: 1000m
     secretSuffix: mysql-thresh-secret
     spout:
       metricSpoutThreads: 2
@@ -373,23 +465,72 @@ storm:
       delay: 5
       timeout: 10
 
+thresh:
+  name: thresh
+  enabled: true
+  image:
+    repository: monasca/thresh
+    tag: master-20171010-180141
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 256m
+    limits:
+      memory: 512Mi
+      cpu: 1000m
+  secretSuffix: mysql-thresh-secret
+  mysql:
+    username:
+      secret_key: username
+    password:
+      secret_key: password
+    port: 3306
+  spout:
+    metricSpoutThreads: 2
+    metricSpoutTasks: 2
+    eventSpoutThreads: 2
+    eventSpoutTasks: 2
+  bolt:
+    eventBoltThreads: 2
+    eventBoltTasks: 2
+    filteringBoltThreads: 2
+    filteringBoltTasks: 2
+    alarmCreationBoltThreads: 2
+    alarmCreationBoltTasks: 2
+    aggregationBoltThreads: 2
+    aggregationBoltTasks: 2
+    thresholdingBoltThreads: 2
+    thresholdingBoltTasks: 2
+  wait:
+    retries: 24
+    delay: 5
+    timeout: 10
+
 alarms:
   name: alarms
   enabled: true
   image:
     repository: monasca/alarms
-    tag: 1.1.1
+    tag: 1.1.3
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 200m
+    limits:
+      memory: 256Mi
+      cpu: 500m
   wait:
     enabled: true
     retries: 24
     delay: 5
   keystone:
-    os_username: mini-mon
-    os_user_domain_name: Default
-    os_password: password
-    os_project_name: mini-mon
-    os_project_domain_name: Default
+    username: mini-mon
+    user_domain_name: Default
+    password: password
+    project_name: mini-mon
+    project_domain_name: Default
   definitions_configuration:
      definitions.yml.j2: |
       notifications:
@@ -490,12 +631,19 @@ client:
     repository: monasca/client
     tag: 1.6.0
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 64Mi
+      cpu: 200m
+    limits:
+      memory: 128Mi
+      cpu: 500m
   keystone:
-    os_username: mini-mon
-    os_user_domain_name: Default
-    os_password: password
-    os_project_name: mini-mon
-    os_project_domain_name: Default
+    username: mini-mon
+    password: password
+    user_domain_name: Default
+    project_name: mini-mon
+    project_domain_name: Default
 
 rbac:
   enabled: false
@@ -507,6 +655,13 @@ cleanup:
     repository: monasca/job-cleanup
     tag: 1.1.2
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 200m
+    limits:
+      memory: 256Mi
+      cpu: 500m
   wait:
     retries: "24"
     delay: "5.0"
@@ -517,7 +672,7 @@ aggregator:
   name: aggregator
   image:
     repository: monasca/aggregator
-    tag: 0.1.1
+    tag: 0.1.2
     pullPolicy: IfNotPresent
   window_size: 60
   window_lag: 2
@@ -1407,17 +1562,24 @@ smoke_tests:
   enabled: True
   image:
     repository: monasca/smoke-tests
-    tag: 1.0.0
+    tag: 1.0.2
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 64Mi
+      cpu: 100m
+    limits:
+      memory: 128Mi
+      cpu: 500m
   keystone:
-    os_username: mini-mon
-    os_password: password
-    os_tenant_name: mini-mon
-    os_domain_name: Default
+    username: mini-mon
+    password: password
+    tenant_name: mini-mon
+    domain_name: Default
 
 alarm_definition_controller:
   name: alarm-definition-controller
-  enabled: True
+  enabled: true
   image:
     repository: monasca/alarm-definition-controller
     tag: 1.0.0

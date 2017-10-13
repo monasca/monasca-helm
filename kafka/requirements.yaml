@@ -1,4 +1,0 @@
-dependencies:
-- name: zookeeper
-  version: 0.2.0
-  repository: http://monasca.io/monasca-helm/

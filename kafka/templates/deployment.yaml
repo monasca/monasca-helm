@@ -44,7 +44,7 @@ spec:
                 events:12:1,\
                 60-seconds-notifications:3:1"
             - name: ZOOKEEPER_CONNECTION_STRING
-              value: {{ .Release.Name }}-zookeeper:{{ .Values.zookeeper.service.port }}
+              value: {{ .Release.Name }}-zookeeper:2181
         {{- if .Values.exporter.enabled }}
         - name: {{ .Chart.Name }}-exporter
           image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"
@@ -69,3 +69,15 @@ spec:
           configMap:
             name: {{ template "fullname" . }}-exporter
         {{- end }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - monasca-influxdb
+                topologyKey: "kubernetes.io/hostname"

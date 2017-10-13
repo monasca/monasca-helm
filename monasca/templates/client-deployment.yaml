@@ -24,19 +24,25 @@ spec:
             - "sh"
             - "-c"
             - "while true; do sleep 86400; done"
+          resources:
+{{ toYaml .Values.client.resources | indent 12 }}
           env:
             - name: OS_AUTH_URL
+            {{- if .Values.client.keystone.url }}
+            {{- if eq (kindOf .Values.client.keystone.url) "map" }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.client.keystone.url.secret_name }}"
+                  key: "{{ .Values.client.keystone.url.secret_key | default "OS_AUTH_URL" }}"
+            {{- else }}
+              value: "{{ .Values.client.keystone.url }}"
+            {{- end }}
+            {{- else if .Values.keystone.override.public_url }}
+              value: "{{ .Values.keystone.override.public_url }}/v3"
+            {{- else }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
-            - name: OS_USERNAME
-              value: {{ .Values.client.keystone.os_username | quote }}
-            - name: OS_USER_DOMAIN_NAME
-              value: {{ .Values.client.keystone.os_user_domain_name | quote }}
-            - name: OS_PASSWORD
-              value: {{ .Values.client.keystone.os_password | quote }}
-            - name: OS_PROJECT_NAME
-              value: {{ .Values.client.keystone.os_project_name | quote }}
-            - name: OS_PROJECT_DOMAIN_NAME
-              value: {{ .Values.client.keystone.os_project_domain_name | quote }}
+            {{- end }}
+{{ include "monasca_keystone_env" .Values.client.keystone | indent 12 }}
             - name: MONASCA_URL
               value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
 {{- end }}

@@ -1,3 +1,4 @@
+{{- if .Values.influx_init.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -21,3 +22,6 @@ spec:
           env:
             - name: INFLUXDB_URL
               value: "http://{{ .Release.Name }}-influxdb:{{ .Values.influxdb.config.http.bind_address }}"
+          resources:
+{{ toYaml .Values.influx_init.resources | indent 12 }}
+{{- end }}

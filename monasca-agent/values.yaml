@@ -1,8 +1,14 @@
 name: agent
-image:
-  repository: monasca/agent
-  tag: latest
-  pullPolicy: Always
+collector:
+  image:
+    repository: monasca/agent-collector
+    tag: master-20170811-222309
+    pullPolicy: IfNotPresent
+forwarder:
+  image:
+    repository: monasca/agent-forwarder
+    tag: master-20170811-222309
+    pullPolicy: IfNotPresent
 insecure: False
 log_level: WARN
 keystone:

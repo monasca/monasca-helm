@@ -48,30 +48,77 @@ spec:
               value: {{ .Values.api.influxdb.password | quote }}
             - name: INFLUX_DB
               value: {{ .Values.api.influxdb.database | quote }}
+            {{- if .Values.api.mysql_disabled }}
+            - name: API_MYSQL_DISABLED
+              value: {{ .Values.api.mysql_disabled | quote }}
+            {{- end}}
+            {{- if .Values.api.mysql_disabled }}
+            - name: MYSQL_WAIT_RETRIES
+              value: {{ .Values.api.mysql_wait_retries | quote }}
+            {{- end}}
             - name: MYSQL_HOST
+            {{- if .Values.api.mysql.host }}
+            {{- if eq (kindOf .Values.api.mysql.host) "map" }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.api.mysql.host.secret_name }}"
+                  key: "{{ .Values.api.mysql.host.secret_key | default "host" }}"
+            {{- else }}
+              value: "{{ .Values.api.mysql.host }}"
+            {{- end}}
+            {{- else }}
               value: "{{ .Release.Name }}-mysql"
+            {{- end}}
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
+                {{- if .Values.api.mysql.username.secret_name }}
+                  name: "{{ .Values.api.mysql.username.secret_name }}"
+                {{- else }}
                   name: "{{ .Release.Name }}-mysql-api-secret"
-                  key: username
+                {{- end}}
+                  key: "{{ .Values.api.mysql.username.secret_key | default "username" }}"
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
+                {{- if .Values.api.mysql.password.secret_name }}
+                  name: "{{ .Values.api.mysql.password.secret_name }}"
+                {{- else }}
                   name: "{{ .Release.Name }}-mysql-api-secret"
-                  key: password
+                {{- end}}
+                  key: "{{ .Values.api.mysql.password.secret_key | default "password" }}"
             - name: MYSQL_DB
               value: "mon"
+            - name: MEMCACHED_URI
+            {{- if .Values.api.memcachedUri }}
+              value: "{{ .Values.api.memcachedUri }}"
+            {{- else if .Values.memcached.enabled }}
+              value: "{{ template "memcached.fullname" . }}:{{ .Values.memcached.service.port | default "11211" }}"
+            {{- else }}
+              value: ""
+            {{- end }}
             - name: KEYSTONE_IDENTITY_URI
+            {{- if .Values.api.keystone.identity_url }}
+{{- include "monasca_secret_env" .Values.api.keystone.identity_url | indent 14 }}
+            {{- else if .Values.keystone.override.public_url }}
+              value: "{{ .Values.keystone.override.public_url }}"
+            {{- else }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}"
+            {{- end }}
             - name: KEYSTONE_AUTH_URI
+            {{- if .Values.api.keystone.auth_url }}
+{{- include "monasca_secret_env" .Values.api.keystone.auth_url | indent 14 }}
+            {{- else if .Values.keystone.override.admin_url }}
+              value: "{{ .Values.keystone.override.admin_url }}"
+            {{- else }}
               value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}"
+            {{- end }}
             - name: KEYSTONE_ADMIN_USER
-              value: {{ .Values.api.keystone.admin_user | quote }}
+{{- include "monasca_secret_env" .Values.api.keystone.username | indent 14 }}
             - name: KEYSTONE_ADMIN_PASSWORD
-              value: {{ .Values.api.keystone.admin_password | quote }}
+{{- include "monasca_secret_env" .Values.api.keystone.password | indent 14 }}
             - name: KEYSTONE_ADMIN_TENANT
-              value: {{ .Values.api.keystone.admin_tenant | quote }}
+{{- include "monasca_secret_env" .Values.api.keystone.tenant_name | indent 14 }}
             {{- if .Values.api.auth_disabled }}
             - name: API_AUTH_DISABLED
               value: "true"
@@ -80,10 +127,30 @@ spec:
             - name: AUTHORIZED_ROLES
               value: {{ .Values.api.authorized_roles | quote }}
             {{- end}}
+            {{- if .Values.api.http_proxy }}
+            - name: http_proxy
+              value: {{ .Values.api.http_proxy | quote }}
+            - name: HTTP_PROXY
+              value: {{ .Values.api.http_proxy | quote }}
+            {{- end }}
+            {{- if .Values.api.https_proxy }}
+            - name: https_proxy
+              value: {{ .Values.api.https_proxy | quote }}
+            - name: HTTPS_PROXY
+              value: {{ .Values.api.https_proxy | quote }}
+            {{- end }}
+            {{- if .Values.api.no_proxy }}
+            - name: no_proxy
+              value: {{ .Values.api.no_proxy | quote }}
+            - name: NO_PROXY
+              value: {{ .Values.api.no_proxy | quote }}
+            {{- end }}
             {{- if .Values.api.side_container.enabled }}
             - name: SIDECAR_URL
               value: http://localhost:4888/v1/ingest
             {{- end }}
+            - name: GUNICORN_WORKERS
+              value: {{ .Values.api.gunicorn_workers | quote }}
       {{- if .Values.api.side_container.enabled }}
       - name: {{ template "name" . }}-{{ .Values.api.name }}-side-container
         image: "{{ .Values.api.side_container.image.repository }}:{{ .Values.api.side_container.image.tag }}"

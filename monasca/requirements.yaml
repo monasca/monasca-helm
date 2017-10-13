@@ -1,13 +1,21 @@
 dependencies:
-- name: influxdb
-  version: 0.2.1
-  repository: https://kubernetes-charts.storage.googleapis.com/
-- name: mysql
-  version: 0.2.4
-  repository: https://kubernetes-charts.storage.googleapis.com/
-- name: kafka
-  version: 0.2.0
-  repository: http://monasca.io/monasca-helm/
-- name: storm
-  version: 0.5.0
-  repository: http://monasca.io/monasca-helm/
+  - name: influxdb
+    version: 0.4.3
+    condition: influxdb.enabled, global.influxdb.enabled
+    repository: 'https://kubernetes-charts.storage.googleapis.com/'
+  - name: mysql
+    version: 0.2.4
+    condition: mysql.enabled, global.mysql.enabled
+    repository: 'https://kubernetes-charts.storage.googleapis.com/'
+  - name: kafka
+    version: 0.3.2
+    condition: kafka.enabled, global.kafka.enabled
+    repository: 'http://monasca.io/monasca-helm/'
+  - name: storm
+    version: 0.5.1
+    condition: storm.enabled, global.storm.enabled
+    repository: 'http://monasca.io/monasca-helm/'
+  - name: zookeeper
+    version: 0.3.2
+    condition: zookeeper.enabled, global.zookeeper.enabled
+    repository: 'http://monasca.io/monasca-helm/'

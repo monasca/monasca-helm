@@ -9,19 +9,19 @@ metadata:
   name: "{{ template "cleanup.fullname" . }}-job-{{ randAlphaNum 5 | lower }}"
   labels:
     app: {{ template "fullname" . }}
-    component: "{{ .Values.cleanup.name }}-job"
+    component: "{{ .Values.cleanup.name }}"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
   annotations:
-    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook": pre-upgrade,post-delete
     "helm.sh/hook-weight": "-5"
 spec:
   template:
     metadata:
       labels:
         app: {{ template "fullname" . }}
-        component: "{{ .Values.cleanup.name }}-job"
+        component: "{{ .Values.cleanup.name }}"
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
@@ -31,6 +31,8 @@ spec:
         - name: {{ template "name" . }}-{{ .Values.cleanup.name }}-job
           image: "{{ .Values.cleanup.image.repository }}:{{ .Values.cleanup.image.tag }}"
           imagePullPolicy: {{ .Values.cleanup.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.cleanup.resources | indent 12 }}
           env:
             - name: "WAIT_RETRIES"
               value: "{{ .Values.cleanup.wait.retries }}"

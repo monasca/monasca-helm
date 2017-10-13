@@ -20,6 +20,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+          env:
+            - name: SERVER_JVMFLAGS
+              value: "-XX:MaxRAMFraction={{ .Values.java.max_ram_fraction }} -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XshowSettings:vm"
           ports:
             - name: client
               containerPort: 2181
@@ -28,7 +31,7 @@ spec:
             - name: leader-election
               containerPort: 3888
           volumeMounts:
-            - name: data
+            - name: data-volume
               mountPath: /data
             - name: config-volume
               mountPath: /conf
@@ -36,7 +39,7 @@ spec:
         - name: config-volume
           configMap:
             name: {{ template "fullname" . }}
-        - name: data
+        - name: data-volume
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ template "fullname" . }}

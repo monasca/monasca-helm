@@ -23,7 +23,6 @@ data:
 
     [auth.keystone]
     enabled = true
-    auth_url = http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}
     verify_ssl_cert = false
     v3 = true
     default_domain = Default
@@ -33,7 +32,6 @@ data:
 
     [database]
     type = mysql
-    host = {{ .Release.Name }}-mysql:3306
     name = grafana
     ssl_mode = disable
 {{- end}}

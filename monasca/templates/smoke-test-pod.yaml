@@ -17,20 +17,28 @@ spec:
     - name: {{ template "name" . }}-{{ .Values.smoke_tests.name }}-test-pod
       image: "{{ .Values.smoke_tests.image.repository }}:{{ .Values.smoke_tests.image.tag }}"
       imagePullPolicy: {{ .Values.smoke_tests.image.pullPolicy }}
+      resources:
+{{ toYaml .Values.smoke_tests.resources | indent 8 }}
       ports:
         - containerPort: 8080
           name: smoke-tests
       env:
-        - name: OS_PASSWORD
-          value: "{{ .Values.smoke_tests.keystone.os_password }}"
-        - name: OS_USERNAME
-          value: "{{ .Values.smoke_tests.keystone.os_username }}"
         - name: OS_AUTH_URL
-          value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.admin_port }}/v3"
-        - name: OS_TENANT_NAME
-          value: "{{ .Values.smoke_tests.keystone.os_tenant_name }}"
-        - name: OS_DOMAIN_NAME
-          value: "{{ .Values.smoke_tests.keystone.os_domain_name }}"
+        {{- if .Values.smoke_tests.keystone.url }}
+        {{- if eq (kindOf .Values.smoke_tests.keystone.url) "map" }}
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Values.smoke_tests.keystone.url.secret_name }}"
+              key: "{{ .Values.smoke_tests.keystone.url.secret_key | default "OS_AUTH_URL" }}"
+        {{- else }}
+          value: "{{ .Values.smoke_tests.keystone.url }}"
+        {{- end }}
+        {{- else if .Values.keystone.override.public_url }}
+          value: "{{ .Values.keystone.override.public_url }}/v3"
+        {{- else }}
+          value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+        {{- end }}
+{{ include "monasca_keystone_env" .Values.smoke_tests.keystone | indent 8 }}
         - name: MONASCA_URL
           value:  "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}"
 {{- end }}
