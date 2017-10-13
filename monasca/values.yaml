@@ -1562,7 +1562,7 @@ smoke_tests:
   enabled: True
   image:
     repository: monasca/smoke-tests
-    tag: 1.0.2
+    tag: 1.0.3
     pullPolicy: IfNotPresent
   resources:
     requests:
