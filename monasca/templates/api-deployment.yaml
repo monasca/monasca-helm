@@ -57,17 +57,36 @@ spec:
               value: {{ .Values.api.mysql_wait_retries | quote }}
             {{- end}}
             - name: MYSQL_HOST
+            {{- if .Values.api.mysql.host }}
+            {{- if eq (kindOf .Values.api.mysql.host) "map" }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.api.mysql.host.secret_name }}"
+                  key: "{{ .Values.api.mysql.host.secret_key | default "host" }}"
+            {{- else }}
+              value: "{{ .Values.api.mysql.host }}"
+            {{- end}}
+            {{- else }}
               value: "{{ .Release.Name }}-mysql"
+            {{- end}}
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
+                {{- if .Values.api.mysql.username.secret_name }}
+                  name: "{{ .Values.api.mysql.username.secret_name }}"
+                {{- else }}
                   name: "{{ .Release.Name }}-mysql-api-secret"
-                  key: username
+                {{- end}}
+                  key: "{{ .Values.api.mysql.username.secret_key | default "username" }}"
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
+                {{- if .Values.api.mysql.password.secret_name }}
+                  name: "{{ .Values.api.mysql.password.secret_name }}"
+                {{- else }}
                   name: "{{ .Release.Name }}-mysql-api-secret"
-                  key: password
+                {{- end}}
+                  key: "{{ .Values.api.mysql.password.secret_key | default "password" }}"
             - name: MYSQL_DB
               value: "mon"
             - name: MEMCACHED_URI

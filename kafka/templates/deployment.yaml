@@ -69,3 +69,15 @@ spec:
           configMap:
             name: {{ template "fullname" . }}-exporter
         {{- end }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - monasca-influxdb
+                topologyKey: "kubernetes.io/hostname"
