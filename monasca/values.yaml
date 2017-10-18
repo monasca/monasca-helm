@@ -1578,9 +1578,24 @@ smoke_tests:
     domain_name: Default
 
 alarm_definition_controller:
-  name: alarm-definition-controller
+  name: adc
   enabled: true
   image:
     repository: monasca/alarm-definition-controller
     tag: 1.0.0
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 32Mi
+      cpu: 25m
+    limits:
+      memory: 64Mi
+      cpu: 50m
+  keystone:
+    username: mini-mon
+    password: password
+    user_domain_name: Default
+    project_name: mini-mon
+    project_domain_name: Default
+    domain_name: Default
+  namespace: ''

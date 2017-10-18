@@ -538,9 +538,6 @@ Parameter | Description | Default
 `smoke_tests.image.repository` | Smoke Test container image repository | `monasca/smoke-tests`
 `smoke_tests.image.tag` | Smoke Test container image tag | `1.0.0`
 `smoke_tests.image.pullPolicy` | Smoke Test container image pull policy | `IfNotPresent`
-`smoke_tests.keystone.os_username`| Keystone User Name | `mini-mon`
-`smoke_tests.keystone.os_password`| Keystone User Tenant Name | `mini-mon`
-`smoke_tests.keystone.os_tenant_name` | Keystone Domain name | `Default`
 `smoke_tests.keystone.username`| Keystone User Name | `mini-mon`
 `smoke_tests.keystone.password`| Keystone User Tenant Name | `mini-mon`
 `smoke_tests.keystone.tenant_name` | Keystone Domain name | `Default`

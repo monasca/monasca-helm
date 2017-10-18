@@ -156,5 +156,5 @@ Create a fully qualified alarm definition controller name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
 {{- define "alarm_definition_controller.fullname" -}}
-{{- printf "%s-%s" .Release.Name "alarm-definition-controller" | trunc 63 -}}
+{{- printf "%s-%s" .Release.Name "adc" | trunc 63 -}}
 {{- end -}}
