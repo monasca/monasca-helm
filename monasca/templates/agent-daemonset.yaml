@@ -10,6 +10,8 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
