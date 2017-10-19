@@ -2,7 +2,7 @@ mysql_init:
   enabled: true
   image:
     repository: monasca/mysql-init
-    tag: 1.5.3
+    tag: 1.5.4
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -109,7 +109,8 @@ mysql:
 
 agent:
   name: agent
-  enabled: true
+  daemonset_enabled: true
+  deployment_enabled: true
   collector:
     image:
       repository: monasca/agent-collector
@@ -375,7 +376,7 @@ persister:
   name: persister
   image:
     repository: monasca/persister
-    tag: master-20171004-094109
+    tag: master-20171019-164402
     pullPolicy: IfNotPresent
   replicaCount: 1
   influxdb:
