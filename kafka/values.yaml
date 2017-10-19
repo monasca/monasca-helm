@@ -25,3 +25,4 @@ persistence:
   enabled: false
   accessMode: ReadWriteOnce
   size: 10Gi
+heap_ratio: .65
