@@ -109,7 +109,8 @@ mysql:
 
 agent:
   name: agent
-  enabled: true
+  daemonset_enabled: true
+  deployment_enabled: true
   collector:
     image:
       repository: monasca/agent-collector
