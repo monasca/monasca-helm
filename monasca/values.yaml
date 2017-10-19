@@ -2,7 +2,7 @@ mysql_init:
   enabled: true
   image:
     repository: monasca/mysql-init
-    tag: 1.5.3
+    tag: 1.5.4
     pullPolicy: IfNotPresent
   resources:
     requests:
