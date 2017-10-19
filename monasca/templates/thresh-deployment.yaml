@@ -109,4 +109,6 @@ spec:
               value: "true"
             - name: WORKER_MAX_HEAP_MB
               value: "{{ .Values.thresh.workerMaxHeapMB }}"
+            - name: JVM_MAX_HEAP_RATIO
+              value: {{ .Values.thresh.heap_ratio | quote }}
 {{- end }}
