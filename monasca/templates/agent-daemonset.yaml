@@ -1,4 +1,4 @@
-{{- if .Values.agent.enabled }}
+{{- if .Values.agent.daemonset_enabled }}
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
@@ -10,6 +10,8 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:

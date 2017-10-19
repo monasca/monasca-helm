@@ -166,7 +166,8 @@ To run the tests again, the pod monasca-smoke-tests-test-pod must be deleted.
 Parameter | Description | Default
 --------- | ----------- | -------
 `agent.name` | Agent container name | `agent`
-`agent.enabled` | Agent enabled | `true`
+`agent.deployment_enabled` | Agent deployment enabled | `true`
+`agent.daemonset_enabled` | Agent daemonset enabled | `true`
 `agent.collector.image.repository` | Agent Collector container image repository | `monasca/agent-collector`
 `agent.collector.image.tag` | Agent Collector container image tag | `master-20170707-154334`
 `agent.collector.image.pullPolicy` | Agent Collector container image pull policy | `IfNotPresent`

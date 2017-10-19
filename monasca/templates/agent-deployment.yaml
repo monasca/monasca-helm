@@ -1,4 +1,4 @@
-{{- if .Values.agent.enabled }}
+{{- if .Values.agent.deployment_enabled }}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
