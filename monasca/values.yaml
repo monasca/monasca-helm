@@ -375,7 +375,7 @@ persister:
   name: persister
   image:
     repository: monasca/persister
-    tag: master-20171004-094109
+    tag: master-20171019-164402
     pullPolicy: IfNotPresent
   replicaCount: 1
   influxdb:
