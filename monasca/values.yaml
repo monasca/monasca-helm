@@ -507,6 +507,7 @@ thresh:
     retries: 24
     delay: 5
     timeout: 10
+  heap_ratio: .65
 
 alarms:
   name: alarms
