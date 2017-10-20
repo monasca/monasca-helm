@@ -35,9 +35,9 @@ spec:
               value: "{{ .Values.alarm_definition_controller.keystone.url }}"
             {{- end }}
             {{- else if .Values.keystone.override.public_url }}
-              value: "{{ .Values.keystone.override.public_url }}/v3"
+              value: "{{ .Values.keystone.override.public_url }}"
             {{- else }}
-              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}/v3"
+              value: "http://{{ template "keystone.fullname" . }}:{{ .Values.keystone.service.port }}"
             {{- end }}
 {{ include "monasca_keystone_env" .Values.alarm_definition_controller.keystone | indent 12 }}
             - name: MONASCA_URL
