@@ -21,3 +21,4 @@ Parameter | Description | Default
 `exporter.image.tag` | Kafka exporter container image tag | `latest`
 `exporter.image.pullPolicy` | Kafka exporter container image pull policy | `IfNotPresent`
 `exporter.port` | Kafka exporter port to expose Promethues metrics on | `7204`
+`stack_size` | JVM stack size | `1024k`

@@ -7,7 +7,7 @@ exporter:
   port: 7204
 image:
   repository: monasca/kafka
-  tag: 0.9.0.1-2.11-1.0.2
+  tag: 0.9.0.1-2.11-1.1.2
   pullPolicy: IfNotPresent
 topic_config: segment.ms=900000,retention.ms=86400000
 service:
@@ -26,3 +26,4 @@ persistence:
   accessMode: ReadWriteOnce
   size: 10Gi
 heap_ratio: .65
+stack_size: 1024k
