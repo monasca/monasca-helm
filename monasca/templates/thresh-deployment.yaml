@@ -111,4 +111,6 @@ spec:
               value: "{{ .Values.thresh.workerMaxHeapMB }}"
             - name: JVM_MAX_HEAP_RATIO
               value: {{ .Values.thresh.heap_ratio | quote }}
+            - name: THRESH_STACK_SIZE
+              value: {{ .Values.thresh.stack_size | quote }}
 {{- end }}
