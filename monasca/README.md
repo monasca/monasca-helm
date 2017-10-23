@@ -493,6 +493,8 @@ Parameter | Description | Default
 `thresh.wait.retries` | Number of startup connection attempts to make before giving up | `24`
 `thresh.wait.delay` | Seconds to wait between retries | `5`
 `thresh.wait.timeout` | Attempt connection timeout in seconds | `10`
+`thresh.heap_ratio` | JVM heap ratio of cgroup limits | `.65`
+`thresh.stack_size` | JVM stack size | `1024k`
 
 Storm-specific options are documented in the
 [Storm chart](https://github.com/hpcloud-mon/monasca-helm/tree/master/storm).

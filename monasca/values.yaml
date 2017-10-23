@@ -508,6 +508,7 @@ thresh:
     delay: 5
     timeout: 10
   heap_ratio: .65
+  stack_size: 1024k
 
 alarms:
   name: alarms
