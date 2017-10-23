@@ -35,6 +35,8 @@ spec:
               value: "true"
             - name: KAFKA_TOPIC_CONFIG
               value: {{ .Values.topic_config | quote }}
+            - name: JVM_MAX_HEAP_RATIO
+              value: {{ .Values.heap_ratio | quote }}
             - name: KAFKA_CREATE_TOPICS
               value: "\
                 metrics:64:1,\
@@ -69,3 +71,15 @@ spec:
           configMap:
             name: {{ template "fullname" . }}-exporter
         {{- end }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - monasca-influxdb
+                topologyKey: "kubernetes.io/hostname"

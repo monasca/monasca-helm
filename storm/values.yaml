@@ -2,7 +2,7 @@ name: storm
 enabled: true
 image:
   repository: monasca/storm
-  tag: 1.0.3-1.0.4
+  tag: 1.1.1-1.0.0
   pullPolicy: Always
 persistence:
   storageClass: default

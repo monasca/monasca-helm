@@ -1,4 +1,4 @@
-{{- if .Values.agent.enabled }}
+{{- if .Values.agent.daemonset_enabled }}
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
@@ -10,6 +10,8 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -23,6 +25,8 @@ spec:
           resources:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
+            - name: KEYSTONE_DEFAULTS_ENABLED
+              value: "{{ .Values.agent.keystone.defaults_enabled }}"
             - name: OS_AUTH_URL
             {{- if .Values.agent.keystone.url }}
             {{- if eq (kindOf .Values.agent.keystone.url) "map" }}
@@ -83,6 +87,8 @@ spec:
           resources:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
+            - name: KEYSTONE_DEFAULTS_ENABLED
+              value: "{{ .Values.agent.keystone.defaults_enabled }}"
             - name: OS_AUTH_URL
             {{- if .Values.agent.keystone.url }}
             {{- if eq (kindOf .Values.agent.keystone.url) "map" }}

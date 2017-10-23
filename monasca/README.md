@@ -166,7 +166,8 @@ To run the tests again, the pod monasca-smoke-tests-test-pod must be deleted.
 Parameter | Description | Default
 --------- | ----------- | -------
 `agent.name` | Agent container name | `agent`
-`agent.enabled` | Agent enabled | `true`
+`agent.deployment_enabled` | Agent deployment enabled | `true`
+`agent.daemonset_enabled` | Agent daemonset enabled | `true`
 `agent.collector.image.repository` | Agent Collector container image repository | `monasca/agent-collector`
 `agent.collector.image.tag` | Agent Collector container image tag | `master-20170707-154334`
 `agent.collector.image.pullPolicy` | Agent Collector container image pull policy | `IfNotPresent`
@@ -423,6 +424,9 @@ Parameter | Description | Default
 `mysql_init.image.tag` | Docker image tag | `1.2.0`
 `mysql_init.image.pullPolicy` | Kubernetes pull polify for image | `IfNotPresent`
 `mysql_init.disable_remote_root` | If `true`, disable root account after init finishes successfully | `true`
+`mysql_init.keystone_db_enabled` | Setup Keystone Database. Use `false` with an external Keystone | `true`
+`mysql_init.create_mon_users` | Create the Database users for Monasca | `true`
+`mysql_init.grafana_db_enabled` | Setup Grafana Database | `true`
 
 ### Notification
 
@@ -538,3 +542,13 @@ Parameter | Description | Default
 `smoke_tests.keystone.username`| Keystone User Name | `mini-mon`
 `smoke_tests.keystone.password`| Keystone User Tenant Name | `mini-mon`
 `smoke_tests.keystone.tenant_name` | Keystone Domain name | `Default`
+
+### Alarm Definition Controller
+
+Parameter | Description | Default
+--------- | ----------- | -------
+`alarm_definition_controller.name` | Alarm Definition Controller container name | `alarm-definition-controller`
+`alarm_definition_controller.enabled` | If True, create Alarm Definition Controller and Alarm Definition third party resource | `True`
+`alarm_definition_controller.image.repository` | Alarm Definition Controller container image repository | `monasca/alarm-definition-controller`
+`alarm_definition_controller.image.tag` | Alarm Definition Controller container image tag | `1.0.0`
+`alarm_definition_controller.image.pullPolicy` | Alarm Definition Controller container image pull policy | `IfNotPresent`

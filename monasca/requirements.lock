@@ -5,7 +5,7 @@ dependencies:
   name: influxdb
   repository: https://kubernetes-charts.storage.googleapis.com/
   tags: null
-  version: 0.2.1
+  version: 0.4.3
 - condition: ""
   enabled: false
   import-values: null
@@ -34,5 +34,5 @@ dependencies:
   repository: http://monasca.io/monasca-helm/
   tags: null
   version: 0.2.2
-digest: sha256:6e67a56495d48ea37fe7f83f985ebfc259bf1314fa2e8f2ee656117c44974e34
-generated: 2017-08-11T13:09:11.612888038-06:00
+digest: sha256:aaed8bdbee08a9dc6451c7d03fbdf7997294a7b0b9e76cf9dc6a70699d16c26e
+generated: 2017-09-06T09:24:28.568819632-06:00
