@@ -46,6 +46,17 @@ internal Keystone URL and Helm cannot pass more than one variable at once.
 - name: OS_IDENTITY_API_VERSION
   value: "{{ .api_version }}"
 {{- end }}
+{{- if .domain_name }}
+- name: OS_DOMAIN_NAME
+{{- if eq (kindOf .domain_name) "map" }}
+  valueFrom:
+    secretKeyRef:
+      name: "{{ .domain_name.secret_name }}"
+      key: "{{ .domain_name.secret_key | default "OS_DOMAIN_NAME" }}"
+{{- else }}
+  value: "{{ .domain_name }}"
+{{- end }}
+{{- end }}
 - name: OS_USERNAME
 {{- if eq (kindOf .username) "map" }}
   valueFrom:
