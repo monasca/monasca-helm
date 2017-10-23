@@ -471,7 +471,7 @@ thresh:
   enabled: true
   image:
     repository: monasca/thresh
-    tag: master-20171010-180141
+    tag: master-20171023-224133
     pullPolicy: IfNotPresent
   resources:
     requests:
