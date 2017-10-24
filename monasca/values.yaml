@@ -405,7 +405,7 @@ storm:
   enabled: false
   image:
     repository: monasca/storm
-    tag: 1.1.1-1.0.0
+    tag: 1.1.1-1.0.9
     pullPolicy: IfNotPresent
   persistence:
     storageClass: default
