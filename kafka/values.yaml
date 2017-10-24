@@ -27,3 +27,36 @@ persistence:
   size: 10Gi
 heap_ratio: .65
 stack_size: 1024k
+init:
+  enabled: true
+  image:
+    repository: monasca/kafka-init
+    tag: 0.0.2
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 200m
+    limits:
+      memory: 256Mi
+      cpu: 250m
+  topicConfig: ''
+  topics: []
+
+cleanup:
+  name: cleanup
+  image:
+    repository: monasca/job-cleanup
+    tag: 1.1.2
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 64Mi
+      cpu: 50m
+    limits:
+      memory: 128Mi
+      cpu: 100m
+  wait:
+    retries: "24"
+    delay: "5.0"
+    timeout: "10"
