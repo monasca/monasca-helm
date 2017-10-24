@@ -1600,3 +1600,14 @@ alarm_definition_controller:
     tenant_name: mini-mon
     domain_name: Default
   namespace: ''
+
+kafka:
+  init:
+    topicConfig: segment.ms=900000 # 15m
+    topics:
+      - metrics:64:1
+      - alarm-state-transitions:12:1
+      - alarm-notifications:12:1
+      - retry-notifications:3:1
+      - events:12:1
+      - 60-seconds-notifications:3:1
