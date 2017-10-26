@@ -3,7 +3,7 @@
 Parameter | Description | Default
 --------- | ----------- | -------
 `image.repository` | Kafka container image repository | `monasca/kafka`
-`image.tag` | Kafka container image tag | `0.9.0.1-2.11`
+`image.tag` | Kafka container image tag | `0.9.0.1-2.11-1.1.4`
 `image.pullPolicy` | Kafka container image pull policy | `IfNotPresent`
 `resources.requests.memory` | Memory request per kafka pod | `1Gi`
 `resources.requests.cpu` | CPU request per kafka pod | `250m`
