@@ -36,8 +36,8 @@ spec:
               value: "true"
             - name: KAFKA_TOPIC_CONFIG
               value: {{ .Values.topic_config | quote }}
-            - name: JVM_MAX_HEAP_RATIO
-              value: {{ .Values.heap_ratio | quote }}
+            - name: JVM_MAX_RATIO
+              value: {{ .Values.memory_ratio | quote }}
             - name: KAFKA_STACK_SIZE
               value: {{ .Values.stack_size | quote }}
             - name: KAFKA_CREATE_TOPICS
