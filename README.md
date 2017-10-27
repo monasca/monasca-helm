@@ -42,3 +42,5 @@ After the above is set up you can visit [grafana](http://localhost:3000) with th
 
 For more details on configuring the Monasca chart you can refer to the chart's [README](monasca/README.md) and for
 general details around Monasca in Kubernetes you can refer to [monasca.io](http://monasca.io/docs/kubernetes.html)
+
+The monasca influxdb chart is created from https://github.com/kubernetes/charts/tree/master/stable/influxdb
