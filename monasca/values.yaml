@@ -142,9 +142,11 @@ agent:
   kubernetes:
     kubernetes_labels: 'app'
     timeout: 3
+    enable_minimum_whitelist: false
   cadvisor:
     enabled: true
     timeout: 3
+    enable_minimum_whitelist: false
   resources:
     requests:
       memory: 256Mi
@@ -471,7 +473,7 @@ thresh:
   enabled: true
   image:
     repository: monasca/thresh
-    tag: master-20171023-224133
+    tag: master-20171026-214948
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -507,7 +509,7 @@ thresh:
     retries: 24
     delay: 5
     timeout: 10
-  heap_ratio: .65
+  memory_ratio: .85
   stack_size: 1024k
 
 alarms:

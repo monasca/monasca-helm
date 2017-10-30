@@ -121,4 +121,12 @@ spec:
               value: {{ .Values.agent.insecure | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
+            {{- if .Values.agent.cadvisor.enable_minimum_whitelist }}
+            - name: CADVISOR_MINIMUM_WHITELIST
+              value: "true"
+            {{- end }}
+            {{- if .Values.agent.kubernetes.enable_minimum_whitelist }}
+            - name: KUBERNETES_MINIMUM_WHITELIST
+              value: "true"
+            {{- end }}
 {{- end}}
