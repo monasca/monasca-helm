@@ -84,5 +84,5 @@ spec:
                     - key: app
                       operator: In
                       values:
-                        - monasca-influxdb
+                        - "{{ .Release.Name }}-influxdb"
                 topologyKey: "kubernetes.io/hostname"
