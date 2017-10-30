@@ -22,3 +22,4 @@ Parameter | Description | Default
 `exporter.image.pullPolicy` | Kafka exporter container image pull policy | `IfNotPresent`
 `exporter.port` | Kafka exporter port to expose Promethues metrics on | `7204`
 `stack_size` | JVM stack size | `1024k`
+`memory_ratio` | Ratio of memory to reserve for the JVM out of cgroup limit | `.85`

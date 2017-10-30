@@ -495,7 +495,7 @@ Parameter | Description | Default
 `thresh.wait.retries` | Number of startup connection attempts to make before giving up | `24`
 `thresh.wait.delay` | Seconds to wait between retries | `5`
 `thresh.wait.timeout` | Attempt connection timeout in seconds | `10`
-`thresh.memory_ratio` | JVM jvm ratio of cgroup limits | `.85`
+`thresh.memory_ratio` | Ratio of memory to reserve for the JVM out of cgroup limit | `.85`
 `thresh.stack_size` | JVM stack size | `1024k`
 
 Storm-specific options are documented in the
