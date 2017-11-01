@@ -1605,7 +1605,6 @@ alarm_definition_controller:
 
 kafka:
   init:
-    topicConfig: segment.ms=900000 # 15m
     topics:
       - metrics:64:1
       - alarm-state-transitions:12:1

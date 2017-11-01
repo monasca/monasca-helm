@@ -7,9 +7,8 @@ exporter:
   port: 7204
 image:
   repository: monasca/kafka
-  tag: 0.9.0.1-2.11-1.1.4
+  tag: 0.9.0.1-2.11-1.1.5
   pullPolicy: IfNotPresent
-topic_config: segment.ms=900000,retention.ms=86400000
 service:
   type: ClusterIP
   port: 9092
