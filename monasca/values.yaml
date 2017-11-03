@@ -634,7 +634,7 @@ client:
   enabled: false
   image:
     repository: monasca/client
-    tag: 1.6.0
+    tag: master-20171103-192822
     pullPolicy: IfNotPresent
   resources:
     requests:
