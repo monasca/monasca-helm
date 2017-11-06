@@ -40,6 +40,8 @@ spec:
               value: {{ .Values.stack_size | quote }}
             - name: ZOOKEEPER_CONNECTION_STRING
               value: {{ .Release.Name }}-zookeeper:2181
+            - name: STAY_ALIVE_ON_FAILURE
+              value: {{ .Values.stay_alive_on_failure | quote }}
         {{- if .Values.exporter.enabled }}
         - name: {{ .Chart.Name }}-exporter
           image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"

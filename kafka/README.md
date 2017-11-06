@@ -23,3 +23,4 @@ Parameter | Description | Default
 `exporter.port` | Kafka exporter port to expose Promethues metrics on | `7204`
 `stack_size` | JVM stack size | `1024k`
 `memory_ratio` | Ratio of memory to reserve for the JVM out of cgroup limit | `.85`
+`stay_alive_on_failure` | If `true`, container stays alive for 2 hours after kafka exits | `false`
