@@ -7,7 +7,7 @@ exporter:
   port: 7204
 image:
   repository: monasca/kafka
-  tag: 0.9.0.1-2.11-1.1.5
+  tag: 0.9.0.1-2.11-1.1.6
   pullPolicy: IfNotPresent
 service:
   type: ClusterIP
@@ -26,6 +26,7 @@ persistence:
   size: 10Gi
 memory_ratio: .85
 stack_size: 1024k
+stay_alive_on_failure: false
 init:
   enabled: true
   image:
