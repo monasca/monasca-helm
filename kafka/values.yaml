@@ -31,7 +31,7 @@ init:
   enabled: true
   image:
     repository: monasca/kafka-init
-    tag: 0.0.2
+    tag: 0.0.3
     pullPolicy: IfNotPresent
   resources:
     requests:
