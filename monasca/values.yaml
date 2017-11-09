@@ -303,7 +303,7 @@ keystone:
   database_backend: mysql
   image:
     pullPolicy: IfNotPresent
-    tag: 1.1.2
+    tag: 1.1.3
     repository: monasca/keystone
   mysql:
     database: keystone
