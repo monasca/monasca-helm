@@ -81,6 +81,14 @@ spec:
             - name: DIMENSIONS
               value: {{ .Values.agent.dimensions | quote}}
             {{- end}}
+            {{- if .Values.agent.cadvisor.enable_minimum_whitelist }}
+            - name: CADVISOR_MINIMUM_WHITELIST
+              value: "true"
+            {{- end }}
+            {{- if .Values.agent.kubernetes.enable_minimum_whitelist }}
+            - name: KUBERNETES_MINIMUM_WHITELIST
+              value: "true"
+            {{- end }}
         - name: {{ template "name" . }}-{{ .Values.agent.name }}-forwarder-daemonset
           image: "{{ .Values.agent.forwarder.image.repository }}:{{ .Values.agent.forwarder.image.tag }}"
           imagePullPolicy: {{ .Values.agent.forwarder.image.pullPolicy }}
