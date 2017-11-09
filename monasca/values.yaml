@@ -1537,7 +1537,7 @@ tempest_tests:
   enabled: False
   image:
     repository: monasca/tempest-tests
-    tag: 1.0.0
+    tag: 1.0.1
     pullPolicy: IfNotPresent
   wait:
     enabled: True
