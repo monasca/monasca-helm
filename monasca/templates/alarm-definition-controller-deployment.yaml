@@ -42,6 +42,10 @@ spec:
 {{ include "monasca_keystone_env" .Values.alarm_definition_controller.keystone | indent 12 }}
             - name: MONASCA_URL
               value: "http://{{ template "api.fullname" . }}:{{ .Values.api.service.port }}/v2.0"
+            {{- if .Values.alarm_definition_controller.default_notification_name }}
+            - name: DEFAULT_NOTIFICATION
+              value: "{{ .Values.alarm_definition_controller.default_notification_name }}"
+            {{- end }}
             - name: NAMESPACE
             {{- if .Values.alarm_definition_controller.namespace }}
               value: "{{ .Values.alarm_definition_controller.namespace }}"
