@@ -3,7 +3,7 @@
 Parameter | Description | Default
 --------- | ----------- | -------
 `image.repository` | Kafka container image repository | `monasca/kafka`
-`image.tag` | Kafka container image tag | `0.9.0.1-2.11`
+`image.tag` | Kafka container image tag | `0.9.0.1-2.11-1.1.4`
 `image.pullPolicy` | Kafka container image pull policy | `IfNotPresent`
 `resources.requests.memory` | Memory request per kafka pod | `1Gi`
 `resources.requests.cpu` | CPU request per kafka pod | `250m`
@@ -22,3 +22,5 @@ Parameter | Description | Default
 `exporter.image.pullPolicy` | Kafka exporter container image pull policy | `IfNotPresent`
 `exporter.port` | Kafka exporter port to expose Promethues metrics on | `7204`
 `stack_size` | JVM stack size | `1024k`
+`memory_ratio` | Ratio of memory to reserve for the JVM out of cgroup limit | `.85`
+`stay_alive_on_failure` | If `true`, container stays alive for 2 hours after kafka exits | `false`

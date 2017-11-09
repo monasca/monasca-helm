@@ -195,8 +195,10 @@ Parameter | Description | Default
 `agent.kubernetes_api.storage.parameter_dimensions` | Storage class parameters as dimensions | ``
 `agent.kubernetes.kubernetes_labels` | A list of Kubernetes labels to include as dimensions from gathered metrics | `app`
 `agent.kubernetes.timeout` | The cAdvisor/Kubelet connection timeout | `3`
+`agent.kubernetes.enable_minimum_whitelist` | Only report minimum set of pod metrics (cpu, memory) |  `false`
 `agent.cadvisor.enabled` | Enable host metrics from cAdvisor | `true`
 `agent.cadvisor.timeout` | The cAdvisor connection timeout | `3`
+`agent.cadvisor.enable_minimum_whitelist` | Only report minimum set of host metrics (cpu, memory) |  `false`
 `agent.resources.requests.memory` | Memory request per agent pod | `256Mi`
 `agent.resources.requests.cpu` | CPU request per agent pod | `100m`
 `agent.resources.limits.memory` | Memory limit per agent pod | `512Mi`
@@ -493,7 +495,7 @@ Parameter | Description | Default
 `thresh.wait.retries` | Number of startup connection attempts to make before giving up | `24`
 `thresh.wait.delay` | Seconds to wait between retries | `5`
 `thresh.wait.timeout` | Attempt connection timeout in seconds | `10`
-`thresh.heap_ratio` | JVM heap ratio of cgroup limits | `.65`
+`thresh.memory_ratio` | Ratio of memory to reserve for the JVM out of cgroup limit | `.85`
 `thresh.stack_size` | JVM stack size | `1024k`
 
 Storm-specific options are documented in the

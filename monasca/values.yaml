@@ -20,7 +20,7 @@ influx_init:
   enabled: true
   image:
     repository: monasca/influxdb-init
-    tag: 1.0.1
+    tag: 1.0.2
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -114,12 +114,12 @@ agent:
   collector:
     image:
       repository: monasca/agent-collector
-      tag: master-20171019-195001
+      tag: master-20171103-162329
       pullPolicy: IfNotPresent
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20171019-195001
+      tag: master-20171103-162329
       pullPolicy: IfNotPresent
   log_level: WARN
   insecure: False
@@ -142,9 +142,11 @@ agent:
   kubernetes:
     kubernetes_labels: 'app'
     timeout: 3
+    enable_minimum_whitelist: false
   cadvisor:
     enabled: true
     timeout: 3
+    enable_minimum_whitelist: false
   resources:
     requests:
       memory: 256Mi
@@ -301,7 +303,7 @@ keystone:
   database_backend: mysql
   image:
     pullPolicy: IfNotPresent
-    tag: 1.1.2
+    tag: 1.1.3
     repository: monasca/keystone
   mysql:
     database: keystone
@@ -433,7 +435,7 @@ storm:
     name: thresh
     image:
       repository: monasca/thresh
-      tag: master-20171023-224133
+      tag: master-20171026-214948
       pullPolicy: IfNotPresent
     mysql:
       port: "3306"
@@ -471,7 +473,7 @@ thresh:
   enabled: true
   image:
     repository: monasca/thresh
-    tag: master-20171023-224133
+    tag: master-20171026-214948
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -507,7 +509,7 @@ thresh:
     retries: 24
     delay: 5
     timeout: 10
-  heap_ratio: .65
+  memory_ratio: .85
   stack_size: 1024k
 
 alarms:
@@ -675,7 +677,7 @@ aggregator:
   name: aggregator
   image:
     repository: monasca/aggregator
-    tag: 0.1.2
+    tag: 0.1.3
     pullPolicy: IfNotPresent
   window_size: 60
   window_lag: 2
@@ -1600,3 +1602,13 @@ alarm_definition_controller:
     tenant_name: mini-mon
     domain_name: Default
   namespace: ''
+
+kafka:
+  init:
+    topics:
+      - metrics:64:1
+      - alarm-state-transitions:12:1
+      - alarm-notifications:12:1
+      - retry-notifications:3:1
+      - events:12:1
+      - 60-seconds-notifications:3:1

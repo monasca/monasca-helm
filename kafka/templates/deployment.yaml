@@ -7,6 +7,7 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
+    component: kafka
 spec:
   replicas: 1
   template:
@@ -33,22 +34,14 @@ spec:
               value: "false"
             - name: KAFKA_JMX
               value: "true"
-            - name: KAFKA_TOPIC_CONFIG
-              value: {{ .Values.topic_config | quote }}
-            - name: JVM_MAX_HEAP_RATIO
-              value: {{ .Values.heap_ratio | quote }}
+            - name: JVM_MAX_RATIO
+              value: {{ .Values.memory_ratio | quote }}
             - name: KAFKA_STACK_SIZE
               value: {{ .Values.stack_size | quote }}
-            - name: KAFKA_CREATE_TOPICS
-              value: "\
-                metrics:64:1,\
-                alarm-state-transitions:12:1,\
-                alarm-notifications:12:1,\
-                retry-notifications:3:1,\
-                events:12:1,\
-                60-seconds-notifications:3:1"
             - name: ZOOKEEPER_CONNECTION_STRING
               value: {{ .Release.Name }}-zookeeper:2181
+            - name: STAY_ALIVE_ON_FAILURE
+              value: {{ .Values.stay_alive_on_failure | quote }}
         {{- if .Values.exporter.enabled }}
         - name: {{ .Chart.Name }}-exporter
           image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"
@@ -83,5 +76,5 @@ spec:
                     - key: app
                       operator: In
                       values:
-                        - monasca-influxdb
+                        - "{{ .Release.Name }}-influxdb"
                 topologyKey: "kubernetes.io/hostname"
