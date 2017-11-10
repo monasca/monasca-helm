@@ -505,6 +505,9 @@ thresh:
     aggregationBoltTasks: 2
     thresholdingBoltThreads: 2
     thresholdingBoltTasks: 2
+  jmx:
+    enabled: false
+    port: 9090
   wait:
     retries: 24
     delay: 5
