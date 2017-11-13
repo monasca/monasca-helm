@@ -103,7 +103,7 @@ spec:
                   name: "{{ .Values.thresh.mysql.password.secret_name }}"
                 {{- else }}
                   name: "{{ .Release.Name }}-mysql-thresh-secret"
-                {{- end}}
+                {{- end }}
                   key: "{{ .Values.thresh.mysql.password.secret_key | default "password" }}"
             - name: NO_STORM_CLUSTER
               value: "true"
@@ -115,4 +115,10 @@ spec:
               value: {{ .Values.thresh.stack_size | quote }}
             - name: JVM_MAX_RATIO
               value: {{ .Values.thresh.memory_ratio | quote }}
+            {{- if .Values.thresh.jmx.enabled }}
+            - name: LOCAL_JMX
+              value: "true"
+            - name: LOCAL_JMX_PORT
+              value: {{ .Values.thresh.jmx.port | quote }}
+            {{- end }}
 {{- end }}
