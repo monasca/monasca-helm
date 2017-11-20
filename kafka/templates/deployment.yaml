@@ -53,6 +53,29 @@ spec:
             - name: kafka-exporter
               mountPath: /prometheus-config
          {{- end }}
+        {{- if .Values.watcher.enabled }}
+        - name: {{ .Chart.Name }}-watcher
+          image: "{{ .Values.watcher.image.repository }}:{{ .Values.watcher.image.tag }}"
+          imagePullPolicy: {{ .Values.watcher.image.pullPolicy }}
+          env:
+            - name: HEALTH_CHECK_TOPIC
+              value: {{ .Values.watcher.health_check_topic | quote }}
+            - name: BOOT_STRAP_SERVERS
+              value: "{{ template "fullname" . }}:9092"
+            - name: GROUP_ID
+              value: {{ .Values.watcher.group_id | quote }}
+            - name: PROMETHEUS_ENDPOINT
+              value: "0.0.0.0:{{ .Values.watcher.port }}"
+            - name: WATCHER_PERIOD
+              value: {{ .Values.watcher.watcher_period | quote }}
+            - name: WATCHER_TIMEOUT
+              value: {{ .Values.watcher.watcher_timeout | quote }}
+            - name: STAY_ALIVE_ON_FAILURE
+              value: {{ .Values.watcher.stay_alive_on_failure | quote }}
+          ports:
+            - name: watcher
+              containerPort: {{ .Values.watcher.port }}
+         {{- end }}
       volumes:
         - name: kafka
         {{- if .Values.persistence.enabled }}
