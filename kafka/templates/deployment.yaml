@@ -61,7 +61,7 @@ spec:
             - name: HEALTH_CHECK_TOPIC
               value: {{ .Values.watcher.health_check_topic | quote }}
             - name: BOOT_STRAP_SERVERS
-              value: "{{ template "fullname" . }}:9092"
+              value: "localhost:9092"
             - name: GROUP_ID
               value: {{ .Values.watcher.group_id | quote }}
             - name: PROMETHEUS_ENDPOINT
