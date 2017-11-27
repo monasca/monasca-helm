@@ -1,4 +1,4 @@
-{{- if .Values.alarm_definition_controller.enabled }}
+{{- if .Values.alarm_definition_controller.resource_enabled }}
 apiVersion: extensions/v1beta1
 kind: ThirdPartyResource
 metadata:
