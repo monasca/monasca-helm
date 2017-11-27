@@ -552,7 +552,8 @@ Parameter | Description | Default
 Parameter | Description | Default
 --------- | ----------- | -------
 `alarm_definition_controller.name` | Alarm Definition Controller container name | `alarm-definition-controller`
-`alarm_definition_controller.enabled` | If True, create Alarm Definition Controller and Alarm Definition third party resource | `True`
+`alarm_definition_controller.resource_enabled` | If True, create Alarm Definition third party resource | `True`
+`alarm_definition_controller.controller_enabled` | If True, create Alarm Definition Controller | `True`
 `alarm_definition_controller.image.repository` | Alarm Definition Controller container image repository | `monasca/alarm-definition-controller`
 `alarm_definition_controller.image.tag` | Alarm Definition Controller container image tag | `1.0.0`
 `alarm_definition_controller.image.pullPolicy` | Alarm Definition Controller container image pull policy | `IfNotPresent`
