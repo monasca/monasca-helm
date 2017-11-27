@@ -489,6 +489,7 @@ Parameter | Description | Default
 `thresh.image.repository` | Thresh container image repository | `monasca/thresh`
 `thresh.image.tag` | Thresh container image tag | `master`
 `thresh.image.pullPolicy` | Thresh container image pull policy | `IfNotPresent`
+`thresh.use_local` | Run in local mode | `true`
 `thresh.secretSuffix` | MySQL secret suffix | `mysql-thresh-secret`
 `thresh.spout.metricSpoutThreads` | Amount of metric spout threads | `2`
 `thresh.spout.metricSpoutTasks` | Amount of metric spout tasks | `2`

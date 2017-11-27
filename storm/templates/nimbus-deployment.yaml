@@ -28,8 +28,8 @@ spec:
             - containerPort: {{ .Values.service.port }}
               name: nimbus
           env:
-            - name: STORM_HOSTNAME_FROM_IP
-              value: "true"
+            - name: STORM_LOCAL_HOSTNAME
+              value: "{{ .Release.Name }}-storm-nimbus"
             - name: ZOOKEEPER_SERVERS
               value: "{{ .Release.Name }}-zookeeper"
             - name: STORM_ZOOKEEPER_PORT

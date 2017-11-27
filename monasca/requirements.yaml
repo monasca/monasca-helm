@@ -12,7 +12,7 @@ dependencies:
     condition: 'kafka.enabled, global.kafka.enabled'
     repository: 'http://monasca.io/monasca-helm/'
   - name: storm
-    version: 0.5.1
+    version: 0.5.2
     condition: 'storm.enabled, global.storm.enabled'
     repository: 'http://monasca.io/monasca-helm/'
   - name: zookeeper
