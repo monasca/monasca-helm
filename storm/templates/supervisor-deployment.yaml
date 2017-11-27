@@ -33,6 +33,8 @@ spec:
               value: "2181"
             - name: NIMBUS_SEEDS
               value: "{{ template "storm.fullname" . }}-nimbus"
+            - name: SUPERVISOR_SLOTS_PORTS
+              value: {{ .Values.supervisor_ports | join "," | quote }}
             - name: METRIC_SPOUT_THREADS
               value: "{{ .Values.thresh.spout.metricSpoutThreads }}"
             - name: METRIC_SPOUT_TASKS
