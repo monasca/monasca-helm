@@ -471,6 +471,7 @@ storm:
 thresh:
   name: thresh
   enabled: true
+  use_local: true
   image:
     repository: monasca/thresh
     tag: master-20171113-091635
