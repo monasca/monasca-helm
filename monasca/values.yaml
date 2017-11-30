@@ -1607,6 +1607,7 @@ alarm_definition_controller:
     tenant_name: mini-mon
     domain_name: Default
   namespace: ''
+  version: v1
 
 kafka:
   init:
