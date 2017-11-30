@@ -5,5 +5,5 @@ metadata:
   name: alarm-definition.monasca.io
 description: "A specification to create a Monasca alarm definition"
 versions:
-- name: v1
+- name: {{ .Values.alarm_definition_controller.version }}
 {{- end }}
