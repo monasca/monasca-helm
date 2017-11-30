@@ -9,7 +9,7 @@ watcher:
   enabled: false
   image:
     repository: monasca/kafka-watcher
-    tag: 0.0.2
+    tag: 0.0.3
     pullPolicy: IfNotPresent
   port: 8080
   health_check_topic: kafka-health-check
