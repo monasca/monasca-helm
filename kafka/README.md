@@ -24,3 +24,13 @@ Parameter | Description | Default
 `stack_size` | JVM stack size | `1024k`
 `memory_ratio` | Ratio of memory to reserve for the JVM out of cgroup limit | `.85`
 `stay_alive_on_failure` | If `true`, container stays alive for 2 hours after kafka exits | `false`
+`watcher.enabled` | Kafka watcher enabled flag | `false`
+`watcher.image.repository` | Kafka watcher container image repository | `monasca/kafka-watcher`
+`watcher.image.tag` | Kafka watcher container image tag | `latest`
+`watcher.image.pullPolicy` | Kafka watcher container image pull policy | `IfNotPresent`
+`watcher.health_check_topic` | Kafka watcher health check topic | `kafka-health-check`
+`watcher.group_id` | Kafka watcher consumer group id | `kafka_watcher`
+`watcher.watcher_period` | Kafka watcher period | `600`
+`watcher.watcher_timeout` | Kafka watcher read/write timeout | `60`
+`watcher.stay_alive_on_failure` | If `true`, watcher container stays alive for 2 hours after watcher exits | `false`
+`watcher.port` | Kafka watcher port to expose Promethues metrics on | `8080`
