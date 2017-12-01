@@ -72,6 +72,8 @@ spec:
         - name: {{ .Chart.Name }}-watcher
           image: "{{ .Values.watcher.image.repository }}:{{ .Values.watcher.image.tag }}"
           imagePullPolicy: {{ .Values.watcher.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.watcher.resources | indent 12 }}
           env:
             - name: HEALTH_CHECK_TOPIC
               value: {{ .Values.watcher.health_check_topic | quote }}
