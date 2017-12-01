@@ -11,6 +11,13 @@ watcher:
     repository: monasca/kafka-watcher
     tag: 0.0.3
     pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 32Mi
+      cpu: 25m
+    limits:
+      memory: 64Mi
+      cpu: 50m
   port: 8080
   health_check_topic: kafka-health-check
   group_id: kafka_watcher
