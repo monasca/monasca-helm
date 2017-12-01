@@ -7,12 +7,12 @@ dependencies:
   version: 0.2.4
 - name: kafka
   repository: http://monasca.io/monasca-helm/
-  version: 0.3.11
+  version: 0.3.12
 - name: storm
   repository: http://monasca.io/monasca-helm/
   version: 0.5.3
 - name: zookeeper
   repository: http://monasca.io/monasca-helm/
   version: 0.3.3
-digest: sha256:17ba24edb2ffa4c2b5d9f7a7aa587544e43a08aacd936596f8084b7ddfa6ec00
-generated: 2017-11-27T14:49:50.825930899-07:00
+digest: sha256:45f73203b548de60c03fca6040d9ca7ec121f7ba154590744c8a5bce46885bf0
+generated: 2017-11-30T17:02:56.622712614-07:00
