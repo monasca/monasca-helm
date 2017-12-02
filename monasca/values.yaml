@@ -435,7 +435,7 @@ storm:
     name: thresh
     image:
       repository: monasca/thresh
-      tag: master-20171113-091635
+      tag: master-20171201-235821
       pullPolicy: IfNotPresent
     mysql:
       port: "3306"
