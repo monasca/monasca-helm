@@ -16,6 +16,7 @@ spec:
         component: "{{ .Values.agent.name }}-deployment"
         app: {{ template "fullname" . }}
     spec:
+      terminationGracePeriodSeconds: {{ .Values.agent.termination_grace_period }}
       containers:
         - name: {{ template "name" . }}-{{ .Values.agent.name }}-collector-deployment
           image: "{{ .Values.agent.collector.image.repository }}:{{ .Values.agent.collector.image.tag }}"
