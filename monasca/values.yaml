@@ -111,6 +111,9 @@ agent:
   name: agent
   daemonset_enabled: true
   deployment_enabled: true
+  daemonset_toleration:
+    enabled: false
+  termination_grace_period: 30
   collector:
     image:
       repository: monasca/agent-collector
