@@ -29,6 +29,8 @@ influx_init:
     limits:
       memory: 256Mi
       cpu: 500m
+  shard_duration: 1d
+  default_retention: INF
 
 grafana_init:
   image:

@@ -393,7 +393,9 @@ Parameter | Description | Default
 `influx_init.enabled` | Influxdb initialization job enabled | `true`
 `influx_init.image.repository` | docker repository for influx init | `monasca/influxdb-init`
 `influx_init.image.tag` | Docker image tag | `1.0.0`
-`influx_init.image.pullPolicy` | Kubernetes pull polify for image | `IfNotPresent`
+`influx_init.image.pullPolicy` | Kubernetes pull policy for image | `IfNotPresent`
+`influx_init.shard_duration` | Influxdb shard duration | `1d`
+`influx_init.default_retention` | Influxdb retention | `INF`
 
 ### MySQL
 
