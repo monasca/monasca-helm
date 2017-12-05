@@ -18,6 +18,7 @@ Parameter | Description | Default
 `storm.persistence.size` | Zookeeper persistent storage size | `10Gi`
 `storm.service.port` | Storm nimbus service port | `6627`
 `storm.service.type` | Storm nimbus service type | `ClusterIP`
+`storm.supervisor_ports` | Storm Supervisor ports (number of workers) | `6701,6702`
 `storm.nimbus_resources.requests.memory` | Memory request per Storm container | `512Mi`
 `storm.nimbus_resources.requests.cpu` | CPU request per Storm container | `100m`
 `storm.nimbus_resources.limits.memory` | Memory limit per Storm container | `2Gi`

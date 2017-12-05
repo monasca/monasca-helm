@@ -8,11 +8,11 @@ dependencies:
     condition: 'mysql.enabled, global.mysql.enabled'
     repository: 'https://kubernetes-charts.storage.googleapis.com/'
   - name: kafka
-    version: 0.3.11
+    version: 0.3.13
     condition: 'kafka.enabled, global.kafka.enabled'
     repository: 'http://monasca.io/monasca-helm/'
   - name: storm
-    version: 0.5.1
+    version: 0.5.3
     condition: 'storm.enabled, global.storm.enabled'
     repository: 'http://monasca.io/monasca-helm/'
   - name: zookeeper

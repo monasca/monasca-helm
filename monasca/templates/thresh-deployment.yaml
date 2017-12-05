@@ -106,7 +106,7 @@ spec:
                 {{- end }}
                   key: "{{ .Values.thresh.mysql.password.secret_key | default "password" }}"
             - name: NO_STORM_CLUSTER
-              value: "true"
+              value: "{{ .Values.thresh.use_local }}"
             - name: WORKER_MAX_HEAP_MB
               value: "{{ .Values.thresh.workerMaxHeapMB }}"
             - name: JVM_MAX_HEAP_RATIO
