@@ -29,6 +29,8 @@ influx_init:
     limits:
       memory: 256Mi
       cpu: 500m
+  shard_duration: 1d
+  default_retention: INF
 
 grafana_init:
   image:
@@ -111,15 +113,18 @@ agent:
   name: agent
   daemonset_enabled: true
   deployment_enabled: true
+  daemonset_toleration:
+    enabled: false
+  termination_grace_period: 30
   collector:
     image:
       repository: monasca/agent-collector
-      tag: master-20171103-162329
+      tag: master-20171129-221711
       pullPolicy: IfNotPresent
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20171103-162329
+      tag: master-20171129-221711
       pullPolicy: IfNotPresent
   log_level: WARN
   insecure: False
@@ -407,7 +412,7 @@ storm:
   enabled: false
   image:
     repository: monasca/storm
-    tag: 1.1.1-1.0.0
+    tag: 1.1.1-1.0.11
     pullPolicy: IfNotPresent
   persistence:
     storageClass: default
@@ -435,7 +440,7 @@ storm:
     name: thresh
     image:
       repository: monasca/thresh
-      tag: master-20171113-091635
+      tag: master-20171205-104226
       pullPolicy: IfNotPresent
     mysql:
       port: "3306"
@@ -474,7 +479,7 @@ thresh:
   use_local: true
   image:
     repository: monasca/thresh
-    tag: master-20171113-091635
+    tag: master-20171205-104226
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -1607,6 +1612,7 @@ alarm_definition_controller:
     tenant_name: mini-mon
     domain_name: Default
   namespace: ''
+  version: v1
 
 kafka:
   init:
@@ -1617,3 +1623,4 @@ kafka:
       - retry-notifications:3:1
       - events:12:1
       - 60-seconds-notifications:3:1
+      - kafka-health-check:1:1

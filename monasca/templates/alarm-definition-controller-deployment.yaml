@@ -54,4 +54,6 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             {{- end }}
+            - name: VERSION
+              value: "{{ .Values.alarm_definition_controller.version }}"
 {{- end }}
