@@ -412,7 +412,7 @@ storm:
   enabled: false
   image:
     repository: monasca/storm
-    tag: 1.1.1-1.0.0
+    tag: 1.1.1-1.0.11
     pullPolicy: IfNotPresent
   persistence:
     storageClass: default
@@ -440,7 +440,7 @@ storm:
     name: thresh
     image:
       repository: monasca/thresh
-      tag: master-20171113-091635
+      tag: master-20171205-104226
       pullPolicy: IfNotPresent
     mysql:
       port: "3306"
@@ -479,7 +479,7 @@ thresh:
   use_local: true
   image:
     repository: monasca/thresh
-    tag: master-20171113-091635
+    tag: master-20171205-104226
     pullPolicy: IfNotPresent
   resources:
     requests:
