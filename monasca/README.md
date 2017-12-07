@@ -168,6 +168,10 @@ Parameter | Description | Default
 `agent.name` | Agent container name | `agent`
 `agent.deployment_enabled` | Agent deployment enabled | `true`
 `agent.daemonset_enabled` | Agent daemonset enabled | `true`
+`agent.termination_grace_period` | Agent grace period before force terminating | `30`
+`agent.daemonset_toleration.enabled` | Agent daemonset toleration is enabled | `false`
+`agent.daemonset_toleration.operator` | Agent daemonset toleration operator | `true`
+`agent.daemonset_toleration.effect` | Agent daemonset toleration effect | `true`
 `agent.collector.image.repository` | Agent Collector container image repository | `monasca/agent-collector`
 `agent.collector.image.tag` | Agent Collector container image tag | `master-20170707-154334`
 `agent.collector.image.pullPolicy` | Agent Collector container image pull policy | `IfNotPresent`
@@ -389,7 +393,9 @@ Parameter | Description | Default
 `influx_init.enabled` | Influxdb initialization job enabled | `true`
 `influx_init.image.repository` | docker repository for influx init | `monasca/influxdb-init`
 `influx_init.image.tag` | Docker image tag | `1.0.0`
-`influx_init.image.pullPolicy` | Kubernetes pull polify for image | `IfNotPresent`
+`influx_init.image.pullPolicy` | Kubernetes pull policy for image | `IfNotPresent`
+`influx_init.shard_duration` | Influxdb shard duration | `1d`
+`influx_init.default_retention` | Influxdb retention | `INF`
 
 ### MySQL
 
