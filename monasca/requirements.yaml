@@ -1,8 +1,8 @@
 dependencies:
   - name: influxdb
-    version: 0.4.3
+    version: 0.6.1
     condition: 'influxdb.enabled, global.influxdb.enabled'
-    repository: 'https://kubernetes-charts.storage.googleapis.com/'
+    repository: 'http://monasca.io/monasca-helm/'
   - name: mysql
     version: 0.2.4
     condition: 'mysql.enabled, global.mysql.enabled'
