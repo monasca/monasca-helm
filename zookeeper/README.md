@@ -10,7 +10,7 @@ Parameter | Description | Default
 `persistence.enabled` | Zookeeper persistent storage enabled flag | `false`
 `persistence.accessMode` | Zookeeper persistent storage accessMode | `ReadWriteOnce`
 `persistence.size` | Zookeeper persistent storage size | `10Gi`
-`persistence.purge_interval` | Number of hours between disk purge | `0`
+`persistence.purge_interval` | Number of hours between disk purge | `1`
 `persistence.snap_retain_count` | Number of snapshots to retain in dataDir | `3`
 `resources.requests.memory` | Memory request per zookeeper pod | `256Mi`
 `resources.requests.cpu` | CPU request per zookeeper pod | `100m`
