@@ -21,7 +21,7 @@ data:
     [data]
       dir = "{{ .Values.config.storage_directory }}/data"
       wal-dir = "{{ .Values.config.storage_directory }}/wal"
-      index-version = {{ .Values.config.data.index_version }}
+      index-version = "{{ .Values.config.data.index_version }}"
       query-log-enabled = {{ .Values.config.data.query_log_enabled }}
       cache-max-memory-size = {{ .Values.config.data.cache_max_memory_size | int64 }}
       cache-snapshot-memory-size = {{ .Values.config.data.cache_snapshot_memory_size | int64 }}
