@@ -119,12 +119,12 @@ agent:
   collector:
     image:
       repository: monasca/agent-collector
-      tag: master-20171129-221711
+      tag: master-20171208-215826
       pullPolicy: IfNotPresent
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20171129-221711
+      tag: master-20171208-215826
       pullPolicy: IfNotPresent
   log_level: WARN
   insecure: False
