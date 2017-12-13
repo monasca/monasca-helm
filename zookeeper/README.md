@@ -15,3 +15,12 @@ Parameter | Description | Default
 `resources.limits.cpu` | Memory limit per zookeeper pod | `1000m`
 `resources.limits.memory` | Memory limit per zookeeper pod | `512Mi`
 `java.max_ram_fraction` | Fraction of Ram to deveote to Heap (1/n) | `2`
+`watcher.enabled` | Zookeeper watcher enabled flag | `false`
+`watcher.image.repository` | Zookeeper watcher container image repository | `monasca/zookeeper-watcher`
+`watcher.image.tag` | Zookeeper watcher container image tag | `latest`
+`watcher.image.pullPolicy` | Zookeeper watcher container image pull policy | `IfNotPresent`
+`watcher.health_check_path` | Zookeeper watcher health check path | `zookeeper-health-check`
+`watcher.watcher_period` | Zookeeper watcher period | `600`
+`watcher.watcher_timeout` | Zookeeper watcher read/write timeout | `60`
+`watcher.stay_alive_on_failure` | If `true`, watcher container stays alive for 2 hours after watcher exits | `false`
+`watcher.port` | Zookeeper watcher port to expose Promethues metrics on | `8080`
