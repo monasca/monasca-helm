@@ -1597,7 +1597,7 @@ alarm_definition_controller:
   resource_enabled: true
   image:
     repository: monasca/alarm-definition-controller
-    tag: 1.0.1
+    tag: 1.0.2
     pullPolicy: IfNotPresent
   resources:
     requests:
