@@ -7,12 +7,28 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
+    component: kafka
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: {{ template "fullname" . }}
+      {{- if .Values.watcher.enabled }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "{{ .Values.watcher.port }}"
+        monasca.io/usek8slabels: "false"
+        monasca.io/whitelist: |
+          - kafka_dropped_message_count
+          - kafka_max_round_trip_time
+          - kafka_min_round_trip_time
+          - kafka_read_failure_count
+          - kafka_watcher_status
+          - kafka_write_failure_count
+          - go_memstats_heap_objects
+          - go_memstats_heap_inuse_bytes
+      {{- end }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -33,20 +49,14 @@ spec:
               value: "false"
             - name: KAFKA_JMX
               value: "true"
-            - name: KAFKA_TOPIC_CONFIG
-              value: {{ .Values.topic_config | quote }}
-            - name: JVM_MAX_HEAP_RATIO
-              value: {{ .Values.heap_ratio | quote }}
-            - name: KAFKA_CREATE_TOPICS
-              value: "\
-                metrics:64:1,\
-                alarm-state-transitions:12:1,\
-                alarm-notifications:12:1,\
-                retry-notifications:3:1,\
-                events:12:1,\
-                60-seconds-notifications:3:1"
+            - name: JVM_MAX_RATIO
+              value: {{ .Values.memory_ratio | quote }}
+            - name: KAFKA_STACK_SIZE
+              value: {{ .Values.stack_size | quote }}
             - name: ZOOKEEPER_CONNECTION_STRING
               value: {{ .Release.Name }}-zookeeper:2181
+            - name: STAY_ALIVE_ON_FAILURE
+              value: {{ .Values.stay_alive_on_failure | quote }}
         {{- if .Values.exporter.enabled }}
         - name: {{ .Chart.Name }}-exporter
           image: "{{ .Values.exporter.image.repository }}:{{ .Values.exporter.image.tag }}"
@@ -57,6 +67,31 @@ spec:
           volumeMounts:
             - name: kafka-exporter
               mountPath: /prometheus-config
+         {{- end }}
+        {{- if .Values.watcher.enabled }}
+        - name: {{ .Chart.Name }}-watcher
+          image: "{{ .Values.watcher.image.repository }}:{{ .Values.watcher.image.tag }}"
+          imagePullPolicy: {{ .Values.watcher.image.pullPolicy }}
+          resources:
+{{ toYaml .Values.watcher.resources | indent 12 }}
+          env:
+            - name: HEALTH_CHECK_TOPIC
+              value: {{ .Values.watcher.health_check_topic | quote }}
+            - name: BOOT_STRAP_SERVERS
+              value: "localhost:9092"
+            - name: GROUP_ID
+              value: {{ .Values.watcher.group_id | quote }}
+            - name: PROMETHEUS_ENDPOINT
+              value: "0.0.0.0:{{ .Values.watcher.port }}"
+            - name: WATCHER_PERIOD
+              value: {{ .Values.watcher.watcher_period | quote }}
+            - name: WATCHER_TIMEOUT
+              value: {{ .Values.watcher.watcher_timeout | quote }}
+            - name: STAY_ALIVE_ON_FAILURE
+              value: {{ .Values.watcher.stay_alive_on_failure | quote }}
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.watcher.port }}
          {{- end }}
       volumes:
         - name: kafka
@@ -81,5 +116,5 @@ spec:
                     - key: app
                       operator: In
                       values:
-                        - monasca-influxdb
+                        - "{{ .Release.Name }}-influxdb"
                 topologyKey: "kubernetes.io/hostname"

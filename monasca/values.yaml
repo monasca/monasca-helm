@@ -20,7 +20,7 @@ influx_init:
   enabled: true
   image:
     repository: monasca/influxdb-init
-    tag: 1.0.1
+    tag: 1.0.2
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -29,6 +29,8 @@ influx_init:
     limits:
       memory: 256Mi
       cpu: 500m
+  shard_duration: 1d
+  default_retention: INF
 
 grafana_init:
   image:
@@ -111,15 +113,18 @@ agent:
   name: agent
   daemonset_enabled: true
   deployment_enabled: true
+  daemonset_toleration:
+    enabled: false
+  termination_grace_period: 30
   collector:
     image:
       repository: monasca/agent-collector
-      tag: master-20171019-195001
+      tag: master-20171208-215826
       pullPolicy: IfNotPresent
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20171019-195001
+      tag: master-20171208-215826
       pullPolicy: IfNotPresent
   log_level: WARN
   insecure: False
@@ -142,9 +147,11 @@ agent:
   kubernetes:
     kubernetes_labels: 'app'
     timeout: 3
+    enable_minimum_whitelist: false
   cadvisor:
     enabled: true
     timeout: 3
+    enable_minimum_whitelist: false
   resources:
     requests:
       memory: 256Mi
@@ -159,7 +166,7 @@ api:
   name: api
   image:
     repository: monasca/api
-    tag: master-20170803-134039
+    tag: master-20171211-192841
     pullPolicy: IfNotPresent
   replicaCount: 1
   keystone:
@@ -301,7 +308,7 @@ keystone:
   database_backend: mysql
   image:
     pullPolicy: IfNotPresent
-    tag: 1.1.2
+    tag: 1.1.3
     repository: monasca/keystone
   mysql:
     database: keystone
@@ -405,7 +412,7 @@ storm:
   enabled: false
   image:
     repository: monasca/storm
-    tag: 1.1.1-1.0.0
+    tag: 1.1.1-1.0.11
     pullPolicy: IfNotPresent
   persistence:
     storageClass: default
@@ -433,7 +440,7 @@ storm:
     name: thresh
     image:
       repository: monasca/thresh
-      tag: master-20171010-180141
+      tag: master-20171205-104226
       pullPolicy: IfNotPresent
     mysql:
       port: "3306"
@@ -469,9 +476,10 @@ storm:
 thresh:
   name: thresh
   enabled: true
+  use_local: true
   image:
     repository: monasca/thresh
-    tag: master-20171010-180141
+    tag: master-20171205-104226
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -503,11 +511,15 @@ thresh:
     aggregationBoltTasks: 2
     thresholdingBoltThreads: 2
     thresholdingBoltTasks: 2
+  jmx:
+    enabled: false
+    port: 9090
   wait:
     retries: 24
     delay: 5
     timeout: 10
-  heap_ratio: .65
+  memory_ratio: .85
+  stack_size: 1024k
 
 alarms:
   name: alarms
@@ -674,7 +686,7 @@ aggregator:
   name: aggregator
   image:
     repository: monasca/aggregator
-    tag: 0.1.2
+    tag: 0.1.4
     pullPolicy: IfNotPresent
   window_size: 60
   window_lag: 2
@@ -1534,7 +1546,7 @@ tempest_tests:
   enabled: False
   image:
     repository: monasca/tempest-tests
-    tag: 1.0.0
+    tag: 1.0.1
     pullPolicy: IfNotPresent
   wait:
     enabled: True
@@ -1581,10 +1593,11 @@ smoke_tests:
 
 alarm_definition_controller:
   name: adc
-  enabled: true
+  controller_enabled: true
+  resource_enabled: true
   image:
     repository: monasca/alarm-definition-controller
-    tag: 1.0.1
+    tag: 1.0.2
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -1599,3 +1612,15 @@ alarm_definition_controller:
     tenant_name: mini-mon
     domain_name: Default
   namespace: ''
+  version: v1
+
+kafka:
+  init:
+    topics:
+      - metrics:64:1
+      - alarm-state-transitions:12:1
+      - alarm-notifications:12:1
+      - retry-notifications:3:1
+      - events:12:1
+      - 60-seconds-notifications:3:1
+      - kafka-health-check:1:1
