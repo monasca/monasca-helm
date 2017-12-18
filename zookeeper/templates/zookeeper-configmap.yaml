@@ -16,6 +16,8 @@ data:
     initLimit=5
     syncLimit=2
     maxClientCnxns=1000
+    autopurge.snapRetainCount={{ .Values.persistence.snap_retain_count }}
+    autopurge.purgeInterval={{ .Values.persistence.purge_interval }}
   log4j.properties: |
     # Root logger option
     log4j.rootLogger=INFO, stdout
