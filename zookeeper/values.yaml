@@ -10,6 +10,8 @@ persistence:
   enabled: false
   accessMode: ReadWriteOnce
   size: 10Gi
+  purge_interval: 1
+  snap_retain_count: 3
 resources:
   requests:
     memory: 256Mi
