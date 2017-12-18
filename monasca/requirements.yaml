@@ -16,6 +16,6 @@ dependencies:
     condition: 'storm.enabled, global.storm.enabled'
     repository: 'http://monasca.io/monasca-helm/'
   - name: zookeeper
-    version: 0.3.3
+    version: 0.3.5
     condition: 'zookeeper.enabled, global.zookeeper.enabled'
     repository: 'http://monasca.io/monasca-helm/'
