@@ -18,7 +18,7 @@ spec:
         component: "{{ .Values.alarm_definition_controller.name }}"
     spec:
       containers:
-        - name: {{ template "name" . }}-{{ .Values.alarm_definition_controller.name }}
+        - name: adc
           image: "{{ .Values.alarm_definition_controller.image.repository }}:{{ .Values.alarm_definition_controller.image.tag }}"
           imagePullPolicy: {{ .Values.alarm_definition_controller.image.pullPolicy }}
           resources:
