@@ -25,7 +25,7 @@ spec:
               - key: preload.yml
                 path: preload.yml
       containers:
-        - name: {{ template "name" . }}-{{ .Values.keystone.name }}
+        - name: keystone
           image: "{{ .Values.keystone.image.repository }}:{{ .Values.keystone.image.tag }}"
           imagePullPolicy: {{ .Values.keystone.image.pullPolicy }}
           resources:

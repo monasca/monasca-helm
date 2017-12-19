@@ -18,7 +18,7 @@ spec:
     spec:
       terminationGracePeriodSeconds: {{ .Values.agent.termination_grace_period }}
       containers:
-        - name: {{ template "name" . }}-{{ .Values.agent.name }}-collector-deployment
+        - name: collector
           image: "{{ .Values.agent.collector.image.repository }}:{{ .Values.agent.collector.image.tag }}"
           imagePullPolicy: {{ .Values.agent.collector.image.pullPolicy }}
           resources:
@@ -89,7 +89,7 @@ spec:
             - name: agent-config
               mountPath: /plugins.d
           {{- end}}
-        - name: {{ template "name" . }}-{{ .Values.agent.name }}-forwarder-deployment
+        - name: forwarder
           image: "{{ .Values.agent.forwarder.image.repository }}:{{ .Values.agent.forwarder.image.tag }}"
           imagePullPolicy: {{ .Values.agent.forwarder.image.pullPolicy }}
           resources:
