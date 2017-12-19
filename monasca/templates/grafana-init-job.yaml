@@ -18,7 +18,7 @@ spec:
     spec:
       restartPolicy: OnFailure
       containers:
-        - name: {{ template "name" . }}-{{ .Values.grafana.name }}-init-job
+        - name: grafana-init-job
           image: "{{ .Values.grafana_init.image.repository }}:{{ .Values.grafana_init.image.tag }}"
           imagePullPolicy: {{ .Values.grafana_init.image.pullPolicy }}
           resources:

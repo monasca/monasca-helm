@@ -23,7 +23,7 @@ spec:
         prometheus.io/port: "8080"
     spec:
       containers:
-      - name: {{ template "name" . }}-{{ .Values.aggregator.name }}
+      - name: aggregator
         image: "{{ .Values.aggregator.image.repository }}:{{ .Values.aggregator.image.tag }}"
         imagePullPolicy: {{ .Values.aggregator.image.pullPolicy }}
         resources:

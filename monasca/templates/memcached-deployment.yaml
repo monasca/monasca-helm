@@ -18,7 +18,7 @@ spec:
         component: "{{ .Values.memcached.name }}"
     spec:
       containers:
-      - name: {{ template "name" . }}-{{ .Values.memcached.name }}
+      - name: memcached
         image: "{{ .Values.memcached.image.repository }}:{{ .Values.memcached.image.tag }}"
         imagePullPolicy: {{ .Values.memcached.image.pullPolicy }}
         resources:
