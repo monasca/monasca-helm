@@ -14,7 +14,7 @@ metadata:
 spec:
   restartPolicy: Never
   containers:
-    - name: {{ template "name" . }}-{{ .Values.tempest_tests.name }}-test-pod
+    - name: tempest-tests
       image: "{{ .Values.tempest_tests.image.repository }}:{{ .Values.tempest_tests.image.tag }}"
       imagePullPolicy: {{ .Values.tempest_tests.image.pullPolicy }}
       env:

@@ -14,7 +14,7 @@ metadata:
 spec:
   restartPolicy: Never
   containers:
-    - name: {{ template "name" . }}-{{ .Values.smoke_tests.name }}-test-pod
+    - name: smoke-tests
       image: "{{ .Values.smoke_tests.image.repository }}:{{ .Values.smoke_tests.image.tag }}"
       imagePullPolicy: {{ .Values.smoke_tests.image.pullPolicy }}
       resources:
