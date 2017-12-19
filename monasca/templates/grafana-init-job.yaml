@@ -16,7 +16,7 @@ spec:
         app: {{ template "fullname" . }}
         component: "{{ .Values.grafana.name }}-init-job"
     spec:
-      restartPolicy: Never
+      restartPolicy: OnFailure
       containers:
         - name: {{ template "name" . }}-{{ .Values.grafana.name }}-init-job
           image: "{{ .Values.grafana_init.image.repository }}:{{ .Values.grafana_init.image.tag }}"
