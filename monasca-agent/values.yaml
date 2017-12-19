@@ -2,12 +2,12 @@ name: agent
 collector:
   image:
     repository: monasca/agent-collector
-    tag: master-20170811-222309
+    tag: master-20171208-215826
     pullPolicy: IfNotPresent
 forwarder:
   image:
     repository: monasca/agent-forwarder
-    tag: master-20170811-222309
+    tag: master-20171208-215826
     pullPolicy: IfNotPresent
 insecure: False
 log_level: WARN

@@ -1,4 +1,4 @@
-{{- if .Values.agent.enabled }}
+{{- if .Values.agent.daemonset_enabled }}
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
@@ -10,12 +10,20 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
         component: "{{ .Values.agent.name }}-daemonset"
         app: {{ template "fullname" . }}
     spec:
+      {{- if .Values.agent.daemonset_toleration.enabled }}
+      tolerations:
+        - operator: "{{ .Values.agent.daemonset_toleration.operator }}"
+          effect: "{{ .Values.agent.daemonset_toleration.effect }}"
+      {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.agent.termination_grace_period }}
       containers:
         - name: {{ template "name" . }}-{{ .Values.agent.name }}-collector-daemonset
           image: "{{ .Values.agent.collector.image.repository }}:{{ .Values.agent.collector.image.tag }}"
@@ -23,6 +31,8 @@ spec:
           resources:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
+            - name: KEYSTONE_DEFAULTS_ENABLED
+              value: "{{ .Values.agent.keystone.defaults_enabled }}"
             - name: OS_AUTH_URL
             {{- if .Values.agent.keystone.url }}
             {{- if eq (kindOf .Values.agent.keystone.url) "map" }}
@@ -77,12 +87,22 @@ spec:
             - name: DIMENSIONS
               value: {{ .Values.agent.dimensions | quote}}
             {{- end}}
+            {{- if .Values.agent.cadvisor.enable_minimum_whitelist }}
+            - name: CADVISOR_MINIMUM_WHITELIST
+              value: "true"
+            {{- end }}
+            {{- if .Values.agent.kubernetes.enable_minimum_whitelist }}
+            - name: KUBERNETES_MINIMUM_WHITELIST
+              value: "true"
+            {{- end }}
         - name: {{ template "name" . }}-{{ .Values.agent.name }}-forwarder-daemonset
           image: "{{ .Values.agent.forwarder.image.repository }}:{{ .Values.agent.forwarder.image.tag }}"
           imagePullPolicy: {{ .Values.agent.forwarder.image.pullPolicy }}
           resources:
 {{ toYaml .Values.agent.resources | indent 12 }}
           env:
+            - name: KEYSTONE_DEFAULTS_ENABLED
+              value: "{{ .Values.agent.keystone.defaults_enabled }}"
             - name: OS_AUTH_URL
             {{- if .Values.agent.keystone.url }}
             {{- if eq (kindOf .Values.agent.keystone.url) "map" }}

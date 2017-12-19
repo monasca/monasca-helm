@@ -22,6 +22,10 @@ spec:
           env:
             - name: INFLUXDB_URL
               value: "http://{{ .Release.Name }}-influxdb:{{ .Values.influxdb.config.http.bind_address }}"
+            - name: INFLUXDB_SHARD_DURATION
+              value: {{ .Values.influx_init.shard_duration | quote }}
+            - name: INFLUXDB_DEFAULT_RETENTION
+              value: {{ .Values.influx_init.default_retention | quote }}
           resources:
 {{ toYaml .Values.influx_init.resources | indent 12 }}
 {{- end }}

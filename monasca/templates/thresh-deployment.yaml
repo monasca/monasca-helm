@@ -68,24 +68,57 @@ spec:
               value: "{{ .Values.thresh.bolt.thresholdingBoltTasks }}"
             - name: KAFKA_URI
               value: "{{ .Release.Name }}-kafka:9092"
+            - name: USE_SSL_ENABLED
+              value: "{{ .Values.thresh.use_ssl_enabled | default "false" }}"
             - name: MYSQL_DB_HOST
+            {{- if .Values.thresh.mysql.host }}
+            {{- if eq (kindOf .Values.thresh.mysql.host) "map" }}
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.thresh.mysql.host.secret_name }}"
+                  key: "{{ .Values.thresh.mysql.host.secret_key | default "host" }}"
+            {{- else }}
+              value: "{{ .Values.thresh.mysql.host }}"
+            {{- end}}
+            {{- else }}
               value: "{{ .Release.Name }}-mysql"
+            {{- end}}
             - name: MYSQL_DB_PORT
-              value: "3306"
+{{- include "monasca_secret_env" .Values.thresh.mysql.port | indent 14 }}
             - name: MYSQL_DB_DATABASE
               value: "mon"
             - name: MYSQL_DB_USERNAME
               valueFrom:
                 secretKeyRef:
+                {{- if .Values.thresh.mysql.username.secret_name }}
+                  name: "{{ .Values.thresh.mysql.username.secret_name }}"
+                {{- else }}
                   name: "{{ .Release.Name }}-mysql-thresh-secret"
-                  key: username
+                {{- end}}
+                  key: "{{ .Values.thresh.mysql.username.secret_key | default "username" }}"
             - name: MYSQL_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
+                {{- if .Values.thresh.mysql.password.secret_name }}
+                  name: "{{ .Values.thresh.mysql.password.secret_name }}"
+                {{- else }}
                   name: "{{ .Release.Name }}-mysql-thresh-secret"
-                  key: password
+                {{- end }}
+                  key: "{{ .Values.thresh.mysql.password.secret_key | default "password" }}"
             - name: NO_STORM_CLUSTER
-              value: "true"
+              value: "{{ .Values.thresh.use_local }}"
             - name: WORKER_MAX_HEAP_MB
               value: "{{ .Values.thresh.workerMaxHeapMB }}"
+            - name: JVM_MAX_HEAP_RATIO
+              value: {{ .Values.thresh.heap_ratio | quote }}
+            - name: THRESH_STACK_SIZE
+              value: {{ .Values.thresh.stack_size | quote }}
+            - name: JVM_MAX_RATIO
+              value: {{ .Values.thresh.memory_ratio | quote }}
+            {{- if .Values.thresh.jmx.enabled }}
+            - name: LOCAL_JMX
+              value: "true"
+            - name: LOCAL_JMX_PORT
+              value: {{ .Values.thresh.jmx.port | quote }}
+            {{- end }}
 {{- end }}

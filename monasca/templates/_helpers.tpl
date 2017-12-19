@@ -150,3 +150,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- define "memcached.fullname" -}}
 {{- printf "%s-%s" .Release.Name "memcached" | trunc 63 -}}
 {{- end -}}
+
+{{/*
+Create a fully qualified alarm definition controller name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "alarm_definition_controller.fullname" -}}
+{{- printf "%s-%s" .Release.Name "adc" | trunc 63 -}}
+{{- end -}}
