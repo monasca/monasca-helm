@@ -20,7 +20,7 @@ influx_init:
   enabled: true
   image:
     repository: monasca/influxdb-init
-    tag: 1.0.2
+    tag: 1.0.3
     pullPolicy: IfNotPresent
   resources:
     requests:
