@@ -213,7 +213,7 @@ def check_requirements_version_changes(files, modules):
 
         if 'Chart.yaml' in dirty:
             version = check_version_change(module)
-            if version != None:
+            if version is not None:
                 modules_updated[module] = version
 
     # Look for requirements that depend on those version bumps
@@ -221,10 +221,14 @@ def check_requirements_version_changes(files, modules):
         return
 
     pr_dictionary = build_requirements_dictionary(modules_updated)
+    if not pr_dictionary.values():
+        # module has no requirements
+        return
+
     master_dictionary = build_old_requirements_dictionary(modules_updated)
 
-    pr_dependencies = reduce(lambda x,y: x+y, pr_dictionary.values())
-    master_dependencies = reduce(lambda x,y: x+y, master_dictionary.values())
+    pr_dependencies = reduce(lambda x, y: x + y, pr_dictionary.values())
+    master_deps = reduce(lambda x, y: x + y, master_dictionary.values())
     for pr_dep in pr_dependencies['dependencies']:
         for master_dep in master_deps['dependencies']:
             if pr_dep['name'] == master_dep['name']:
@@ -247,7 +251,7 @@ def handle_push(files, modules):
 
         if 'Chart.yaml' in dirty:
             version = check_version_change(module)
-            if version != None:
+            if version is not None:
                 modules_updated[module] = version
 
     if modules_updated:
@@ -258,6 +262,7 @@ def handle_push(files, modules):
         print(pr_dictionary)
     else:
         print('No modules to push.')
+
 
 def handle_other(files, modules):
     print('Unsupported event type "%s", nothing to do.' % (
