@@ -18,7 +18,7 @@ spec:
         component: "{{ .Values.grafana.name }}"
     spec:
       containers:
-        - name: {{ template "name" . }}-{{ .Values.grafana.name }}
+        - name: grafana
           image: "{{ .Values.grafana.image.repository }}:{{ .Values.grafana.image.tag }}"
           imagePullPolicy: {{ .Values.grafana.image.pullPolicy }}
           resources:

@@ -20,7 +20,7 @@ spec:
         checksum/metric_config: {{ toYaml .Values.forwarder.metric_configuration | sha256sum }}
     spec:
       containers:
-      - name: {{ template "name" . }}-{{ .Values.forwarder.name }}
+      - name: forwarder
         image: "{{ .Values.forwarder.image.repository }}:{{ .Values.forwarder.image.tag }}"
         imagePullPolicy: {{ .Values.forwarder.image.pullPolicy }}
         resources:
