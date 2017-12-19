@@ -21,3 +21,21 @@ resources:
     memory: 512Mi
 java:
   max_ram_fraction: 2
+watcher:
+  enabled: false
+  image:
+    repository: monasca/zookeeper-watcher
+    tag: 0.0.1
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 32Mi
+      cpu: 25m
+    limits:
+      memory: 64Mi
+      cpu: 50m
+  port: 8080
+  health_check_path: zookeeper-health-check
+  watcher_period: 600
+  watcher_timeout: 60
+  stay_alive_on_failure: false
