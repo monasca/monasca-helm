@@ -17,7 +17,7 @@ spec:
         component: "{{ .Values.persister.name }}"
     spec:
       containers:
-      - name: {{ template "name" . }}-{{ .Values.persister.name }}
+      - name: persister
         image: "{{ .Values.persister.image.repository }}:{{ .Values.persister.image.tag }}"
         imagePullPolicy: {{ .Values.persister.image.pullPolicy }}
         resources:

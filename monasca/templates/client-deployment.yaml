@@ -17,7 +17,7 @@ spec:
         app: {{ template "fullname" . }}
     spec:
       containers:
-        - name: {{ template "name" . }}-{{ .Values.client.name }}-deployment
+        - name: client
           image: "{{ .Values.client.image.repository }}:{{ .Values.client.image.tag }}"
           imagePullPolicy: {{ .Values.client.image.pullPolicy }}
           command:
