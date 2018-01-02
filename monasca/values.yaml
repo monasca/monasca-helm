@@ -119,12 +119,12 @@ agent:
   collector:
     image:
       repository: monasca/agent-collector
-      tag: master-20171208-215826
+      tag: master-20180102-201258
       pullPolicy: IfNotPresent
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20171208-215826
+      tag: master-20180102-201258
       pullPolicy: IfNotPresent
   log_level: WARN
   insecure: False
@@ -166,7 +166,7 @@ api:
   name: api
   image:
     repository: monasca/api
-    tag: master-20171211-192841
+    tag: master-20171222-090949
     pullPolicy: IfNotPresent
   replicaCount: 1
   keystone:
@@ -667,7 +667,7 @@ cleanup:
   name: cleanup
   image:
     repository: monasca/job-cleanup
-    tag: 1.2.0
+    tag: 1.2.1
     pullPolicy: IfNotPresent
   resources:
     requests:
