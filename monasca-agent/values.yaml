@@ -7,7 +7,7 @@ collector:
 forwarder:
   image:
     repository: monasca/agent-forwarder
-    tag: master-20171208-215826
+    tag: master-20180102-201258
     pullPolicy: IfNotPresent
 insecure: False
 log_level: WARN
