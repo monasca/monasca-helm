@@ -166,7 +166,7 @@ api:
   name: api
   image:
     repository: monasca/api
-    tag: master-20171211-192841
+    tag: master-20171222-090949
     pullPolicy: IfNotPresent
   replicaCount: 1
   keystone:
