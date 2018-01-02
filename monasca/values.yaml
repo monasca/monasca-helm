@@ -119,7 +119,7 @@ agent:
   collector:
     image:
       repository: monasca/agent-collector
-      tag: master-20171208-215826
+      tag: master-20180102-201258
       pullPolicy: IfNotPresent
   forwarder:
     image:
