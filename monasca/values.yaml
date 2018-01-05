@@ -272,7 +272,7 @@ grafana:
   enabled: true
   image:
     repository: monasca/grafana
-    tag: 4.0.0-1.1.3
+    tag: 4.0.0-1.3.4
     pullPolicy: IfNotPresent
   service:
     type: NodePort
@@ -1546,7 +1546,7 @@ tempest_tests:
   enabled: False
   image:
     repository: monasca/tempest-tests
-    tag: 1.0.1
+    tag: 1.0.2
     pullPolicy: IfNotPresent
   wait:
     enabled: True
