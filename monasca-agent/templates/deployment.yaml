@@ -111,6 +111,12 @@ spec:
               value: {{ .Values.log_level | quote }}
             - name: INSECURE
               value: {{ .Values.insecure | quote }}
+            - name: MAX_BATCH_SIZE
+              value: {{ .Values.agent.forwarder.max_batch_size | quote }}
+            - name: MAX_MEASUREMENT_BUFFER_SIZE
+              value: {{ .Values.agent.forwarder.max_measurement_buffer_size | quote }}
+            - name: BACKLOG_SEND_RATE
+              value: {{ .Values.agent.forwarder.backlog_send_rate | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
       {{- if .Values.plugins.enabled }}
