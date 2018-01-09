@@ -71,6 +71,14 @@ spec:
             - name: REPORT_PERSISTENT_STORAGE
               value: {{ .Values.kubernetes_api.storage.report | quote }}
             {{- if .Values.dimensions }}
+            - name: CHECK_FREQ
+              value: {{ .Values.collector.check_freq | quote }}
+            - name: NUM_COLLECTOR_THREADS
+              value: {{ .Values.collector.num_collector_threads | quote }}
+            - name: POOL_FULL_MAX_TRIES
+              value: {{ .Values.collector.pool_full_max_retries | quote }}
+            - name: SUB_COLLECTION_WARN
+              value: {{ .Values.collector.sub_collection_warn | quote }}
             - name: DIMENSIONS
               value: {{ .Values.dimensions | quote}}
             {{- end}}

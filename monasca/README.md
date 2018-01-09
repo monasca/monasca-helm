@@ -183,7 +183,7 @@ Parameter | Description | Default
 `agent.forwarder.image.tag` | Agent Forwarder container image tag | `master-20170615-204444`
 `agent.forwarder.image.pullPolicy` | Agent Forwarder container image pull policy | `IfNotPresent`
 `agent.forwarder.max_batch_size` | Maximum batch size of measurements to write to monasca-api, 0 is no limit | `0`
-`agent.forwarder.max_measurement_buffer_size` | Maximum number of measurements to buffer when unable to communicate with the monasca-api (-1 means no limit)| `1000`
+`agent.forwarder.max_measurement_buffer_size` | Maximum number of measurements to buffer when unable to communicate with the monasca-api (-1 means no limit)| `-1`
 `agent.forwarder.backlog_send_rate` | Maximum number of messages to send at one time when communication with the monasca-api is restored | `5`
 `agent.dimensions` | Default dimensions to attach to every metric being sent | ``
 `agent.plugins.enabled` | Enable passing in agent plugins | `False`

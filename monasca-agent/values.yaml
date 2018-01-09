@@ -14,7 +14,7 @@ forwarder:
     tag: master-20180105-183106
     pullPolicy: IfNotPresent
   max_batch_size: 0
-  max_measurement_buffer_size: 1000
+  max_measurement_buffer_size: -1
   backlog_send_rate: 5
 insecure: False
 log_level: WARN
