@@ -65,6 +65,23 @@ $ helm install --name my-release -f values.yaml stable/influxdb
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
 
+### InfluxDB Watcher Configuration
+
+Parameter | Description | Default
+--------- | ----------- | -------
+`watcher.enabled` | InfluxDB watcher enabled flag | `false`
+`watcher.image.repository` | InfluxDB watcher container image repository | `monasca/influxdb-watcher`
+`watcher.image.tag` | InfluxDB watcher container image tag | `latest`
+`watcher.image.pullPolicy` | InfluxDB watcher container image pull policy | `IfNotPresent`
+`watcher.address` | InfluxDB service address | `http://localhost:8086`
+`watcher.username` | InfluxDB username with read/write privileges | `influxdb_watcher`
+`watcher.password` | InfluxDB password | `password`
+`watcher.database` | InfluxDB database | `mon`
+`watcher.watcher_period` | InfluxDB watcher period | `600`
+`watcher.watcher_timeout` | InfluxDB watcher read/write timeout | `60`
+`watcher.stay_alive_on_failure` | If `true`, watcher container stays alive for 2 hours after watcher exits | `false`
+`watcher.port` | InfluxDB watcher port to expose Promethues metrics on | `8080`
+
 ## Persistence
 
 The [InfluxDB](https://hub.docker.com/_/influxdb/) image stores data in the `/var/lib/influxdb` directory in the container.

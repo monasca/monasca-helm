@@ -207,3 +207,25 @@ config:
     log_enabled: true
     enabled: true
     run_interval: 1s
+
+watcher:
+  enabled: false
+  image:
+    repository: monasca/influxdb-watcher
+    tag: 0.0.1
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 32Mi
+      cpu: 25m
+    limits:
+      memory: 64Mi
+      cpu: 50m
+  port: 8080
+  address: http://localhost:8086
+  username: influxdb_watcher
+  password: password
+  database: mon
+  watcher_period: 600
+  watcher_timeout: 60
+  stay_alive_on_failure: false
