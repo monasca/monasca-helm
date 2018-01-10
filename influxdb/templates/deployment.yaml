@@ -82,7 +82,7 @@ spec:
         - name: config
           mountPath: /etc/influxdb
       {{- if .Values.watcher.enabled }}
-      - name: {{ .Chart.Name }}-watcher
+      - name: watcher
         image: "{{ .Values.watcher.image.repository }}:{{ .Values.watcher.image.tag }}"
         imagePullPolicy: {{ .Values.watcher.image.pullPolicy }}
         resources:
