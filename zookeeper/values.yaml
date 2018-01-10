@@ -25,7 +25,7 @@ watcher:
   enabled: false
   image:
     repository: monasca/zookeeper-watcher
-    tag: 0.0.1
+    tag: 0.0.2
     pullPolicy: IfNotPresent
   resources:
     requests:
