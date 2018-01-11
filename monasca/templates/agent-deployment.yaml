@@ -80,6 +80,10 @@ spec:
             {{- end}}
             - name: REPORT_PERSISTENT_STORAGE
               value: {{ .Values.agent.kubernetes_api.storage.report | quote }}
+            {{- if .Values.agent.dimensions }}
+            - name: DIMENSIONS
+              value: {{ .Values.agent.dimensions | quote}}
+            {{- end}}
             - name: CHECK_FREQ
               value: {{ .Values.agent.collector.check_freq | quote }}
             - name: NUM_COLLECTOR_THREADS
@@ -88,10 +92,6 @@ spec:
               value: {{ .Values.agent.collector.pool_full_max_retries | quote }}
             - name: SUB_COLLECTION_WARN
               value: {{ .Values.agent.collector.sub_collection_warn | quote }}
-            {{- if .Values.agent.dimensions }}
-            - name: DIMENSIONS
-              value: {{ .Values.agent.dimensions | quote}}
-            {{- end}}
           {{- if .Values.agent.plugins.enabled }}
           volumeMounts:
             - name: agent-config

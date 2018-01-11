@@ -71,6 +71,9 @@ spec:
             - name: REPORT_PERSISTENT_STORAGE
               value: {{ .Values.kubernetes_api.storage.report | quote }}
             {{- if .Values.dimensions }}
+            - name: DIMENSIONS
+              value: {{ .Values.dimensions | quote}}
+            {{- end}}
             - name: CHECK_FREQ
               value: {{ .Values.collector.check_freq | quote }}
             - name: NUM_COLLECTOR_THREADS
@@ -79,9 +82,6 @@ spec:
               value: {{ .Values.collector.pool_full_max_retries | quote }}
             - name: SUB_COLLECTION_WARN
               value: {{ .Values.collector.sub_collection_warn | quote }}
-            - name: DIMENSIONS
-              value: {{ .Values.dimensions | quote}}
-            {{- end}}
           {{- if .Values.plugins.enabled }}
           volumeMounts:
             - name: agent-config
@@ -120,11 +120,11 @@ spec:
             - name: INSECURE
               value: {{ .Values.insecure | quote }}
             - name: MAX_BATCH_SIZE
-              value: {{ .Values.agent.forwarder.max_batch_size | quote }}
+              value: {{ .Values.forwarder.max_batch_size | quote }}
             - name: MAX_MEASUREMENT_BUFFER_SIZE
-              value: {{ .Values.agent.forwarder.max_measurement_buffer_size | quote }}
+              value: {{ .Values.forwarder.max_measurement_buffer_size | quote }}
             - name: BACKLOG_SEND_RATE
-              value: {{ .Values.agent.forwarder.backlog_send_rate | quote }}
+              value: {{ .Values.forwarder.backlog_send_rate | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
       {{- if .Values.plugins.enabled }}
