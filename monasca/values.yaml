@@ -119,13 +119,20 @@ agent:
   collector:
     image:
       repository: monasca/agent-collector
-      tag: master-20180105-183106
+      tag: master-20180112-162543
       pullPolicy: IfNotPresent
+    check_freq: 30
+    num_collector_threads: 1
+    pool_full_max_retries: 4
+    sub_collection_warn: 6
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20180105-183106
+      tag: master-20180112-162543
       pullPolicy: IfNotPresent
+    max_batch_size: 0
+    max_measurement_buffer_size: -1
+    backlog_send_rate: 5
   log_level: WARN
   insecure: False
   keystone:
@@ -383,7 +390,7 @@ persister:
   name: persister
   image:
     repository: monasca/persister
-    tag: master-20171019-164402
+    tag: master-20180111-234331
     pullPolicy: IfNotPresent
   replicaCount: 1
   influxdb:
@@ -1597,7 +1604,7 @@ alarm_definition_controller:
   resource_enabled: true
   image:
     repository: monasca/alarm-definition-controller
-    tag: 1.0.2
+    tag: 1.0.3
     pullPolicy: IfNotPresent
   resources:
     requests:

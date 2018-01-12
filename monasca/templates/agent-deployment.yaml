@@ -84,6 +84,14 @@ spec:
             - name: DIMENSIONS
               value: {{ .Values.agent.dimensions | quote}}
             {{- end}}
+            - name: CHECK_FREQ
+              value: {{ .Values.agent.collector.check_freq | quote }}
+            - name: NUM_COLLECTOR_THREADS
+              value: {{ .Values.agent.collector.num_collector_threads | quote }}
+            - name: POOL_FULL_MAX_TRIES
+              value: {{ .Values.agent.collector.pool_full_max_retries | quote }}
+            - name: SUB_COLLECTION_WARN
+              value: {{ .Values.agent.collector.sub_collection_warn | quote }}
           {{- if .Values.agent.plugins.enabled }}
           volumeMounts:
             - name: agent-config
@@ -127,6 +135,12 @@ spec:
               value: {{ .Values.agent.log_level | quote }}
             - name: INSECURE
               value: {{ .Values.agent.insecure | quote }}
+            - name: MAX_BATCH_SIZE
+              value: {{ .Values.agent.forwarder.max_batch_size | quote }}
+            - name: MAX_MEASUREMENT_BUFFER_SIZE
+              value: {{ .Values.agent.forwarder.max_measurement_buffer_size | quote }}
+            - name: BACKLOG_SEND_RATE
+              value: {{ .Values.agent.forwarder.backlog_send_rate | quote }}
       {{- if .Values.agent.plugins.enabled }}
       volumes:
         - name: agent-config
