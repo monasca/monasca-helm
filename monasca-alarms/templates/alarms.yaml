@@ -66,3 +66,37 @@ alarmDefinitionSpec:
   description: "Zookeeper is not running for {{ .Values.zookeeper.running_periods }} minutes"
   severity: "HIGH"
 {{- end }}
+{{- if .Values.influx.enabled }}
+---
+apiVersion: "monasca.io/v1"
+kind: AlarmDefinition
+metadata:
+  name: influxdb-not-starting
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+alarmDefinitionSpec:
+  name: "InfluxDB not started"
+  expression: "avg(influxdb_watcher_status) < 0 times {{ .Values.influxdb.start_periods }}"
+  match_by: []
+  description: "influxdb not started in {{ .Values.influxdb.start_periods }} minutes"
+  severity: "HIGH"
+---
+apiVersion: "monasca.io/v1"
+kind: AlarmDefinition
+metadata:
+  name: influxdb-not-running
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+alarmDefinitionSpec:
+  name: "InfluxDB not running"
+  expression: "avg(influxdb_watcher_status) > 0 times {{ .Values.influxdb.running_periods }}"
+  match_by: []
+  description: "influxdb is not running for {{ .Values.influxdb.running_periods }} minutes"
+  severity: "HIGH"
+{{- end }}
