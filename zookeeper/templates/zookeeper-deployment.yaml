@@ -53,7 +53,7 @@ spec:
             - name: config-volume
               mountPath: /conf
         {{- if .Values.watcher.enabled }}
-        - name: {{ .Chart.Name }}-watcher
+        - name: watcher
           image: "{{ .Values.watcher.image.repository }}:{{ .Values.watcher.image.tag }}"
           imagePullPolicy: {{ .Values.watcher.image.pullPolicy }}
           resources:
