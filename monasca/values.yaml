@@ -119,7 +119,7 @@ agent:
   collector:
     image:
       repository: monasca/agent-collector
-      tag: master-20180105-183106
+      tag: master-20180112-162543
       pullPolicy: IfNotPresent
     check_freq: 30
     num_collector_threads: 1
@@ -128,7 +128,7 @@ agent:
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20180105-183106
+      tag: master-20180112-162543
       pullPolicy: IfNotPresent
     max_batch_size: 0
     max_measurement_buffer_size: -1
