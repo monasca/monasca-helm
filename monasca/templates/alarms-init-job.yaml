@@ -18,7 +18,7 @@ spec:
     spec:
       restartPolicy: OnFailure
       containers:
-        - name: {{ template "name" . }}-{{ .Values.alarms.name }}-init-job
+        - name: alarms-init-job
           image: "{{ .Values.alarms.image.repository }}:{{ .Values.alarms.image.tag }}"
           imagePullPolicy: {{ .Values.alarms.image.pullPolicy }}
           resources:

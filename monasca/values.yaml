@@ -20,7 +20,7 @@ influx_init:
   enabled: true
   image:
     repository: monasca/influxdb-init
-    tag: 1.0.2
+    tag: 1.0.3
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -119,13 +119,20 @@ agent:
   collector:
     image:
       repository: monasca/agent-collector
-      tag: master-20171129-221711
+      tag: master-20180105-183106
       pullPolicy: IfNotPresent
+    check_freq: 30
+    num_collector_threads: 1
+    pool_full_max_retries: 4
+    sub_collection_warn: 6
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20171129-221711
+      tag: master-20180105-183106
       pullPolicy: IfNotPresent
+    max_batch_size: 0
+    max_measurement_buffer_size: -1
+    backlog_send_rate: 5
   log_level: WARN
   insecure: False
   keystone:
@@ -166,7 +173,7 @@ api:
   name: api
   image:
     repository: monasca/api
-    tag: master-20170803-134039
+    tag: master-20180105-072513
     pullPolicy: IfNotPresent
   replicaCount: 1
   keystone:
@@ -272,7 +279,7 @@ grafana:
   enabled: true
   image:
     repository: monasca/grafana
-    tag: 4.0.0-1.1.3
+    tag: 4.0.0-1.3.4
     pullPolicy: IfNotPresent
   service:
     type: NodePort
@@ -526,7 +533,7 @@ alarms:
   enabled: true
   image:
     repository: monasca/alarms
-    tag: 1.1.3
+    tag: 1.2.0
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -667,7 +674,7 @@ cleanup:
   name: cleanup
   image:
     repository: monasca/job-cleanup
-    tag: 1.1.2
+    tag: 1.2.1
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -686,7 +693,7 @@ aggregator:
   name: aggregator
   image:
     repository: monasca/aggregator
-    tag: 0.1.3
+    tag: 0.1.4
     pullPolicy: IfNotPresent
   window_size: 60
   window_lag: 2
@@ -1546,7 +1553,7 @@ tempest_tests:
   enabled: False
   image:
     repository: monasca/tempest-tests
-    tag: 1.0.1
+    tag: 1.0.2
     pullPolicy: IfNotPresent
   wait:
     enabled: True
@@ -1597,7 +1604,7 @@ alarm_definition_controller:
   resource_enabled: true
   image:
     repository: monasca/alarm-definition-controller
-    tag: 1.0.1
+    tag: 1.0.2
     pullPolicy: IfNotPresent
   resources:
     requests:

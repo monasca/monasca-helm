@@ -74,6 +74,14 @@ spec:
             - name: DIMENSIONS
               value: {{ .Values.dimensions | quote}}
             {{- end}}
+            - name: CHECK_FREQ
+              value: {{ .Values.collector.check_freq | quote }}
+            - name: NUM_COLLECTOR_THREADS
+              value: {{ .Values.collector.num_collector_threads | quote }}
+            - name: POOL_FULL_MAX_TRIES
+              value: {{ .Values.collector.pool_full_max_retries | quote }}
+            - name: SUB_COLLECTION_WARN
+              value: {{ .Values.collector.sub_collection_warn | quote }}
           {{- if .Values.plugins.enabled }}
           volumeMounts:
             - name: agent-config
@@ -111,6 +119,12 @@ spec:
               value: {{ .Values.log_level | quote }}
             - name: INSECURE
               value: {{ .Values.insecure | quote }}
+            - name: MAX_BATCH_SIZE
+              value: {{ .Values.forwarder.max_batch_size | quote }}
+            - name: MAX_MEASUREMENT_BUFFER_SIZE
+              value: {{ .Values.forwarder.max_measurement_buffer_size | quote }}
+            - name: BACKLOG_SEND_RATE
+              value: {{ .Values.forwarder.backlog_send_rate | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
       {{- if .Values.plugins.enabled }}

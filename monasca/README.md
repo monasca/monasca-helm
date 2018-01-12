@@ -175,9 +175,16 @@ Parameter | Description | Default
 `agent.collector.image.repository` | Agent Collector container image repository | `monasca/agent-collector`
 `agent.collector.image.tag` | Agent Collector container image tag | `master-20170707-154334`
 `agent.collector.image.pullPolicy` | Agent Collector container image pull policy | `IfNotPresent`
+`agent.collector.check_freq` | How often to run metric collection in seconds | `30`
+`agent.collector.num_collector_threads` | Number of threads to use in collector for running checks | `1`
+`agent.collector.pool_full_max_retries` |  Maximum number of collection cycles where all of the threads in the pool are still running plugins before the collector will exit | `4`
+`agent.collector.sub_collection_warn` | Number of seconds a plugin collection time exceeds that causes a warning to be logged for that plugin | `6`
 `agent.forwarder.image.repository` | Agent Forwarder container image repository | `monasca/agent-forwarder`
 `agent.forwarder.image.tag` | Agent Forwarder container image tag | `master-20170615-204444`
 `agent.forwarder.image.pullPolicy` | Agent Forwarder container image pull policy | `IfNotPresent`
+`agent.forwarder.max_batch_size` | Maximum batch size of measurements to write to monasca-api, 0 is no limit | `0`
+`agent.forwarder.max_measurement_buffer_size` | Maximum number of measurements to buffer when unable to communicate with the monasca-api (-1 means no limit)| `-1`
+`agent.forwarder.backlog_send_rate` | Maximum number of messages to send at one time when communication with the monasca-api is restored | `5`
 `agent.dimensions` | Default dimensions to attach to every metric being sent | ``
 `agent.plugins.enabled` | Enable passing in agent plugins | `False`
 `agent.plugins.config_files` | List of plugin yamls to be used with the agent | ``

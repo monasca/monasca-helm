@@ -18,7 +18,7 @@ spec:
         component: "{{ .Values.notification.name }}"
     spec:
       containers:
-        - name: {{ template "name" . }}-{{ .Values.notification.name }}
+        - name: notification
           image: "{{ .Values.notification.image.repository }}:{{ .Values.notification.image.tag }}"
           imagePullPolicy: {{ .Values.notification.image.pullPolicy }}
           resources:

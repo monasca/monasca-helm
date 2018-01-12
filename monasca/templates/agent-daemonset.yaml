@@ -25,7 +25,7 @@ spec:
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.agent.termination_grace_period }}
       containers:
-        - name: {{ template "name" . }}-{{ .Values.agent.name }}-collector-daemonset
+        - name: collector
           image: "{{ .Values.agent.collector.image.repository }}:{{ .Values.agent.collector.image.tag }}"
           imagePullPolicy: {{ .Values.agent.collector.image.pullPolicy }}
           resources:
@@ -87,6 +87,14 @@ spec:
             - name: DIMENSIONS
               value: {{ .Values.agent.dimensions | quote}}
             {{- end}}
+            - name: CHECK_FREQ
+              value: {{ .Values.agent.collector.check_freq | quote }}
+            - name: NUM_COLLECTOR_THREADS
+              value: {{ .Values.agent.collector.num_collector_threads | quote }}
+            - name: POOL_FULL_MAX_TRIES
+              value: {{ .Values.agent.collector.pool_full_max_retries | quote }}
+            - name: SUB_COLLECTION_WARN
+              value: {{ .Values.agent.collector.sub_collection_warn | quote }}
             {{- if .Values.agent.cadvisor.enable_minimum_whitelist }}
             - name: CADVISOR_MINIMUM_WHITELIST
               value: "true"
@@ -95,7 +103,7 @@ spec:
             - name: KUBERNETES_MINIMUM_WHITELIST
               value: "true"
             {{- end }}
-        - name: {{ template "name" . }}-{{ .Values.agent.name }}-forwarder-daemonset
+        - name: forwarder
           image: "{{ .Values.agent.forwarder.image.repository }}:{{ .Values.agent.forwarder.image.tag }}"
           imagePullPolicy: {{ .Values.agent.forwarder.image.pullPolicy }}
           resources:
@@ -133,6 +141,12 @@ spec:
               value: {{ .Values.agent.log_level | quote }}
             - name: INSECURE
               value: {{ .Values.agent.insecure | quote }}
+            - name: MAX_BATCH_SIZE
+              value: {{ .Values.agent.forwarder.max_batch_size | quote }}
+            - name: MAX_MEASUREMENT_BUFFER_SIZE
+              value: {{ .Values.agent.forwarder.max_measurement_buffer_size | quote }}
+            - name: BACKLOG_SEND_RATE
+              value: {{ .Values.agent.forwarder.backlog_send_rate | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
 {{- end}}
