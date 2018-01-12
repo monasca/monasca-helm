@@ -128,7 +128,7 @@ agent:
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20180105-183106
+      tag: master-20180105-183328
       pullPolicy: IfNotPresent
     max_batch_size: 0
     max_measurement_buffer_size: -1
