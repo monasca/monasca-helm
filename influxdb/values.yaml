@@ -151,7 +151,7 @@ config:
     https_enabled: false
     https_certificate: /etc/ssl/influxdb.pem
     https_private_key: ""
-    max_row_limit: 10000
+    max_row_limit: 10001
     max_connection_limit: 0
     shared_secret: "beetlejuicebeetlejuicebeetlejuice"
     realm: InfluxDB
