@@ -46,3 +46,6 @@ spec:
             - name: preload-config
               mountPath: /preload.yml
               subPath: preload.yml
+      {{- if .Values.rbac.create }}
+      serviceAccountName: "{{ template "fullname" . }}"
+      {{- end }}
