@@ -12,7 +12,7 @@ metadata:
 rules:
   - apiGroups: [""]
     resources: ["secrets"]
-    verbs: ["get", "update"]
+    verbs: ["get", "create", "update"]
   - apiGroups: [""]
     resources: ["namespaces"]
     verbs: ["get", "create"]
