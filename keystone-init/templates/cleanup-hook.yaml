@@ -40,8 +40,8 @@ spec:
               value: "{{ .Values.cleanup.wait.delay }}"
             - name: "WAIT_TIMEOUT"
               value: "{{ .Values.cleanup.wait.timeout }}"
-      {{- if .Values.rbac.hookServiceAccount }}
-      serviceAccountName: {{ .Values.cleanup.hookServiceAccount }}
+      {{- if .Values.cleanup.serviceAccount }}
+      serviceAccountName: {{ .Values.cleanup.serviceAccount | quote }}
       {{- else if .Values.rbac.create }}
       serviceAccountName: "{{ template "cleanup.fullname" . }}"
       {{- end }}

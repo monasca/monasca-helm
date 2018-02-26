@@ -4,6 +4,11 @@
 keystone_init:
   name: keystone-init
 
+  # an optional preexisting serviceAccount to use
+  # to create a service account with the deployment,
+  # deploy with rbac.create=true
+  serviceAccount: ''
+
   image:
     repository: monasca/keystone-init
     tag: 1.2.2
