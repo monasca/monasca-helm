@@ -47,6 +47,8 @@ spec:
             - name: preload-config
               mountPath: /preload.yml
               subPath: preload.yml
-      {{- if .Values.rbac.create }}
+      {{- if .Values.mysql_users_init.serviceAccount }}
+      serviceAccountName: {{ .Values.mysql_users_init.serviceAccount | quote }}
+      {{- else if .Values.rbac.create }}
       serviceAccountName: "{{ template "fullname" . }}"
       {{- end }}

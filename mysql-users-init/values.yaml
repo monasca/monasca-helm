@@ -4,6 +4,11 @@
 mysql_users_init:
   name: job
 
+  # an optional preexisting serviceAccount to use
+  # to create a service account with the deployment,
+  # deploy with rbac.create=true
+  serviceAccount: ''
+
   image:
     repository: monasca/mysql-users-init
     tag: 1.1.0
@@ -46,6 +51,7 @@ mysql_users_init:
 
 cleanup:
   name: cleanup
+  serviceAccount: ''
   image:
     repository: monasca/job-cleanup
     tag: 1.2.1
