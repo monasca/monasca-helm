@@ -85,7 +85,7 @@ cleanup:
   name: cleanup
   image:
     repository: monasca/job-cleanup
-    tag: 1.1.2
+    tag: 1.2.1
     pullPolicy: IfNotPresent
   resources:
     requests:
@@ -98,3 +98,6 @@ cleanup:
     retries: "10"
     delay: "3.0"
     timeout: "10"
+
+rbac:
+  create: false
