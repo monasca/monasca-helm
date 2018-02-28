@@ -19,6 +19,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 Create a fully qualified cleanup name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "cleanup.fullname" -}}
-{{- printf "%s-%s" .Release.Name "cleanup" | trunc 63 -}}
+{{- define "kafka.cleanup.fullname" -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- printf "%s-%s-%s" .Release.Name $name "cleanup" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
