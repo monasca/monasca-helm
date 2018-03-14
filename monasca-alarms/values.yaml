@@ -7,3 +7,8 @@ zookeeper:
   enabled: true
   start_periods: 3
   running_periods: 1
+
+influxdb:
+  enabled: true
+  start_periods: 3
+  running_periods: 1
