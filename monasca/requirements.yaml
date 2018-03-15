@@ -1,6 +1,6 @@
 dependencies:
   - name: influxdb
-    version: 0.6.2-0.0.1
+    version: 0.6.2-0.0.2
     condition: 'influxdb.enabled, global.influxdb.enabled'
     repository: 'http://monasca.io/monasca-helm/'
   - name: mysql
