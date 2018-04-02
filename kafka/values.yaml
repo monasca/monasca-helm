@@ -64,6 +64,7 @@ init:
 
 cleanup:
   name: cleanup
+  serviceAccount: ''
   image:
     repository: monasca/job-cleanup
     tag: 1.2.1
@@ -79,3 +80,6 @@ cleanup:
     retries: "24"
     delay: "5.0"
     timeout: "10"
+
+rbac:
+  create: false

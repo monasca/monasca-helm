@@ -6,10 +6,10 @@ metadata:
   # some reason we don't want future upgrades to fail because of a name conflict
   # (plus the future runs of this job will delete any previous iterations that
   # failed to clean themselves up)
-  name: "{{ template "cleanup.fullname" . }}-job-{{ randAlphaNum 5 | lower }}"
+  name: "{{ template "kafka.cleanup.fullname" . }}-job-{{ randAlphaNum 5 | lower }}"
   labels:
     app: {{ template "fullname" . }}
-    component: "{{ .Values.cleanup.name }}-job"
+    component: "{{ .Values.cleanup.name }}"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
@@ -21,7 +21,7 @@ spec:
     metadata:
       labels:
         app: {{ template "fullname" . }}
-        component: "{{ .Values.cleanup.name }}-job"
+        component: "{{ .Values.cleanup.name }}"
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
         release: "{{ .Release.Name }}"
         heritage: "{{ .Release.Service }}"
@@ -40,3 +40,8 @@ spec:
               value: "{{ .Values.cleanup.wait.delay }}"
             - name: "WAIT_TIMEOUT"
               value: "{{ .Values.cleanup.wait.timeout }}"
+      {{- if .Values.cleanup.serviceAccount }}
+      serviceAccountName: {{ .Values.cleanup.serviceAccount | quote }}
+      {{- else if .Values.rbac.create }}
+      serviceAccountName: "{{ template "kafka.cleanup.fullname" . }}"
+      {{- end }}
