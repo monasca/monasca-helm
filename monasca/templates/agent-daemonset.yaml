@@ -149,4 +149,9 @@ spec:
               value: {{ .Values.agent.forwarder.backlog_send_rate | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
+      {{- if .Values.agent.serviceAccount }}
+      serviceAccountName: {{ .Values.agent.serviceAccount | quote }}
+      {{- else if .Values.rbac.create }}
+      serviceAccountName: "{{ template "agent.fullname" . }}"
+      {{- end }}
 {{- end}}

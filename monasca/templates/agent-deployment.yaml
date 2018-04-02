@@ -147,4 +147,9 @@ spec:
           configMap:
             name: {{ template "agent.fullname" . }}
       {{- end}}
+      {{- if .Values.agent.serviceAccount }}
+      serviceAccountName: {{ .Values.agent.serviceAccount | quote }}
+      {{- else if .Values.rbac.create }}
+      serviceAccountName: "{{ template "agent.fullname" . }}"
+      {{- end }}
 {{- end}}
