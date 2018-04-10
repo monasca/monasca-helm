@@ -23,9 +23,6 @@ spec:
         - name: preload-config
           configMap:
             name: "{{ template "fullname" . }}-preload"
-            items:
-              - key: preload.yml
-                path: preload.yml
       containers:
         - name: {{ template "fullname" . }}-job
           image: "{{ .Values.mysql_users_init.image.repository }}:{{ .Values.mysql_users_init.image.tag }}"
@@ -43,10 +40,11 @@ spec:
 {{ include "mysql_users_init_secret_env" .Values.mysql_users_init.mysql.username | indent 14 }}
             - name: MYSQL_INIT_PASSWORD
 {{ include "mysql_users_init_secret_env" .Values.mysql_users_init.mysql.password | indent 14 }}
+            - name: PRELOAD_PATH
+              value: "/config/preload.yml"
           volumeMounts:
             - name: preload-config
-              mountPath: /preload.yml
-              subPath: preload.yml
+              mountPath: /config
       {{- if .Values.mysql_users_init.serviceAccount }}
       serviceAccountName: {{ .Values.mysql_users_init.serviceAccount | quote }}
       {{- else if .Values.rbac.create }}
