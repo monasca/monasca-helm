@@ -40,13 +40,9 @@ spec:
             value: "{{ template "kafka.fullname" . }}:9092"
         volumeMounts:
           - name: aggregator-config
-            mountPath: /aggregation-specifications.yaml
-            subPath: aggregation-specifications.yaml
+            mountPath: /specs
       volumes:
         - name: aggregator-config
           configMap:
             name: {{ template "aggregator.fullname" . }}
-            items:
-              - key: aggregation-specifications.yaml
-                path: aggregation-specifications.yaml
 {{- end }}
