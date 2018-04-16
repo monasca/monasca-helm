@@ -39,3 +39,7 @@ watcher:
   watcher_period: 600
   watcher_timeout: 60
   stay_alive_on_failure: false
+static_service:
+  enabled: false
+  type: ClusterIP
+  name: zookeeper
