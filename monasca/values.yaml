@@ -111,6 +111,12 @@ mysql:
 
 agent:
   name: agent
+
+  # an optional preexisting ServiceAccount to use
+  # to create a service account automatically for the agent, deploy with:
+  # rbac.create=true
+  serviceAccount: ''
+
   daemonset_enabled: true
   deployment_enabled: true
   daemonset_toleration:
@@ -128,7 +134,7 @@ agent:
   forwarder:
     image:
       repository: monasca/agent-forwarder
-      tag: master-20180112-162543
+      tag: master-20180206-002800
       pullPolicy: IfNotPresent
     max_batch_size: 0
     max_measurement_buffer_size: -1
@@ -667,11 +673,15 @@ client:
     project_domain_name: Default
 
 rbac:
-  enabled: false
-  apiVersion: rbac.authorization.k8s.io/v1beta1
+  create: false
 
 cleanup:
   name: cleanup
+
+  # an optional preexisting ServiceAccount to use
+  # to create a service account for the job automatically, deploy with:
+  # rbac.create=true
+  serviceAccount: ''
   image:
     repository: monasca/job-cleanup
     tag: 1.2.1
@@ -693,7 +703,7 @@ aggregator:
   name: aggregator
   image:
     repository: monasca/aggregator
-    tag: 0.1.4
+    tag: 0.2.0
     pullPolicy: IfNotPresent
   window_size: 60
   window_lag: 2
@@ -1600,8 +1610,8 @@ smoke_tests:
 
 alarm_definition_controller:
   name: adc
-  controller_enabled: true
-  resource_enabled: true
+  controller_enabled: false
+  resource_enabled: false
   image:
     repository: monasca/alarm-definition-controller
     tag: 1.1.0

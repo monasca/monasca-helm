@@ -1,3 +1,4 @@
+{{- if .Values.static_service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,12 +7,13 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
-  name: {{ template "fullname" . }}
+  name: {{ .Values.static_service.name }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.static_service.type }}
   ports:
     - name: kafka
-      port: {{ .Values.service.port }}
+      port: {{ .Values.static_service.port }}
       targetPort: kafka
   selector:
     app: {{ template "fullname" . }}
+{{- end }}
