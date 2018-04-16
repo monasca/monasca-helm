@@ -54,7 +54,11 @@ spec:
             - name: KAFKA_STACK_SIZE
               value: {{ .Values.stack_size | quote }}
             - name: ZOOKEEPER_CONNECTION_STRING
+            {{- if .Values.zookeeper.overrideUri }}
+              value: "{{ .Values.zookeeper.overrideUri }}"
+            {{- else }}
               value: {{ .Release.Name }}-zookeeper:2181
+            {{- end }}
             - name: STAY_ALIVE_ON_FAILURE
               value: {{ .Values.stay_alive_on_failure | quote }}
         {{- if .Values.exporter.enabled }}
