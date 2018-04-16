@@ -61,6 +61,14 @@ init:
       cpu: 250m
   topicConfig: ''
   topics: []
+static_service:
+  enabled: false
+  type: ClusterIP
+  name: kafka
+  port: 9092
+
+zookeeper:
+  overrideUri: ''
 
 cleanup:
   name: cleanup
