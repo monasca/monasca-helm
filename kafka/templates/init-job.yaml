@@ -27,7 +27,11 @@ spec:
             - name: KAFKA_HOST
               value: "{{ template "fullname" . }}:9092"
             - name: ZOOKEEPER_CONNECTION_STRING
+            {{- if .Values.zookeeper.overrideUri }}
+              value: "{{ .Values.zookeeper.overrideUri }}"
+            {{- else }}
               value: {{ .Release.Name }}-zookeeper:2181
+            {{- end }}
             - name: KAFKA_DELETE_TOPIC_ENABLE
               value: "true"
             - name: KAFKA_AUTO_CREATE_TOPICS
