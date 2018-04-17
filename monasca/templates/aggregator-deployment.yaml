@@ -37,7 +37,11 @@ spec:
           - name: AGGREGATION_WINDOW_LAG
             value: {{ .Values.aggregator.window_lag | quote }}
           - name: KAFKA_URI
+          {{- if .Values.kafka.overrideUri }}
+            value: "{{ .Values.kafka.overrideUri }}"
+          {{- else }}
             value: "{{ template "kafka.fullname" . }}:9092"
+          {{- end }}
         volumeMounts:
           - name: aggregator-config
             mountPath: /specs

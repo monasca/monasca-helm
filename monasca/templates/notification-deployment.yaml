@@ -60,9 +60,17 @@ spec:
             - name: MYSQL_DB_DATABASE
               value: "mon"
             - name: KAFKA_URI
+            {{- if .Values.kafka.overrideUri }}
+              value: "{{ .Values.kafka.overrideUri }}"
+            {{- else }}
               value: "{{ template "kafka.fullname" . }}:9092"
+            {{- end }}
             - name: ZOOKEEPER_URL
+            {{- if .Values.zookeeper.overrideUri }}
+              value: "{{ .Values.zookeeper.overrideUri }}"
+            {{- else }}
               value: "{{ template "zookeeper.fullname" . }}:2181"
+            {{- end }}
             - name: LOG_LEVEL
               value: {{ .Values.notification.log_level | quote }}
             - name: NF_PLUGINS

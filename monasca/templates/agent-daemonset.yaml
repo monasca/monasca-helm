@@ -149,6 +149,8 @@ spec:
               value: {{ .Values.agent.forwarder.backlog_send_rate | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
+            - name: NON_LOCAL_TRAFFIC
+              value: {{ .Values.agent.forwarder.non_local_traffic | quote }}
       {{- if .Values.agent.serviceAccount }}
       serviceAccountName: {{ .Values.agent.serviceAccount | quote }}
       {{- else if .Values.rbac.create }}
