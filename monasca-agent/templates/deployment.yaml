@@ -127,6 +127,8 @@ spec:
               value: {{ .Values.forwarder.backlog_send_rate | quote }}
             - name: HOSTNAME_FROM_KUBERNETES
               value: "true"
+            - name: NON_LOCAL_TRAFFIC
+              value: {{ .Values.forwarder.non_local_traffic | quote }}
       {{- if .Values.plugins.enabled }}
       volumes:
         - name: agent-config
