@@ -16,6 +16,7 @@ forwarder:
   max_batch_size: 0
   max_measurement_buffer_size: -1
   backlog_send_rate: 5
+  non_local_traffic: "true"
 insecure: False
 log_level: WARN
 keystone:
