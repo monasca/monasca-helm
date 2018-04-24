@@ -139,6 +139,7 @@ agent:
     max_batch_size: 0
     max_measurement_buffer_size: -1
     backlog_send_rate: 5
+    non_local_traffic: "true"
   log_level: WARN
   insecure: False
   keystone:
@@ -1632,6 +1633,8 @@ alarm_definition_controller:
   version: v1
 
 kafka:
+  enabled: true
+  overrideUri: ''
   init:
     topics:
       - metrics:64:1
@@ -1641,3 +1644,7 @@ kafka:
       - events:12:1
       - 60-seconds-notifications:3:1
       - kafka-health-check:1:1
+
+zookeeper:
+  enabled: true
+  overrideUri: ''

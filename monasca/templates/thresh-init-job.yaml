@@ -32,10 +32,17 @@ spec:
               value: "{{ .Values.storm.thresh.wait.delay }}"
             - name: STORM_WAIT_TIMEOUT
               value: "{{ .Values.storm.thresh.wait.timeout }}"
+            {{- if .Values.zookeeper.overrideUri }}
+            - name: ZOOKEEPER_SERVERS
+              value: "{{ (.Values.zookeeper.overrideUri | split ":")._0 }}"
+            - name: STORM_ZOOKEEPER_PORT
+              value: "{{ (.Values.zookeeper.overrideUri | split ":")._1 }}"
+            {{- else }}
             - name: ZOOKEEPER_SERVERS
               value: "{{ template "zookeeper.fullname" . }}"
             - name: STORM_ZOOKEEPER_PORT
               value: "2181"
+            {{- end }}
             - name: NIMBUS_SEEDS
               value: "{{ .Release.Name }}-storm-nimbus"
             - name: METRIC_SPOUT_THREADS
@@ -67,7 +74,11 @@ spec:
             - name: THRESHOLDING_BOLT_TASKS
               value: "{{ .Values.storm.thresh.bolt.thresholdingBoltTasks }}"
             - name: KAFKA_URI
+            {{- if .Values.kafka.overrideUri }}
+              value: "{{ .Values.kafka.overrideUri }}"
+            {{- else }}
               value: "{{ .Release.Name }}-kafka:9092"
+            {{- end }}
             - name: USE_SSL_ENABLED
               value: "{{ .Values.thresh.use_ssl_enabled | default "false" }}"
             - name: MYSQL_DB_HOST

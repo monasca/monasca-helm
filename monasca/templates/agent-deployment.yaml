@@ -141,6 +141,8 @@ spec:
               value: {{ .Values.agent.forwarder.max_measurement_buffer_size | quote }}
             - name: BACKLOG_SEND_RATE
               value: {{ .Values.agent.forwarder.backlog_send_rate | quote }}
+            - name: NON_LOCAL_TRAFFIC
+              value: {{ .Values.agent.forwarder.non_local_traffic | quote }}
       {{- if .Values.agent.plugins.enabled }}
       volumes:
         - name: agent-config

@@ -35,9 +35,17 @@ spec:
             - name: VERBOSE
               value: {{ .Values.forwarder.logging.verbose | quote }}
             - name: ZOOKEEPER_URL
+            {{- if .Values.zookeeper.overrideUri }}
+              value: "{{ .Values.zookeeper.overrideUri }}"
+            {{- else }}
               value: "{{ template "zookeeper.fullname" . }}:2181"
+            {{- end }}
             - name: KAFKA_URI
+            {{- if .Values.kafka.overrideUri }}
+              value: "{{ .Values.kafka.overrideUri }}"
+            {{- else }}
               value: "{{ template "kafka.fullname" . }}:9092"
+            {{- end }}
             - name: USE_INSECURE
               value: {{ .Values.forwarder.config.use_insecure | quote}}
             - name: MONASCA_ROLE
