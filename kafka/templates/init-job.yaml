@@ -18,7 +18,7 @@ spec:
     spec:
       restartPolicy: OnFailure
       containers:
-        - name: mysql-init-job
+        - name: kafka-init-job
           image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
           imagePullPolicy: {{ .Values.init.image.pullPolicy }}
           resources:
