@@ -11,7 +11,7 @@ keystone_init:
 
   image:
     repository: monasca/keystone-init
-    tag: 1.2.2
+    tag: 1.3.0
     pullPolicy: IfNotPresent
 
   # general options for the init job
