@@ -125,7 +125,7 @@ agent:
   collector:
     image:
       repository: monasca/agent-collector
-      tag: master-20180112-162543
+      tag: master-20180709-110140
       pullPolicy: IfNotPresent
     check_freq: 30
     num_collector_threads: 1
