@@ -2,7 +2,7 @@ name: agent
 collector:
   image:
     repository: monasca/agent-collector
-    tag: master-20180112-162543
+    tag: master-20180824-114532
     pullPolicy: IfNotPresent
   check_freq: 30
   num_collector_threads: 1
