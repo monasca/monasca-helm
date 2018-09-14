@@ -35,7 +35,7 @@ influx_init:
 grafana_init:
   image:
     repository: monasca/grafana-init
-    tag: 1.2.1
+    tag: 1.4.0
     pullPolicy: IfNotPresent
   resources:
     requests:
