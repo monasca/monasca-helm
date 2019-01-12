@@ -32,9 +32,7 @@ spec:
 {{ toYaml .Values.keystone.resources | indent 12 }}
           env:
             - name: KEYSTONE_HOST
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
+              value: {{ .Values.keystone.name | quote }}
             - name: KEYSTONE_USERNAME
               value: {{ .Values.keystone.bootstrap.user | quote }}
             - name: KEYSTONE_PASSWORD
