@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 # (C) Copyright 2017 Hewlett Packard Enterprise Development LP
 #
