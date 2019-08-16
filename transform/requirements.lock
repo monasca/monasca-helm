@@ -3,7 +3,7 @@ dependencies:
   enabled: false
   import-values: null
   name: spark
-  repository: http://monasca.io/monasca-helm/
+  repository: https://monasca.github.io/monasca-helm/
   tags: null
   version: 0.2.0
 digest: sha256:c9b41d3ce2c858385409b9ddbe6b18dd948f084bc9056ff2e72ccd7c2e75cfc5

@@ -1,18 +1,18 @@
 dependencies:
 - name: influxdb
-  repository: http://monasca.io/monasca-helm/
+  repository: https://monasca.github.io/monasca-helm/
   version: 0.6.2-0.0.2
 - name: mysql
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 0.2.4
 - name: kafka
-  repository: http://monasca.io/monasca-helm/
+  repository: https://monasca.github.io/monasca-helm/
   version: 0.4.2
 - name: storm
-  repository: http://monasca.io/monasca-helm/
+  repository: https://monasca.github.io/monasca-helm/
   version: 0.5.3
 - name: zookeeper
-  repository: http://monasca.io/monasca-helm/
+  repository: https://monasca.github.io/monasca-helm/
   version: 0.3.8
 digest: sha256:d4518c0c9c2fe0c60929de067e1ebb39c1d4db8272917f5582bf649d91b572e5
 generated: 2018-04-17T12:40:23.242201764-06:00
