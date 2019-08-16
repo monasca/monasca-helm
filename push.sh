@@ -12,7 +12,7 @@ git config --global user.name "Monasca CI"
 ./helm init -c
 
 # Build Helm Charts
-./helm repo add monasca http://monasca.io/monasca-helm/
+./helm repo add monasca https://monasca.github.io/monasca-helm/
 
 for chart in "$@"
 do
@@ -31,7 +31,7 @@ cp *.tgz out/.
 
 # Update index file
 cd out
-../helm repo index . --url http://monasca.io/monasca-helm/
+../helm repo index . --url https://monasca.github.io/monasca-helm/
 
 # Commit changes
 git add *.tgz

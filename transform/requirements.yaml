@@ -1,4 +1,4 @@
 dependencies:
   - name: spark
     version: 0.2.0
-    repository: http://monasca.io/monasca-helm/
+    repository: https://monasca.github.io/monasca-helm/

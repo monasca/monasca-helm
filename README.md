@@ -1,14 +1,14 @@
 # Monasca Helm
 
 This repo contains Helm charts for Monasca and its dependencies. Each chart release is hosted on
-[monasca.io](http://monasca.io) via github pages.
+[monasca.github.io](https://monasca.github.io) via github pages.
 
 ## Quick Start
 
 To install Monasca in Kubernetes you can follow the following steps:
 
 ```bash
-$ helm repo add monasca http://monasca.io/monasca-helm
+$ helm repo add monasca https://monasca.github.io/monasca-helm
 $ helm install monasca/monasca --name monasca --namespace monitoring
 ```
 
@@ -41,4 +41,4 @@ $ kubectl port-forward {{ grafana_pod_name_from_output_above }} -n monitoring 30
 After the above is set up you can visit [grafana](http://localhost:3000) with the default credentials mini-mon/password
 
 For more details on configuring the Monasca chart you can refer to the chart's [README](monasca/README.md) and for
-general details around Monasca in Kubernetes you can refer to [monasca.io](http://monasca.io/docs/kubernetes.html)
+general details around Monasca in Kubernetes you can refer to [monasca.github.io](http://monasca.github.io/docs/kubernetes.html)

@@ -17,7 +17,7 @@ alarms generated as the threshold engine requires kafka to be working.
 ## QuickStart
 
 ```bash
-$ helm repo add monasca http://monasca.io/monasca-helm
+$ helm repo add monasca https://monasca.github.io/monasca-helm
 $ helm install monasca/monasca --name monasca --namespace monitoring
 $ helm install monasca/monasca-alarms --name monasca-alarms --namespace monitoring
 ```
@@ -34,7 +34,7 @@ deployment on a Kubernetes cluster using the Helm Package manager.
 
 ## Installing the Chart
 
-Monasca-alarms can either be installed from the [monasca.io](https://monasca.io/) helm repo or by source.
+Monasca-alarms can either be installed from the [monasca.github.io](https://monasca.github.io/) helm repo or by source.
 
 ### Installing via Helm repo (recommended)
 
@@ -46,7 +46,7 @@ Note: monasca-alarms must be installed in the same namespace as monasca
 ### Installing via source
 
 ```bash
-$ helm repo add monasca http://monasca.io/monasca-helm
+$ helm repo add monasca http://monasca.github.io/monasca-helm
 $ helm dependency update monasca-alarms
 $ helm install monasca-alarms --name monasca-alarms --namespace monitoring
 ```

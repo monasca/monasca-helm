@@ -13,7 +13,7 @@ storing, alarming and notifications. The architecture can be viewed
 ## QuickStart
 
 ```bash
-$ helm repo add monasca http://monasca.io/monasca-helm
+$ helm repo add monasca https://monasca.github.io/monasca-helm
 $ helm install monasca/monasca --name monasca --namespace monitoring
 ```
 
@@ -28,19 +28,19 @@ deployment on a Kubernetes cluster using the Helm Package manager.
 
 ## Installing the Chart
 
-Monasca can either be install from the [monasca.io](https://monasca.io/) helm repo or by source.
+Monasca can either be install from the [monasca.github.io](https://monasca.github.io/) helm repo or by source.
 
 ### Installing via Helm repo (recommended)
 
 ```bash
-$ helm repo add monasca http://monasca.io/monasca-helm
+$ helm repo add monasca https://monasca.github.io/monasca-helm
 $ helm install monasca/monasca --name monasca --namespace monitoring
 ```
 
 ### Installing via source
 
 ```bash
-$ helm repo add monasca http://monasca.io/monasca-helm
+$ helm repo add monasca https://monasca.github.io/monasca-helm
 $ helm dependency update monasca
 $ helm install monasca --name monasca --namespace monitoring
 ```
@@ -73,7 +73,7 @@ It will also autodetect Prometheus Endpoints by looking for the following annota
 * prometheus.io/port: Scrape the pod on the indicated port instead of the default of '9102'.
 
 More information on our monitoring within in Kubernetes can be found on
-[monasca.io](http://monasca.io/docs/kubernetes.html)
+[monasca.github.io](https://monasca.github.io/docs/kubernetes.html)
 
 ## Configuration
 
